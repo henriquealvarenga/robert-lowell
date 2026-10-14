@@ -23,7 +23,7 @@ const descricao = `Gráfico de barras com os dias de internação de Robert Lowe
   <div class="hchart-head">
     <div>
       <p class="eyebrow">Internações · 1949–1977</p>
-      <h3 class="hchart-title" id={`${id}-titulo`}>Dias internado por ano</h3>
+      <p class="hchart-title" id={`${id}-titulo`}>Dias internado por ano</p>
     </div>
     <div class="hchart-zoom" role="group" aria-label="Zoom do gráfico">
       <button type="button" class="icon-btn" data-zoom="in" aria-label="Aproximar">+</button>
@@ -189,11 +189,12 @@ const descricao = `Gráfico de barras com os dias de internação de Robert Lowe
       const tx = (x(hospital.intoxicacao) ?? 0) + x.bandwidth() / 2;
       const ty = y(byYear.get(hospital.intoxicacao) ?? 0);
       toxMarker.select('line').attr('x1', tx).attr('x2', tx).attr('y1', ty - 26).attr('y2', ty - 4);
-      toxMarker.select('text').attr('x', tx).attr('y', ty - 30).attr('text-anchor', 'middle');
+      const iwNow = W - m.left - m.right;
+      toxMarker.select('text').attr('x', tx).attr('y', ty - 30).attr('text-anchor', tx > iwNow - 44 ? 'end' : 'middle');
       const every = x.bandwidth() < 18 ? (x.bandwidth() < 9 ? 5 : 2) : 1;
       xAxisG
         .attr('transform', `translate(0,${ih})`)
-        .call(axisBottom(x).tickValues(years.filter((yr) => (yr - Y0) % every === 0 || yr === Y1)).tickSize(0).tickPadding(10) as never);
+        .call(axisBottom(x).tickValues(years.filter((yr) => (every === 1 ? true : (yr - (Y0 + 1)) % every === 0))).tickSize(0).tickPadding(10) as never);
       xAxisG.selectAll('text').attr('transform', W < 560 ? 'rotate(-45)' : null).style('text-anchor', W < 560 ? 'end' : 'middle');
       const stats = periodStats(period);
       if (period !== 'all') {
@@ -202,7 +203,7 @@ const descricao = `Gráfico de barras com os dias de internação de Robert Lowe
         const my = y(stats.media);
         const mt: any = animate && DUR ? meanLine.transition().duration(DUR) : meanLine;
         mt.attr('x1', px0).attr('x2', px1).attr('y1', my).attr('y2', my).attr('opacity', 1);
-        meanLabel.attr('x', px1).attr('y', my - 6).attr('text-anchor', 'end').text(`média ${stats.media} dias/ano`).attr('opacity', 1);
+        meanLabel.attr('x', px0 + 4).attr('y', Math.max(12, my - 8)).attr('text-anchor', 'start').attr('dy', my < 30 ? 16 : 0).text(`média do período: ${stats.media} dias/ano`).attr('opacity', 1);
       } else {
         meanLine.attr('opacity', 0);
         meanLabel.attr('opacity', 0);
@@ -334,6 +335,7 @@ const descricao = `Gráfico de barras com os dias de internação de Robert Lowe
   }
   .hchart-head {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: flex-start;
     gap: 1rem;
@@ -341,6 +343,10 @@ const descricao = `Gráfico de barras com os dias de internação de Robert Lowe
   }
   .hchart-title {
     margin: 0.1rem 0 0;
+    font-family: var(--font-display);
+    font-size: clamp(1.25rem, 1.1rem + 0.7vw, 1.55rem);
+    font-weight: 500;
+    line-height: 1.15;
   }
   .hchart-zoom {
     display: flex;
@@ -499,9 +505,9 @@ const descricao = `Gráfico de barras com os dias de internação de Robert Lowe
   .hchart .bar.is-active { stroke: var(--ink); stroke-width: 1.5; }
   .hchart .bar:focus-visible { outline: none; stroke: var(--focus); stroke-width: 3; }
   .hchart .li-band { fill: var(--blue); fill-opacity: 0.09; }
-  .hchart .li-label { fill: var(--blue-ink); font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+  .hchart .li-label { paint-order: stroke; stroke: var(--bg-elev); stroke-width: 3px; fill: var(--blue-ink); font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
   .hchart .mean-line { stroke: var(--ink); stroke-width: 1.5; stroke-dasharray: 5 4; }
-  .hchart .mean-label { fill: var(--ink); font-size: 11px; font-weight: 600; }
+  .hchart .mean-label { fill: var(--ink); font-size: 11px; font-weight: 600; paint-order: stroke; stroke: var(--bg-elev); stroke-width: 4px; stroke-linejoin: round; }
   .hchart .tox line { stroke: var(--ink-2); stroke-width: 1.2; }
   .hchart .tox text { fill: var(--ink-2); font-size: 10.5px; font-style: italic; }
   .hchart .axis text { fill: var(--muted); font-size: 11px; }

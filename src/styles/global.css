@@ -419,7 +419,7 @@ p {
   margin-bottom: 0.5rem;
 }
 .nota-volta {
-  text-decoration: none;
+  text-decoration: underline;
   margin-left: 0.3em;
 }
 :target {

@@ -7,7 +7,7 @@ export default defineConfig({
   base: BASE,
   trailingSlash: 'always',
   output: 'static',
-  build: { format: 'directory', inlineStylesheets: 'auto' },
+  build: { format: 'directory', inlineStylesheets: 'always' },
   integrations: [sitemap()],
   image: {
     responsiveStyles: true,

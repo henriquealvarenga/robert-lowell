@@ -3,6 +3,8 @@ import '../styles/global.css';
 import { SITE_URL, OLD_SITE_URL, TITLE, DESCRIPTION, AUTHOR, href, BASE } from '../config';
 import ogImage from '../assets/images/capa.webp';
 import { getImage } from 'astro:assets';
+import frauncesWoff from '@fontsource-variable/fraunces/files/fraunces-latin-wght-normal.woff2?url';
+import serifWoff from '@fontsource-variable/source-serif-4/files/source-serif-4-latin-wght-normal.woff2?url';
 
 interface Props {
   title?: string;
@@ -77,6 +79,8 @@ const jsonLd = {
     <link rel="icon" href={`${BASE}/favicon.svg`} type="image/svg+xml" />
     <link rel="apple-touch-icon" href={`${BASE}/apple-touch-icon.png`} />
     <link rel="sitemap" href={`${BASE}/sitemap-index.xml`} />
+    <link rel="preload" as="font" type="font/woff2" href={frauncesWoff} crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href={serifWoff} crossorigin />
     <meta property="og:type" content={type} />
     <meta property="og:site_name" content={TITLE} />
     <meta property="og:title" content={title ?? TITLE} />

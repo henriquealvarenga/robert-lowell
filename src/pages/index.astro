@@ -8,16 +8,16 @@ import { href, OLD_SITE_URL, TITLE, SUBTITLE } from '../config';
 
 <Base path="/">
   <section class="entrada wrap">
-    <header class="entrada-head reveal">
+    <header class="entrada-head">
       <p class="eyebrow">Transtorno bipolar · estudo de caso para o ensino</p>
       <h1>{TITLE}</h1>
       <p class="lead">{SUBTITLE}. Escolha como quer ler: a versão em livro ou a experiência interativa.</p>
     </header>
 
     <div class="cards">
-      <a class="big-card card reveal" href={href('/jornada/')} data-card="novo">
+      <a class="big-card card" href={href('/jornada/')} data-card="novo">
         <div class="big-card-media">
-          <Image src={robert} alt="Ilustração gerada por IA de um poeta sentado, de óculos, com um livro na mão" widths={[480, 760, 1024]} sizes="(min-width: 760px) 40vw, 92vw" loading="eager" />
+          <Image src={robert} alt="Ilustração gerada por IA de um poeta sentado, de óculos, com um livro na mão" widths={[360, 540, 720, 900]} sizes="(min-width: 760px) 44vw, calc(100vw - 2rem)" quality={58} loading="eager" fetchpriority="high" />
         </div>
         <div class="big-card-body">
           <p class="eyebrow">Site novo</p>
@@ -27,9 +27,9 @@ import { href, OLD_SITE_URL, TITLE, SUBTITLE } from '../config';
         </div>
       </a>
 
-      <a class="big-card card reveal" href={OLD_SITE_URL} data-card="antigo">
+      <a class="big-card card" href={OLD_SITE_URL} data-card="antigo">
         <div class="big-card-media">
-          <Image src={capa} alt="Ilustração gerada por IA sobre o estudo dos transtornos do humor em artistas" widths={[480, 760, 1024]} sizes="(min-width: 760px) 40vw, 92vw" loading="eager" />
+          <Image src={capa} alt="Ilustração gerada por IA sobre o estudo dos transtornos do humor em artistas" widths={[360, 540, 720, 900]} sizes="(min-width: 760px) 44vw, calc(100vw - 2rem)" quality={58} loading="lazy" />
         </div>
         <div class="big-card-body">
           <p class="eyebrow">Site antigo</p>
