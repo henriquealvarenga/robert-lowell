@@ -1,0 +1,123 @@
+{
+  "intro": "Acompanhe o caso por etapas. Em cada uma, registre seu raciocínio clínico e depois compare com o que a história de Lowell realmente mostra. Não há pontuação: o objetivo é comparar seu raciocínio com o curso real da doença.",
+  "etapas": [
+    {
+      "id": "apresentacao",
+      "titulo": "Apresentação",
+      "fonte": "3-crises.qmd",
+      "cenario": [
+        "Lowell começou a abusar de álcool, sua mente começou a se acelerar, sua produção literária aumentou até se desorganizar",
+        "Em fevereiro de 1949 começou a se preocupar obsessivamente com a influência de comunistas em sua região, evoluindo para um quadro de excitação, exaltação do humor e delírios de cunho místico-religioso."
+      ],
+      "pergunta": "Homem de 32 anos, escritor, com esse quadro de alguns meses. Qual é a sua hipótese principal?",
+      "opcoes": [
+        { "texto": "Episódio maníaco com sintomas psicóticos", "historia": true },
+        { "texto": "Episódio depressivo com sintomas psicóticos", "historia": false },
+        { "texto": "Quadro explicado apenas pelo uso de álcool", "historia": false },
+        { "texto": "Transtorno de ansiedade", "historia": false }
+      ],
+      "revelacao": [
+        "Lowell deu entrada no Balpate Hospital no dia 06 de abril de 1949. Foram cerca de aproximadamente 4 meses de evolução de sua crise, que começou no final de 1948. Lowell, nessa primeira internação, foi descrito como eufórico, excitado, hiperativo, exaltado, e falando sem cessar.",
+        "Em resumo, estava num estado de mania"
+      ]
+    },
+    {
+      "id": "tratamento-1949",
+      "titulo": "Tratamento disponível",
+      "fonte": "3-crises.qmd",
+      "cenario": [
+        "Sua noiva, Elizabeth Hardwick, contou que os meses que antecederam a internação foram assustadores. Muitos de seus amigos só compreenderam que Lowell estava realmente doente quando ele foi internado."
+      ],
+      "pergunta": "Estamos em 1949. Que tratamento estava disponível para a mania naquele momento?",
+      "opcoes": [
+        { "texto": "Eletroconvulsoterapia (ECT)", "historia": true },
+        { "texto": "Lítio", "historia": false },
+        { "texto": "Clorpromazina", "historia": false },
+        { "texto": "Antidepressivos", "historia": false }
+      ],
+      "revelacao": [
+        "Em junho de 1949, ainda no hospital, Lowell foi tratado com seis sessões de eletroconvulsoterapia (ECT), o único tratamento disponível na época para a mania. Seus delírios e sua agitação melhoraram quase que imediatamente."
+      ]
+    },
+    {
+      "id": "evolucao",
+      "titulo": "Evolução após a melhora",
+      "fonte": "3-crises.qmd",
+      "cenario": [
+        "Seus delírios e sua agitação melhoraram quase que imediatamente."
+      ],
+      "pergunta": "A mania melhorou rapidamente. O que você esperaria nas semanas seguintes?",
+      "opcoes": [
+        { "texto": "Uma fase depressiva", "historia": true },
+        { "texto": "Remissão completa e estável", "historia": false },
+        { "texto": "Nova crise de mania imediata", "historia": false }
+      ],
+      "revelacao": [
+        "Entretanto, uma semana depois Lowell entrou num estado depressivo grave. Sentia-se incapaz de escrever, de concentrar, seu pensamento estava lentificado, sentia-se sem energia. Preferia ficar sozinho e teve pensamentos suicidas",
+        "Ao sair de hospital estava ainda depressivo, se sentindo humilhado por tudo que havia feito durante sua crise de mania. Sentia-se consumido pela culpa e remorso por todo sofrimento que havia causado."
+      ]
+    },
+    {
+      "id": "prognostico",
+      "titulo": "Prognóstico",
+      "fonte": "3-crises.qmd",
+      "cenario": [
+        "Depois dessa internação Lowell escreveu que \"num período de vinte dias passei pelos três estágios da exuberância, confusão e depressão e posso dizer agora que está tudo terminado, sem nenhum sinal de recaída\"."
+      ],
+      "pergunta": "Em 1952, após a terceira internação, Lowell escreveu que estava “tudo terminado”. Como você avalia essa previsão?",
+      "opcoes": [
+        { "texto": "Otimista demais: o curso tende a ser recorrente", "historia": true },
+        { "texto": "Realista: uma crise tratada tende a não recorrer", "historia": false }
+      ],
+      "revelacao": [
+        "Lowell minimizava a gravidade de sua crise e tinha um otimismo exagerado com o futuro de sua doença. Sua próxima crise, entretanto, viria mais cedo que ele esperava.",
+        "Durante os primeiros 18 anos de sua doença, dos 32 aos 50 anos de idade, Lowell vivenciou inúmeras crises de mania, vivenciou inúmeros episódios psicóticos, foi internado por diversas vezes, foi preso em algumas ocasiões e passou por profundos episódios depressivos."
+      ]
+    },
+    {
+      "id": "profilaxia",
+      "titulo": "Profilaxia",
+      "fonte": "4-estabilidade.qmd",
+      "cenario": [
+        "Em várias de seus episódios de mania apresentava delírios de grandiosidade, as vezes acreditando ser Dante, outras vezes acreditando ser T. S Elliot, Shakespeare Homero ou até mesmo Napoleão Bonaparte"
+      ],
+      "cenarioFonte": "2-bipolaridade.qmd",
+      "pergunta": "Depois de 18 anos de crises recorrentes, que intervenção você proporia para mudar o curso da doença?",
+      "opcoes": [
+        { "texto": "Lítio como estabilizador do humor", "historia": true },
+        { "texto": "Psicoterapia isolada", "historia": false },
+        { "texto": "ECT de manutenção", "historia": false },
+        { "texto": "Clorpromazina contínua", "historia": false }
+      ],
+      "revelacao": [
+        "Essa demora na aceitação do lítio pela psiquiatria norte americana talvez explique por que Lowell só começou usá-lo por volta do início de 1967, mais de 18 anos depois de lutar contra suas oscilações de humor",
+        "O uso do lítio reduziu drasticamente suas internações."
+      ]
+    },
+    {
+      "id": "intoxicacao",
+      "titulo": "Um novo quadro em 1975",
+      "fonte": "5-ultimos_anos.qmd",
+      "cenario": [
+        "Ele tinha aumentado sua dose de 5 para 8 comprimidos por dia. Seu nível sérico de lítio subiu para 1.5 mEq/L."
+      ],
+      "pergunta": "Oito anos depois do início do lítio, o paciente aumentou a dose por conta própria e chega confuso ao hospital. Qual a sua hipótese?",
+      "opcoes": [
+        { "texto": "Delirium por intoxicação por lítio", "historia": true },
+        { "texto": "Nova crise de mania", "historia": false },
+        { "texto": "Episódio depressivo", "historia": false }
+      ],
+      "revelacao": [
+        "Lowell foi internado num quadro de delirium e sua dose de lítio foi reduzida abruptamente.",
+        "Daí em diante suas oscilações pioraram e passou por várias internações nos anos de 1975 e 1976."
+      ]
+    }
+  ],
+  "fechamento": {
+    "fonte": "7-conclusao.qmd",
+    "trechos": [
+      "O transtorno bipolar pode ser um fardo enorme para o paciente e para sua família. A história de Robert Lowell é um exemplo de como a doença pode ser devastadora, mesmo para pessoas talentosas e bem-sucedidas.",
+      "As medicações, a psicoeducação, a psicoterapia e a família são fundamentais para a melhora da qualidade de vida dos pacientes."
+    ]
+  }
+}

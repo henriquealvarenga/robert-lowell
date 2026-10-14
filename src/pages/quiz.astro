@@ -1,4 +1,289 @@
 ---
-import Base from "../layouts/Base.astro";
+import Base from '../layouts/Base.astro';
+import quiz from '../data/quiz.json';
+import { href } from '../config';
+const n = quiz.perguntas.length;
 ---
-<Base path="/quiz/" title="A jornada"><p class="wrap">em construção</p></Base>
+
+<Base title="Quiz clínico" description="Quiz clínico: identifique sinais de mania e depressão em trechos reais da história de Robert Lowell e receba a resposta citando o trecho." path="/quiz/">
+  <section class="quiz wrap-narrow" data-quiz>
+    <header class="quiz-head">
+      <p class="eyebrow">Quiz clínico · {n} perguntas</p>
+      <h1>Reconheça os sinais</h1>
+      <p class="lead">{quiz.intro}</p>
+      <div class="quiz-progress" aria-hidden="true"><span data-quiz-bar></span></div>
+      <p class="ui quiz-step" data-quiz-step aria-live="polite"></p>
+    </header>
+
+    <ol class="quiz-list">
+      {quiz.perguntas.map((q, i) => (
+        <li class="q card" data-q={q.id} data-multipla={String(q.multipla)} hidden={i !== 0}>
+          <p class="eyebrow">Pergunta {i + 1} de {n} · {q.contexto}</p>
+          <div class="q-trechos">
+            {q.trechos.map((t) => (
+              <blockquote class="q-trecho">{t.replace(/\*/g, '')}</blockquote>
+            ))}
+          </div>
+          <fieldset class="q-fs">
+            <legend class="q-pergunta">{q.pergunta}{q.multipla && <span class="ui q-hint"> (marque todas que se aplicam)</span>}</legend>
+            {q.opcoes.map((o, j) => (
+              <label class="q-opt">
+                <input type={q.multipla ? 'checkbox' : 'radio'} name={`q-${q.id}`} value={j} data-correta={String(o.correta)} data-evidencia={o.evidencia ?? ''} />
+                <span class="q-opt-text">{o.texto}</span>
+                <span class="q-opt-ev ui" hidden></span>
+              </label>
+            ))}
+          </fieldset>
+          <div class="q-actions">
+            <button type="button" class="btn btn-primary" data-check>Conferir</button>
+            <button type="button" class="btn" data-next hidden>{i < n - 1 ? 'Próxima pergunta →' : 'Ver o resumo →'}</button>
+          </div>
+          <div class="q-feedback" role="status" aria-live="polite" hidden></div>
+        </li>
+      ))}
+      <li class="q card quiz-end" data-quiz-end hidden>
+        <p class="eyebrow">Fim do quiz</p>
+        <h2>Resumo</h2>
+        <p class="quiz-result" data-quiz-result></p>
+        <p class="ui quiz-note">Os sinais foram extraídos apenas do texto original. Para rever o contexto de cada trecho, leia o capítulo <a href={href('/capitulos/crises/')}>As Crises</a> e o capítulo <a href={href('/capitulos/bipolaridade/')}>Bipolaridade</a>.</p>
+        <div class="q-actions">
+          <button type="button" class="btn" data-quiz-restart>Refazer o quiz</button>
+          <a class="btn btn-primary" href={href('/caso-clinico/')}>Ir para o caso clínico →</a>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <script>
+    import { unlock } from '../lib/progress';
+    const root = document.querySelector<HTMLElement>('[data-quiz]')!;
+    const qs = Array.from(root.querySelectorAll<HTMLElement>('[data-q]'));
+    const end = root.querySelector<HTMLElement>('[data-quiz-end]')!;
+    const bar = root.querySelector<HTMLElement>('[data-quiz-bar]')!;
+    const step = root.querySelector<HTMLElement>('[data-quiz-step]')!;
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let results: boolean[] = [];
+
+    const show = (i: number, focus = true) => {
+      qs.forEach((q, j) => (q.hidden = j !== i));
+      end.hidden = i < qs.length;
+      bar.style.width = `${(Math.min(i, qs.length) / qs.length) * 100}%`;
+      step.textContent = i < qs.length ? `${i + 1} de ${qs.length}` : 'Concluído';
+      const target = i < qs.length ? qs[i] : end;
+      if (!focus) return;
+      target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+      (target.querySelector<HTMLElement>('input, button') ?? target).focus({ preventScroll: true });
+    };
+
+    qs.forEach((q, i) => {
+      const inputs = Array.from(q.querySelectorAll<HTMLInputElement>('input'));
+      const check = q.querySelector<HTMLButtonElement>('[data-check]')!;
+      const next = q.querySelector<HTMLButtonElement>('[data-next]')!;
+      const fb = q.querySelector<HTMLElement>('.q-feedback')!;
+      check.addEventListener('click', () => {
+        if (!inputs.some((inp) => inp.checked)) {
+          fb.hidden = false;
+          fb.className = 'q-feedback is-warn';
+          fb.textContent = 'Marque ao menos uma opção.';
+          return;
+        }
+        let ok = true;
+        inputs.forEach((inp) => {
+          const correta = inp.dataset.correta === 'true';
+          const label = inp.closest('.q-opt')!;
+          const ev = label.querySelector<HTMLElement>('.q-opt-ev')!;
+          label.classList.remove('is-hit', 'is-miss', 'is-missed');
+          if (inp.checked && correta) label.classList.add('is-hit');
+          else if (inp.checked && !correta) { label.classList.add('is-miss'); ok = false; }
+          else if (!inp.checked && correta) { label.classList.add('is-missed'); ok = false; }
+          if (correta && inp.dataset.evidencia) {
+            ev.hidden = false;
+            ev.textContent = `no trecho: “${inp.dataset.evidencia}”`;
+          }
+          inp.disabled = true;
+        });
+        results[i] = ok;
+        fb.hidden = false;
+        fb.className = `q-feedback ${ok ? 'is-ok' : 'is-partial'}`;
+        fb.innerHTML = ok
+          ? '<strong>Correto.</strong> Os sinais marcados correspondem ao que o trecho descreve; a evidência aparece ao lado de cada item.'
+          : '<strong>Compare com o trecho.</strong> Os itens em verde estão no texto; os riscados não estão descritos; os marcados com “faltou” estão no trecho, mas não foram assinalados.';
+        check.hidden = true;
+        next.hidden = false;
+        next.focus();
+      });
+      next.addEventListener('click', () => {
+        if (i === qs.length - 1) finish();
+        else show(i + 1);
+      });
+    });
+
+    function finish() {
+      const acertos = results.filter(Boolean).length;
+      root.querySelector<HTMLElement>('[data-quiz-result]')!.textContent =
+        `Você identificou corretamente todos os sinais em ${acertos} de ${qs.length} trechos. O que importa é o treino do olhar: releia os trechos em que faltou algum sinal.`;
+      unlock('quiz');
+      show(qs.length);
+    }
+
+    root.querySelector('[data-quiz-restart]')?.addEventListener('click', () => {
+      results = [];
+      qs.forEach((q) => {
+        q.querySelectorAll<HTMLInputElement>('input').forEach((inp) => { inp.checked = false; inp.disabled = false; });
+        q.querySelectorAll('.q-opt').forEach((l) => l.classList.remove('is-hit', 'is-miss', 'is-missed'));
+        q.querySelectorAll<HTMLElement>('.q-opt-ev').forEach((e) => (e.hidden = true));
+        q.querySelector<HTMLElement>('.q-feedback')!.hidden = true;
+        q.querySelector<HTMLElement>('[data-check]')!.hidden = false;
+        q.querySelector<HTMLElement>('[data-next]')!.hidden = true;
+      });
+      show(0);
+    });
+    show(0, false);
+  </script>
+
+  <style>
+    .quiz {
+      padding: 3rem 0;
+    }
+    .quiz-head h1 {
+      margin: 0.5rem 0 1rem;
+    }
+    .quiz-progress {
+      height: 4px;
+      background: var(--line);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-top: 1rem;
+    }
+    .quiz-progress span {
+      display: block;
+      height: 100%;
+      width: 0;
+      background: var(--red);
+      transition: width 0.5s;
+    }
+    .quiz-step {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin: 0.4rem 0 0;
+    }
+    .quiz-list {
+      list-style: none;
+      padding: 0;
+      margin: 1.5rem 0 0;
+    }
+    .q {
+      padding: 1.5rem;
+      scroll-margin-top: calc(var(--header-h) + 1rem);
+    }
+    .q-trechos {
+      margin: 1rem 0 1.25rem;
+      display: grid;
+      gap: 0.75rem;
+    }
+    .q-trecho {
+      margin: 0;
+      padding: 0.75rem 1rem;
+      border-left: 3px solid var(--red);
+      background: var(--bg-sunk);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      font-style: italic;
+      color: var(--ink-2);
+    }
+    .q-fs {
+      border: 0;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 0.4rem;
+    }
+    .q-pergunta {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      margin-bottom: 0.75rem;
+      padding: 0;
+    }
+    .q-hint {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    .q-opt {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.2rem 0.7rem;
+      align-items: center;
+      padding: 0.6rem 0.8rem;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .q-opt:hover {
+      border-color: var(--line-strong);
+      background: var(--bg-sunk);
+    }
+    .q-opt input {
+      width: 1.1rem;
+      height: 1.1rem;
+      accent-color: var(--red);
+      margin: 0;
+    }
+    .q-opt-ev {
+      grid-column: 2;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+    .q-opt.is-hit {
+      border-color: #2e7d4f;
+      background: color-mix(in srgb, #2e7d4f 12%, var(--bg-elev));
+    }
+    .q-opt.is-miss .q-opt-text {
+      text-decoration: line-through;
+      color: var(--muted);
+    }
+    .q-opt.is-miss {
+      border-color: var(--red);
+    }
+    .q-opt.is-missed {
+      border-color: var(--gold);
+      background: var(--gold-soft);
+    }
+    .q-opt.is-missed .q-opt-text::after {
+      content: ' — faltou';
+      font-family: var(--font-ui);
+      font-size: 0.78rem;
+      color: var(--gold);
+      font-weight: 600;
+    }
+    .q-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 1.25rem;
+    }
+    .q-feedback {
+      margin-top: 1rem;
+      padding: 0.8rem 1rem;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-ui);
+      font-size: 0.9rem;
+      background: var(--bg-sunk);
+    }
+    .q-feedback.is-ok {
+      background: color-mix(in srgb, #2e7d4f 14%, var(--bg-elev));
+    }
+    .q-feedback.is-partial {
+      background: var(--gold-soft);
+    }
+    .q-feedback.is-warn {
+      background: var(--red-soft);
+    }
+    .quiz-end h2 {
+      margin: 0.3rem 0 0.75rem;
+    }
+    .quiz-note {
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+  </style>
+</Base>

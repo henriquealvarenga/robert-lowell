@@ -1,0 +1,178 @@
+{
+  "intro": "Cada pergunta parte de um trecho real do texto. Identifique os sinais clínicos descritos e receba a resposta com o próprio trecho.",
+  "perguntas": [
+    {
+      "id": "saratoga-mania",
+      "contexto": "Abril de 1949, Saratoga Springs — primeira internação",
+      "fonte": "3-crises.qmd",
+      "trechos": [
+        "Lowell, nessa primeira internação, foi descrito como eufórico, excitado, hiperativo, exaltado, e falando sem cessar. Ele disse aos médicos que era indestrutível, que era um mensageiro dos Céus, que havia sido Cristo há pouco tempo, que havia andado sob as águas, que se comunicava regularmente com Deus, que era a reencarnação do Espírito Santo e que havia derrotado as forças do mal. Contou também que tinha tido visões de seres verdes que o assustavam e que não estava dormindo há dias."
+      ],
+      "pergunta": "Quais sinais de mania estão descritos neste trecho?",
+      "multipla": true,
+      "opcoes": [
+        { "texto": "Humor eufórico e exaltado", "correta": true, "evidencia": "eufórico, excitado, hiperativo, exaltado" },
+        { "texto": "Logorreia (fala sem cessar)", "correta": true, "evidencia": "falando sem cessar" },
+        { "texto": "Delírios de grandiosidade de conteúdo místico-religioso", "correta": true, "evidencia": "era indestrutível, que era um mensageiro dos Céus, que havia sido Cristo" },
+        { "texto": "Alucinações visuais", "correta": true, "evidencia": "visões de seres verdes" },
+        { "texto": "Insônia", "correta": true, "evidencia": "não estava dormindo há dias" },
+        { "texto": "Lentificação do pensamento", "correta": false },
+        { "texto": "Humor deprimido", "correta": false }
+      ]
+    },
+    {
+      "id": "pos-ect-depressao",
+      "contexto": "Junho de 1949 — uma semana após a eletroconvulsoterapia",
+      "fonte": "3-crises.qmd",
+      "trechos": [
+        "Entretanto, uma semana depois Lowell entrou num estado depressivo grave. Sentia-se incapaz de escrever, de concentrar, seu pensamento estava lentificado, sentia-se sem energia. Preferia ficar sozinho e teve pensamentos suicidas"
+      ],
+      "pergunta": "Quais sinais de depressão aparecem aqui?",
+      "multipla": true,
+      "opcoes": [
+        { "texto": "Lentificação do pensamento", "correta": true, "evidencia": "seu pensamento estava lentificado" },
+        { "texto": "Dificuldade de concentração", "correta": true, "evidencia": "incapaz de escrever, de concentrar" },
+        { "texto": "Perda de energia", "correta": true, "evidencia": "sentia-se sem energia" },
+        { "texto": "Isolamento social", "correta": true, "evidencia": "Preferia ficar sozinho" },
+        { "texto": "Ideação suicida", "correta": true, "evidencia": "teve pensamentos suicidas" },
+        { "texto": "Grandiosidade", "correta": false },
+        { "texto": "Fuga de ideias", "correta": false }
+      ]
+    },
+    {
+      "id": "segunda-internacao",
+      "contexto": "Setembro de 1949, Nova York — segunda internação",
+      "fonte": "3-crises.qmd",
+      "trechos": [
+        "Essa foi sua segunda internação, dessa vez num estado depressivo grave. Estava lentificado, com dificuldade para se concentrar, com humor deprimido. Sentia-se vazio, sem coragem, passava dias sem conversar. Nessa internação passou vários dias deitado na cama pensando em suicídio."
+      ],
+      "pergunta": "Qual polo do transtorno bipolar este trecho descreve?",
+      "multipla": false,
+      "opcoes": [
+        { "texto": "Depressão", "correta": true, "evidencia": "num estado depressivo grave" },
+        { "texto": "Mania", "correta": false },
+        { "texto": "Hipomania", "correta": false }
+      ]
+    },
+    {
+      "id": "cincinnati",
+      "contexto": "Abril de 1954, Cincinnati",
+      "fonte": "3-crises.qmd",
+      "trechos": [
+        "Começou a beber de forma abusiva, comprar de forma impulsiva e insultar publicamente os colegas",
+        "Passou a ter alucinações auditivas e visuais, desagregação do pensamento com fuga de ideias e um comportamento cada vez mais bizarro."
+      ],
+      "pergunta": "Quais sinais estão descritos nestes trechos?",
+      "multipla": true,
+      "opcoes": [
+        { "texto": "Compras impulsivas", "correta": true, "evidencia": "comprar de forma impulsiva" },
+        { "texto": "Abuso de álcool", "correta": true, "evidencia": "beber de forma abusiva" },
+        { "texto": "Fuga de ideias", "correta": true, "evidencia": "fuga de ideias" },
+        { "texto": "Alucinações auditivas e visuais", "correta": true, "evidencia": "alucinações auditivas e visuais" },
+        { "texto": "Desorganização do pensamento", "correta": true, "evidencia": "desagregação do pensamento" },
+        { "texto": "Retardo psicomotor", "correta": false },
+        { "texto": "Anedonia", "correta": false }
+      ]
+    },
+    {
+      "id": "boston-1957",
+      "contexto": "Novembro de 1957, Boston",
+      "fonte": "3-crises.qmd",
+      "trechos": [
+        "Estava hiperativo, irritadiço, taquilálico, com fuga de ideias, ameaçador, fazendo inúmeros planos irrealísticos e pensamentos suicidas"
+      ],
+      "pergunta": "Quais sinais o texto registra neste estado de mania?",
+      "multipla": true,
+      "opcoes": [
+        { "texto": "Hiperatividade", "correta": true, "evidencia": "hiperativo" },
+        { "texto": "Irritabilidade", "correta": true, "evidencia": "irritadiço" },
+        { "texto": "Taquilalia", "correta": true, "evidencia": "taquilálico" },
+        { "texto": "Fuga de ideias", "correta": true, "evidencia": "fuga de ideias" },
+        { "texto": "Planos irrealistas", "correta": true, "evidencia": "inúmeros planos irrealísticos" },
+        { "texto": "Pensamentos suicidas", "correta": true, "evidencia": "pensamentos suicidas" },
+        { "texto": "Mutismo", "correta": false }
+      ]
+    },
+    {
+      "id": "sinal-alerta",
+      "contexto": "1957 — os meses que antecederam a crise",
+      "fonte": "3-crises.qmd",
+      "trechos": [
+        "Durante vários meses estava dormindo menos, bebendo mais e usando clorpromazina para se acalmar.",
+        "A escrita incessante, rápida e furiosa era um sintoma de alerta de uma nova crise de mania. Em novembro Lowell já estava num estado de mania e não conseguia mais escrever"
+      ],
+      "pergunta": "Qual sinal o texto aponta explicitamente como alerta de uma nova crise de mania?",
+      "multipla": false,
+      "opcoes": [
+        { "texto": "A escrita incessante, rápida e furiosa", "correta": true, "evidencia": "A escrita incessante, rápida e furiosa era um sintoma de alerta" },
+        { "texto": "O uso de clorpromazina", "correta": false },
+        { "texto": "A incapacidade de escrever", "correta": false }
+      ]
+    },
+    {
+      "id": "argentina",
+      "contexto": "Agosto de 1962, Argentina",
+      "fonte": "3-crises.qmd",
+      "trechos": [
+        "Começou a beber de forma exagerada, falar sem parar, e passou a não dormir. Interrompeu o uso de seus medicamentos, tornou-se desinibido, com sentimentos de grandiosidade, energizado e agitado. Insistia em comprar presentes caros para todos, mandou telegramas para o Papa e para o ex-presidente Eisenhower alegando que a América era o novo Império Romano."
+      ],
+      "pergunta": "Quais sinais de mania aparecem neste trecho?",
+      "multipla": true,
+      "opcoes": [
+        { "texto": "Insônia", "correta": true, "evidencia": "passou a não dormir" },
+        { "texto": "Logorreia", "correta": true, "evidencia": "falar sem parar" },
+        { "texto": "Desinibição", "correta": true, "evidencia": "tornou-se desinibido" },
+        { "texto": "Grandiosidade", "correta": true, "evidencia": "sentimentos de grandiosidade" },
+        { "texto": "Gastos excessivos", "correta": true, "evidencia": "comprar presentes caros para todos" },
+        { "texto": "Interrupção da medicação", "correta": true, "evidencia": "Interrompeu o uso de seus medicamentos" },
+        { "texto": "Apatia", "correta": false }
+      ]
+    },
+    {
+      "id": "hipomania-hardwick",
+      "contexto": "Elizabeth Hardwick sobre os períodos iniciais",
+      "fonte": "2-bipolaridade.qmd",
+      "trechos": [
+        "A dificuldade de reconhecer a hipomania tornava esse período particularmente difícil. É um período no qual, como descreveu Hardwick, o paciente “tem ainda muito controle, muita habilidade de funcionar, enquanto está ao mesmo tempo extremamente imprudente e descontrolado”"
+      ],
+      "pergunta": "A que fase do transtorno Hardwick se refere?",
+      "multipla": false,
+      "opcoes": [
+        { "texto": "Hipomania", "correta": true, "evidencia": "A dificuldade de reconhecer a hipomania" },
+        { "texto": "Depressão grave", "correta": false },
+        { "texto": "Intoxicação por lítio", "correta": false }
+      ]
+    },
+    {
+      "id": "periodos-pre-diagnostico",
+      "contexto": "Antes do diagnóstico — a história pregressa",
+      "fonte": "2-bipolaridade.qmd",
+      "trechos": [
+        "Esses períodos duravam cerca de 8 meses, eram sempre períodos de maior produtividade em sua carreira de escritor e eram seguidos de fases de baixa energia e depressão, nas quais não conseguia trabalhar."
+      ],
+      "pergunta": "O que o texto diz sobre esses períodos de humor elevado?",
+      "multipla": true,
+      "opcoes": [
+        { "texto": "Duravam cerca de 8 meses", "correta": true, "evidencia": "duravam cerca de 8 meses" },
+        { "texto": "Eram períodos de maior produtividade", "correta": true, "evidencia": "períodos de maior produtividade" },
+        { "texto": "Eram seguidos de fases de baixa energia e depressão", "correta": true, "evidencia": "seguidos de fases de baixa energia e depressão" },
+        { "texto": "Eram acompanhados de alucinações", "correta": false }
+      ]
+    },
+    {
+      "id": "intoxicacao-litio",
+      "contexto": "Maio de 1975",
+      "fonte": "5-ultimos_anos.qmd",
+      "trechos": [
+        "Em maio de 1975 Lowell teve de ser internado devido a uma intoxicação por lítio. Ele tinha aumentado sua dose de 5 para 8 comprimidos por dia. Seu nível sérico de lítio subiu para 1.5 mEq/L. Lowell foi internado num quadro de delirium e sua dose de lítio foi reduzida abruptamente."
+      ],
+      "pergunta": "Qual quadro clínico motivou a internação de maio de 1975?",
+      "multipla": false,
+      "opcoes": [
+        { "texto": "Delirium por intoxicação por lítio", "correta": true, "evidencia": "internado num quadro de delirium" },
+        { "texto": "Episódio maníaco", "correta": false },
+        { "texto": "Episódio depressivo", "correta": false }
+      ]
+    }
+  ]
+}

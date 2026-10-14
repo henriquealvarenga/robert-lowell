@@ -1,4 +1,307 @@
 ---
-import Base from "../layouts/Base.astro";
+import Base from '../layouts/Base.astro';
+import caso from '../data/caso.json';
+import { href } from '../config';
+const n = caso.etapas.length;
+const clean = (t: string) => t.replace(/\*/g, '');
 ---
-<Base path="/caso-clinico/" title="A jornada"><p class="wrap">em construção</p></Base>
+
+<Base title="Caso clínico" description="Caso clínico interativo: raciocine por etapas sobre a história de Robert Lowell e compare com o que a história realmente mostra." path="/caso-clinico/">
+  <section class="caso wrap-narrow" data-caso>
+    <header class="caso-head">
+      <p class="eyebrow">Caso clínico · {n} etapas</p>
+      <h1>Raciocine o caso</h1>
+      <p class="lead">{caso.intro}</p>
+      <ol class="steps ui" aria-label="Etapas">
+        {caso.etapas.map((e, i) => (
+          <li data-step-dot={i}><span class="step-n">{i + 1}</span> <span class="step-t">{e.titulo}</span></li>
+        ))}
+      </ol>
+    </header>
+
+    <ol class="caso-list">
+      {caso.etapas.map((e, i) => (
+        <li class="etapa card" data-etapa={e.id} hidden={i !== 0}>
+          <p class="eyebrow">Etapa {i + 1} de {n} · {e.titulo}</p>
+          <div class="cenario">
+            <p class="cenario-label ui">O que se observa</p>
+            {e.cenario.map((t) => (
+              <blockquote>{clean(t)}</blockquote>
+            ))}
+          </div>
+          <fieldset class="e-fs">
+            <legend class="e-pergunta">{e.pergunta}</legend>
+            {e.opcoes.map((o, j) => (
+              <label class="e-opt">
+                <input type="radio" name={`e-${e.id}`} value={j} data-historia={String(o.historia)} />
+                <span>{o.texto}</span>
+              </label>
+            ))}
+          </fieldset>
+          <div class="e-actions">
+            <button type="button" class="btn btn-primary" data-reveal>Comparar com a história</button>
+          </div>
+          <div class="revelacao" hidden>
+            <p class="revelacao-label ui" data-rev-label></p>
+            {e.revelacao.map((t) => (
+              <blockquote>{clean(t)}</blockquote>
+            ))}
+            <div class="e-actions">
+              <button type="button" class="btn" data-next>{i < n - 1 ? 'Próxima etapa →' : 'Ver o fechamento →'}</button>
+            </div>
+          </div>
+        </li>
+      ))}
+      <li class="etapa card caso-end" data-caso-end hidden>
+        <p class="eyebrow">Fechamento</p>
+        <h2>Seu raciocínio e a história</h2>
+        <p class="caso-result" data-caso-result></p>
+        <ul class="caso-compare ui" data-caso-compare></ul>
+        {caso.fechamento.trechos.map((t) => (
+          <blockquote>{clean(t)}</blockquote>
+        ))}
+        <div class="e-actions">
+          <button type="button" class="btn" data-caso-restart>Refazer o caso</button>
+          <a class="btn btn-primary" href={href('/jornada/#progresso')}>Voltar à jornada →</a>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <script>
+    import { unlock } from '../lib/progress';
+    const root = document.querySelector<HTMLElement>('[data-caso]')!;
+    const etapas = Array.from(root.querySelectorAll<HTMLElement>('[data-etapa]'));
+    const end = root.querySelector<HTMLElement>('[data-caso-end]')!;
+    const dots = Array.from(root.querySelectorAll<HTMLElement>('[data-step-dot]'));
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const titles = dots.map((d) => d.querySelector('.step-t')!.textContent ?? '');
+    let answers: { coincide: boolean; escolha: string }[] = [];
+
+    const show = (i: number, focus = true) => {
+      etapas.forEach((e, j) => (e.hidden = j !== i));
+      end.hidden = i < etapas.length;
+      dots.forEach((d, j) => {
+        d.classList.toggle('is-current', j === i);
+        d.classList.toggle('is-done', j < i);
+      });
+      const target = i < etapas.length ? etapas[i] : end;
+      if (!focus) return;
+      target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+      (target.querySelector<HTMLElement>('input, button') ?? target).focus({ preventScroll: true });
+    };
+
+    etapas.forEach((e, i) => {
+      const inputs = Array.from(e.querySelectorAll<HTMLInputElement>('input'));
+      const reveal = e.querySelector<HTMLButtonElement>('[data-reveal]')!;
+      const rev = e.querySelector<HTMLElement>('.revelacao')!;
+      const label = e.querySelector<HTMLElement>('[data-rev-label]')!;
+      reveal.addEventListener('click', () => {
+        const chosen = inputs.find((inp) => inp.checked);
+        if (!chosen) {
+          label.hidden = false;
+          reveal.insertAdjacentHTML('afterend', '<p class="e-warn ui" role="status">Escolha uma opção antes de comparar.</p>');
+          setTimeout(() => e.querySelector('.e-warn')?.remove(), 2500);
+          return;
+        }
+        const coincide = chosen.dataset.historia === 'true';
+        inputs.forEach((inp) => {
+          const l = inp.closest('.e-opt')!;
+          if (inp.dataset.historia === 'true') l.classList.add('is-historia');
+          if (inp.checked && !coincide) l.classList.add('is-divergente');
+          inp.disabled = true;
+        });
+        answers[i] = { coincide, escolha: chosen.nextElementSibling?.textContent ?? '' };
+        label.textContent = coincide ? 'O que a história mostra — coincide com o seu raciocínio:' : 'O que a história mostra — compare com o que você escolheu:';
+        rev.hidden = false;
+        reveal.closest('.e-actions')!.remove();
+        if (!reduce) rev.animate([{ opacity: 0, transform: 'translateY(8px)' }, { opacity: 1, transform: 'none' }], { duration: 350, easing: 'ease-out' });
+        rev.querySelector<HTMLElement>('button')!.focus();
+      });
+      e.querySelector('[data-next]')!.addEventListener('click', () => (i === etapas.length - 1 ? finish() : show(i + 1)));
+    });
+
+    function finish() {
+      const k = answers.filter((a) => a?.coincide).length;
+      root.querySelector<HTMLElement>('[data-caso-result]')!.textContent = `Em ${k} de ${etapas.length} etapas, seu raciocínio coincidiu com o curso real do caso.`;
+      root.querySelector<HTMLElement>('[data-caso-compare]')!.innerHTML = answers
+        .map((a, i) => `<li class="${a?.coincide ? 'is-ok' : 'is-diff'}"><span>${titles[i]}</span><span>${a?.coincide ? 'coincide' : 'diverge'} · você escolheu: ${a?.escolha ?? '—'}</span></li>`)
+        .join('');
+      unlock('caso');
+      show(etapas.length);
+    }
+    root.querySelector('[data-caso-restart]')?.addEventListener('click', () => location.reload());
+    show(0, false);
+  </script>
+
+  <style>
+    .caso {
+      padding: 3rem 0;
+    }
+    .caso-head h1 {
+      margin: 0.5rem 0 1rem;
+    }
+    .steps {
+      list-style: none;
+      padding: 0;
+      margin: 1.25rem 0 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      font-size: 0.78rem;
+    }
+    .steps li {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.3rem 0.7rem 0.3rem 0.35rem;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      color: var(--muted);
+    }
+    .step-n {
+      width: 1.3rem;
+      height: 1.3rem;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--bg-sunk);
+      font-weight: 600;
+      font-size: 0.7rem;
+    }
+    .steps li.is-current {
+      color: var(--red);
+      border-color: var(--red);
+      font-weight: 600;
+    }
+    .steps li.is-current .step-n {
+      background: var(--red);
+      color: #fff;
+    }
+    .steps li.is-done .step-n {
+      background: var(--gold);
+      color: var(--ink);
+    }
+    .caso-list {
+      list-style: none;
+      padding: 0;
+      margin: 1.5rem 0 0;
+    }
+    .etapa {
+      padding: 1.5rem;
+      scroll-margin-top: calc(var(--header-h) + 1rem);
+    }
+    .cenario {
+      margin: 1rem 0 1.25rem;
+    }
+    .cenario-label,
+    .revelacao-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 0 0 0.5rem;
+    }
+    blockquote {
+      margin: 0 0 0.75rem;
+      padding: 0.75rem 1rem;
+      border-left: 3px solid var(--slate);
+      background: var(--bg-sunk);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      font-style: italic;
+      color: var(--ink-2);
+    }
+    .revelacao blockquote {
+      border-left-color: var(--red);
+    }
+    .e-fs {
+      border: 0;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 0.4rem;
+    }
+    .e-pergunta {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      margin-bottom: 0.75rem;
+      padding: 0;
+    }
+    .e-opt {
+      display: flex;
+      gap: 0.7rem;
+      align-items: center;
+      padding: 0.6rem 0.8rem;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+    }
+    .e-opt:hover {
+      background: var(--bg-sunk);
+    }
+    .e-opt input {
+      accent-color: var(--red);
+      width: 1.1rem;
+      height: 1.1rem;
+      margin: 0;
+    }
+    .e-opt.is-historia {
+      border-color: var(--gold);
+      background: var(--gold-soft);
+    }
+    .e-opt.is-historia span::after {
+      content: ' — o que a história mostra';
+      font-family: var(--font-ui);
+      font-size: 0.78rem;
+      color: var(--gold);
+      font-weight: 600;
+    }
+    .e-opt.is-divergente {
+      border-color: var(--red);
+    }
+    .e-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 1.25rem;
+    }
+    .e-warn {
+      color: var(--red);
+      font-size: 0.85rem;
+      margin: 0.5rem 0 0;
+    }
+    .revelacao {
+      margin-top: 1.5rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--line);
+    }
+    .caso-end h2 {
+      margin: 0.3rem 0 0.75rem;
+    }
+    .caso-compare {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 1.25rem;
+      display: grid;
+      gap: 0.35rem;
+      font-size: 0.85rem;
+    }
+    .caso-compare li {
+      display: grid;
+      gap: 0.1rem;
+      padding: 0.5rem 0.75rem;
+      border-radius: var(--radius-sm);
+      border-left: 4px solid var(--gold);
+      background: var(--bg-sunk);
+    }
+    .caso-compare li.is-ok {
+      border-left-color: #2e7d4f;
+    }
+    .caso-compare li span:first-child {
+      font-weight: 600;
+    }
+    .caso-compare li span:last-child {
+      color: var(--muted);
+    }
+  </style>
+</Base>
