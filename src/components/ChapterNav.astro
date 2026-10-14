@@ -1,0 +1,75 @@
+---
+/** Trilha horizontal dos capítulos (pequenos pontos clicáveis). */
+import type { CollectionEntry } from 'astro:content';
+import { href } from '../config';
+
+interface Props {
+  all: CollectionEntry<'chapters'>[];
+  current?: string;
+  compact?: boolean;
+}
+const { all, current, compact = false } = Astro.props;
+---
+
+<nav class:list={['trail', { compact }]} aria-label="Capítulos">
+  <ol>
+    {all.map((c) => (
+      <li>
+        <a href={href(`/capitulos/${c.id}/`)} aria-current={c.id === current ? 'page' : undefined} title={c.data.title}>
+          <span class="dot" aria-hidden="true"></span>
+          <span class="label">{c.data.nav}</span>
+        </a>
+      </li>
+    ))}
+  </ol>
+</nav>
+
+<style>
+  .trail ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 0.25rem;
+    font-family: var(--font-ui);
+    font-size: 0.8rem;
+  }
+  .trail a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.3rem 0.6rem 0.3rem 0.45rem;
+    border-radius: 999px;
+    text-decoration: none;
+    color: var(--muted);
+    border: 1px solid transparent;
+  }
+  .trail a:hover {
+    color: var(--ink);
+    border-color: var(--line);
+  }
+  .trail a[aria-current='page'] {
+    color: var(--red);
+    border-color: var(--red);
+    font-weight: 600;
+  }
+  .dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.6;
+  }
+  .trail.compact .label {
+    display: none;
+  }
+  .trail.compact a[aria-current='page'] .label {
+    display: inline;
+  }
+  @media (min-width: 760px) {
+    .trail.compact .label {
+      display: inline;
+    }
+  }
+</style>

@@ -1,0 +1,94 @@
+{
+  "fonte": "6-historia_familiar.qmd",
+  "geracoes": [
+    { "titulo": "Tatataravô", "pessoas": ["john-old-judge"] },
+    { "titulo": "Tataravós e tios-avós", "pessoas": ["john-rebel", "francis-cabot", "charles", "harriet"] },
+    { "titulo": "Filhos de Charles e Harriet", "pessoas": ["james-russell", "rebecca", "robert-i", "outros"] },
+    { "titulo": "Gerações seguintes", "pessoas": ["robert-ii-iii"] },
+    { "titulo": "O poeta", "pessoas": ["robert-iv"] }
+  ],
+  "pessoas": {
+    "john-old-judge": {
+      "nome": "John “the old Judge” Lowell",
+      "papel": "tatataravô de Robert Lowell",
+      "humor": "nenhum",
+      "trecho": "O tatataravô de Robert Lowell, conhecido como John “the old Judge” Lowell teve 3 filhos: John “the rebel” Lowell, Francis Cabot Lowell e Charles Lowell."
+    },
+    "john-rebel": {
+      "nome": "John “the rebel” Lowell",
+      "papel": "filho do “old Judge”",
+      "humor": "oscilacao",
+      "trecho": "John “the rebel” Lowell viveu intermitentes períodos de excesso de trabalho seguidos de meses de depressão e exaustão."
+    },
+    "francis-cabot": {
+      "nome": "Francis Cabot Lowell",
+      "papel": "filho do “old Judge”",
+      "humor": "oscilacao",
+      "trecho": "Francis Cabot Lowell, tal como seu irmão, também passou por diversos períodos de “excesso de energia” seguidos de períodos de total estagnação e incapacitação."
+    },
+    "charles": {
+      "nome": "Charles Lowell",
+      "papel": "tataravô de Robert Lowell IV",
+      "humor": "tracos",
+      "trecho": "Charles Lowell, que veio a se casar com Harriet Bracket Spence, e foi o tataravô de Robert Lowell IV, também tinha certos traços de instabilidade de humor. Nos anos finais de sua vida, sua família o considerava “exageradamente excitável”."
+    },
+    "harriet": {
+      "nome": "Harriet Bracket Spence Lowell",
+      "papel": "tataravó de Robert Lowell IV",
+      "humor": "grave",
+      "trecho": "Harriet Bracket Spence Lowell, tataravó de Robert Lowell IV, casada com Charles Lowell, também sofria de graves problemas mentais. Harriet foi internada no McLean Asylum em 19 de março de 1945 num estado que foi descrito na época como “muito irritada”. Amigos e familiares descreviam Harriet como sendo as vezes violenta e incontrolável, com mudanças de humor que variavam desde rompantes de mania até fases de desespero. Harriet passava por longos períodos nos quais ficava reclusa, períodos de insanidade e de raiva intensa. Durante sua internação passou 7 meses mais calada e isolada. Mas em novembro de 1845 seu comportamento mudou, passou a ficar mais excitada, gritando, correndo pelo hospital, dormindo pouco, e com alucinações auditivas. Harriet passou 3 anos internada, tendo voltado para casa sem grandes melhoras"
+    },
+    "james-russell": {
+      "nome": "James Russell Lowell",
+      "papel": "filho de Charles e Harriet",
+      "humor": "grave",
+      "trecho": "James Russell Lowell, alegou ter herdado “mais do que apenas um traço” das doenças da mãe. Relatou que em diversos momentos “tudo se tornava depressivo e o tempo deixava de existir, como se tivesse tomado o caminho da insanidade”"
+    },
+    "rebecca": {
+      "nome": "Rebecca Lowell",
+      "papel": "filha de Charles e Harriet",
+      "humor": "grave",
+      "trecho": "Rebecca Lowell, irmã de James Russell, herdou uma forma mais severa da doença da mãe. Sofria períodos graves de humor deprimido, permanecendo em silêncio por semanas a fio, e períodos de violência"
+    },
+    "robert-i": {
+      "nome": "Robert Traill Spence Lowell I",
+      "papel": "filho de Charles e Harriet",
+      "humor": "nenhum",
+      "trecho": "Um dos outros filhos do casal Harriet Bracket Spence Lowell e Charles Lowell foi Robert Traill Spence Lowell I. Um nome que seria mantido por 4 gerações, até o nascimento de Robert Traill Spence Lowell IV em 1917."
+    },
+    "outros": {
+      "nome": "Outros três filhos",
+      "papel": "não nomeados no texto",
+      "humor": "nenhum",
+      "trecho": "Harriet Bracket Spence Lowell e Charles Lowell tiveram 6 filhos, alguns dos quais sofreram também com alguma forma de transtornos mentais: James Russell Lowell e Rebecca Lowell."
+    },
+    "robert-ii-iii": {
+      "nome": "Robert Traill Spence Lowell II e III",
+      "papel": "o nome mantido por quatro gerações",
+      "humor": "nenhum",
+      "trecho": "Um nome que seria mantido por 4 gerações, até o nascimento de Robert Traill Spence Lowell IV em 1917."
+    },
+    "robert-iv": {
+      "nome": "Robert Traill Spence Lowell IV",
+      "papel": "o poeta (1917–1977)",
+      "humor": "grave",
+      "trecho": "O poeta Robert Traill Spence Lowell IV, nasceu em 1917, viveu por 60 anos e morreu em 1977.",
+      "fonteAlt": "1-biografia.qmd"
+    }
+  },
+  "lacos": [
+    ["john-old-judge", "john-rebel"],
+    ["john-old-judge", "francis-cabot"],
+    ["john-old-judge", "charles"],
+    ["charles", "james-russell"],
+    ["charles", "rebecca"],
+    ["charles", "robert-i"],
+    ["charles", "outros"],
+    ["harriet", "james-russell"],
+    ["harriet", "rebecca"],
+    ["harriet", "robert-i"],
+    ["harriet", "outros"],
+    ["robert-i", "robert-ii-iii"],
+    ["robert-ii-iii", "robert-iv"]
+  ]
+}

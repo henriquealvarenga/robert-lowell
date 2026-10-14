@@ -1,0 +1,124 @@
+---
+import Base from '../layouts/Base.astro';
+import { Image } from 'astro:assets';
+import capa from '../assets/images/capa.webp';
+import robert from '../assets/images/robert-lowell.webp';
+import { href, OLD_SITE_URL, TITLE, SUBTITLE } from '../config';
+---
+
+<Base path="/">
+  <section class="entrada wrap">
+    <header class="entrada-head reveal">
+      <p class="eyebrow">Transtorno bipolar · estudo de caso para o ensino</p>
+      <h1>{TITLE}</h1>
+      <p class="lead">{SUBTITLE}. Escolha como quer ler: a versão em livro ou a experiência interativa.</p>
+    </header>
+
+    <div class="cards">
+      <a class="big-card card reveal" href={href('/jornada/')} data-card="novo">
+        <div class="big-card-media">
+          <Image src={robert} alt="Ilustração gerada por IA de um poeta sentado, de óculos, com um livro na mão" widths={[480, 760, 1024]} sizes="(min-width: 760px) 40vw, 92vw" loading="eager" />
+        </div>
+        <div class="big-card-body">
+          <p class="eyebrow">Site novo</p>
+          <h2>A jornada interativa</h2>
+          <p>Linha do tempo das crises, gráfico dinâmico das internações, árvore familiar, quiz clínico e um caso para raciocinar. Mesmo texto, nova experiência.</p>
+          <span class="btn btn-primary">Começar a jornada →</span>
+        </div>
+      </a>
+
+      <a class="big-card card reveal" href={OLD_SITE_URL} data-card="antigo">
+        <div class="big-card-media">
+          <Image src={capa} alt="Ilustração gerada por IA sobre o estudo dos transtornos do humor em artistas" widths={[480, 760, 1024]} sizes="(min-width: 760px) 40vw, 92vw" loading="eager" />
+        </div>
+        <div class="big-card-body">
+          <p class="eyebrow">Site antigo</p>
+          <h2>A versão em livro</h2>
+          <p>“A Bipolaridade de Robert Lowell”, o texto original em formato de livro, com capítulos sequenciais e versão para impressão.</p>
+          <span class="btn">Abrir o livro ↗</span>
+        </div>
+      </a>
+    </div>
+
+    <p class="entrada-note ui reveal">
+      Baseado em Kay Redfield Jamison, <em>Robert Lowell: Setting the River on Fire</em> (2017). As ilustrações são geradas por inteligência artificial (DALL·E).
+    </p>
+  </section>
+
+  <style>
+    .entrada {
+      padding: clamp(2.5rem, 8vh, 6rem) 0 3rem;
+    }
+    .entrada-head {
+      max-width: 44rem;
+      margin-bottom: 2.5rem;
+    }
+    .entrada-head h1 {
+      margin: 0.5rem 0 1rem;
+    }
+    .cards {
+      display: grid;
+      gap: 1.5rem;
+    }
+    @media (min-width: 760px) {
+      .cards {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    .big-card {
+      display: grid;
+      grid-template-rows: auto 1fr;
+      text-decoration: none;
+      color: var(--ink);
+      overflow: hidden;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .big-card:hover,
+    .big-card:focus-visible {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+      color: var(--ink);
+    }
+    .big-card-media {
+      aspect-ratio: 16 / 10;
+      overflow: hidden;
+      background: var(--bg-sunk);
+    }
+    .big-card-media :global(img) {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: saturate(0.85);
+      transition: transform 0.6s ease;
+    }
+    .big-card:hover .big-card-media :global(img) {
+      transform: scale(1.03);
+    }
+    .big-card-body {
+      padding: 1.5rem;
+      display: grid;
+      gap: 0.6rem;
+      align-content: start;
+    }
+    .big-card-body h2 {
+      font-size: 1.8rem;
+    }
+    .big-card-body p {
+      margin: 0;
+      color: var(--ink-2);
+    }
+    .big-card-body .btn {
+      justify-self: start;
+      margin-top: 0.5rem;
+    }
+    [data-card='novo'] .eyebrow {
+      color: var(--red);
+    }
+    .entrada-note {
+      margin-top: 2rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+      max-width: 50rem;
+    }
+  </style>
+</Base>

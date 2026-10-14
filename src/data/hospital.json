@@ -1,0 +1,82 @@
+{
+  "fonte": "Adaptado a partir da tabela de hospitalizações de Lowell, Jamison (2017), páginas 112-113.",
+  "litio": {
+    "inicio": 1967,
+    "fim": 1975
+  },
+  "intoxicacao": 1975,
+  "anos": [
+    {
+      "ano": 1949,
+      "dias": 206
+    },
+    {
+      "ano": 1950,
+      "dias": 2
+    },
+    {
+      "ano": 1952,
+      "dias": 31
+    },
+    {
+      "ano": 1954,
+      "dias": 160
+    },
+    {
+      "ano": 1957,
+      "dias": 19
+    },
+    {
+      "ano": 1958,
+      "dias": 125
+    },
+    {
+      "ano": 1959,
+      "dias": 85
+    },
+    {
+      "ano": 1961,
+      "dias": 27
+    },
+    {
+      "ano": 1962,
+      "dias": 57
+    },
+    {
+      "ano": 1963,
+      "dias": 30
+    },
+    {
+      "ano": 1964,
+      "dias": 14
+    },
+    {
+      "ano": 1965,
+      "dias": 70
+    },
+    {
+      "ano": 1966,
+      "dias": 39
+    },
+    {
+      "ano": 1967,
+      "dias": 66
+    },
+    {
+      "ano": 1970,
+      "dias": 35
+    },
+    {
+      "ano": 1975,
+      "dias": 45
+    },
+    {
+      "ano": 1976,
+      "dias": 75
+    },
+    {
+      "ano": 1977,
+      "dias": 8
+    }
+  ]
+}

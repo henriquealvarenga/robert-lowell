@@ -1,0 +1,252 @@
+---
+/**
+ * Árvore interativa da história familiar, apenas com as pessoas e os
+ * trechos presentes no texto. Clique em alguém para ler o trecho.
+ */
+import familia from '../data/familia.json';
+const pessoas = familia.pessoas as Record<string, { nome: string; papel: string; humor: string; trecho: string }>;
+const humorLabel: Record<string, string> = {
+  nenhum: 'sem relato de alteração de humor no texto',
+  tracos: 'traços de instabilidade de humor',
+  oscilacao: 'períodos de excesso de energia e de depressão',
+  grave: 'transtorno de humor descrito como grave',
+};
+---
+
+<section class="ftree card" aria-labelledby="ftree-titulo" data-family-tree>
+  <div class="ftree-head">
+    <p class="eyebrow">Visualização interativa</p>
+    <h2 id="ftree-titulo">A família Lowell</h2>
+    <p class="ftree-sub ui">Toque em uma pessoa para ler o que o texto diz sobre ela. A cor indica a descrição do humor presente no texto.</p>
+  </div>
+
+  <div class="ftree-scroll">
+    <div class="ftree-canvas" data-canvas>
+      <svg class="ftree-lines" aria-hidden="true"></svg>
+      {familia.geracoes.map((g) => (
+        <div class="gen" role="group" aria-label={g.titulo}>
+          <p class="gen-title ui">{g.titulo}</p>
+          <div class="gen-row">
+            {g.pessoas.map((id) => {
+              const p = pessoas[id];
+              return (
+                <button type="button" class={`person humor-${p.humor}`} data-person={id} aria-expanded="false" aria-controls="ftree-panel">
+                  <span class="person-name">{p.nome}</span>
+                  <span class="person-role">{p.papel}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <ul class="ftree-legend ui" aria-label="Legenda">
+    <li><i class="sw humor-grave"></i> {humorLabel.grave}</li>
+    <li><i class="sw humor-oscilacao"></i> {humorLabel.oscilacao}</li>
+    <li><i class="sw humor-tracos"></i> {humorLabel.tracos}</li>
+    <li><i class="sw humor-nenhum"></i> {humorLabel.nenhum}</li>
+  </ul>
+
+  <div class="ftree-panel" id="ftree-panel" role="region" aria-live="polite" aria-label="Trecho sobre a pessoa selecionada" hidden>
+    <p class="eyebrow" data-panel-role></p>
+    <h3 data-panel-name></h3>
+    <blockquote data-panel-text></blockquote>
+    <p class="ftree-src ui">Trecho reproduzido do texto original, sem alterações.</p>
+  </div>
+
+  <script define:vars={{ pessoas, lacos: familia.lacos, humorLabel }}>
+    const root = document.querySelector('[data-family-tree]');
+    const canvas = root.querySelector('[data-canvas]');
+    const svg = root.querySelector('.ftree-lines');
+    const panel = root.querySelector('#ftree-panel');
+    const buttons = Array.from(root.querySelectorAll('[data-person]'));
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function drawLines() {
+      const cr = canvas.getBoundingClientRect();
+      svg.setAttribute('width', cr.width);
+      svg.setAttribute('height', cr.height);
+      svg.setAttribute('viewBox', `0 0 ${cr.width} ${cr.height}`);
+      const pos = (id) => {
+        const el = root.querySelector(`[data-person="${id}"]`);
+        const r = el.getBoundingClientRect();
+        return { x: r.left - cr.left + r.width / 2, top: r.top - cr.top, bottom: r.bottom - cr.top };
+      };
+      svg.innerHTML = lacos
+        .map(([a, b]) => {
+          const p = pos(a), c = pos(b);
+          const my = (p.bottom + c.top) / 2;
+          return `<path d="M${p.x},${p.bottom} C${p.x},${my} ${c.x},${my} ${c.x},${c.top}" data-from="${a}" data-to="${b}"/>`;
+        })
+        .join('');
+    }
+
+    function select(id) {
+      const p = pessoas[id];
+      buttons.forEach((b) => {
+        const on = b.dataset.person === id;
+        b.setAttribute('aria-expanded', String(on));
+        b.classList.toggle('is-selected', on);
+      });
+      svg.querySelectorAll('path').forEach((path) => {
+        path.classList.toggle('is-lit', path.dataset.from === id || path.dataset.to === id);
+      });
+      panel.querySelector('[data-panel-role]').textContent = `${p.papel} · ${humorLabel[p.humor]}`;
+      panel.querySelector('[data-panel-name]').textContent = p.nome;
+      panel.querySelector('[data-panel-text]').textContent = p.trecho;
+      panel.hidden = false;
+      if (!reduce) panel.animate([{ opacity: 0.4, transform: 'translateY(6px)' }, { opacity: 1, transform: 'none' }], { duration: 250, easing: 'ease-out' });
+      window.dispatchEvent(new CustomEvent('jornada:unlock', { detail: 'familia' }));
+    }
+
+    buttons.forEach((b) => b.addEventListener('click', () => select(b.dataset.person)));
+    drawLines();
+    new ResizeObserver(drawLines).observe(canvas);
+    if (document.fonts) document.fonts.ready.then(drawLines);
+  </script>
+
+  <style>
+    .ftree {
+      margin: 2rem 0 3rem;
+      padding: 1.25rem;
+    }
+    .ftree-head h2 {
+      margin: 0.25rem 0 0.5rem;
+      border: 0;
+      padding: 0;
+    }
+    .ftree-sub {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin: 0 0 1rem;
+    }
+    .ftree-scroll {
+      overflow-x: auto;
+      padding-bottom: 0.5rem;
+      -webkit-overflow-scrolling: touch;
+    }
+    .ftree-canvas {
+      position: relative;
+      min-width: 34rem;
+      display: grid;
+      gap: 1.75rem;
+      padding: 0.25rem;
+    }
+    .ftree-lines {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: visible;
+    }
+    .ftree-lines :global(path) {
+      fill: none;
+      stroke: var(--line-strong);
+      stroke-width: 1.5;
+      transition: stroke 0.3s, stroke-width 0.3s;
+    }
+    .ftree-lines :global(path.is-lit) {
+      stroke: var(--red);
+      stroke-width: 2.5;
+    }
+    .gen {
+      position: relative;
+      z-index: 1;
+    }
+    .gen-title {
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 0 0 0.4rem;
+      text-align: center;
+    }
+    .gen-row {
+      display: flex;
+      justify-content: center;
+      gap: 0.6rem;
+      flex-wrap: nowrap;
+    }
+    .person {
+      display: grid;
+      gap: 0.1rem;
+      text-align: center;
+      padding: 0.6rem 0.8rem;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid var(--line-strong);
+      background: var(--bg-elev);
+      cursor: pointer;
+      max-width: 12rem;
+      min-width: 7.5rem;
+      transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+      border-left-width: 5px;
+    }
+    .person:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+    .person.is-selected {
+      border-color: var(--ink);
+      box-shadow: var(--shadow-lg);
+    }
+    .person-name {
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      line-height: 1.2;
+    }
+    .person-role {
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+    .humor-grave { border-left-color: var(--red); }
+    .humor-oscilacao { border-left-color: var(--gold); }
+    .humor-tracos { border-left-color: var(--slate); }
+    .humor-nenhum { border-left-color: var(--line-strong); }
+    .ftree-legend {
+      list-style: none;
+      padding: 0;
+      margin: 0.75rem 0 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem 1rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+    .ftree-legend li {
+      display: inline-flex;
+      gap: 0.4rem;
+      align-items: center;
+    }
+    .sw {
+      width: 0.9rem;
+      height: 0.9rem;
+      border-radius: 3px;
+      border-left: 5px solid;
+      background: var(--bg-sunk);
+      display: inline-block;
+    }
+    .ftree-panel {
+      margin-top: 1.25rem;
+      padding: 1.25rem;
+      border-radius: var(--radius-sm);
+      background: var(--bg-sunk);
+    }
+    .ftree-panel h3 {
+      margin: 0.25rem 0 0.75rem;
+    }
+    .ftree-panel blockquote {
+      margin: 0 0 0.75rem;
+      padding-left: 1rem;
+      border-left: 3px solid var(--red);
+      font-style: italic;
+      color: var(--ink-2);
+    }
+    .ftree-src {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin: 0;
+    }
+  </style>
+</section>

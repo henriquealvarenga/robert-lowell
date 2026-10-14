@@ -1,0 +1,105 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import ChapterNav from '../../components/ChapterNav.astro';
+import refs from '../../data/references.json';
+import { href } from '../../config';
+
+const all = (await getCollection('chapters')).sort((a, b) => a.data.order - b.data.order);
+const last = all[all.length - 1];
+
+function fmtAuthors(full: string) {
+  return full
+    .split(/\s+and\s+/)
+    .map((a) => {
+      const [last, first] = a.split(',').map((s) => s.trim());
+      if (!first) return last;
+      const initials = first
+        .split(/\s+/)
+        .map((n) => n.replace(/\./g, '').charAt(0).toUpperCase() + '.')
+        .join(' ');
+      return `${last}, ${initials}`;
+    })
+    .join('; ');
+}
+---
+
+<Base title="Referências" description="Referências bibliográficas de “A Jornada de Lowell”." path="/capitulos/referencias/" type="article">
+  <article class="refs wrap-narrow">
+    <header class="chapter-head">
+      <p class="eyebrow">Capítulo {all.length + 1} de {all.length + 1}</p>
+      <h1>Referências</h1>
+      <ChapterNav all={all} compact />
+    </header>
+
+    <ol class="ref-list">
+      {refs.map((r) => (
+        <li class="ref-item" id={`ref-${r.key}`}>
+          <span class="ref-authors">{fmtAuthors(r.authorsFull)}</span> ({r.year}).{' '}
+          {r.type === 'book' ? (
+            <>
+              <em>{r.title}</em>
+              {r.edition ? ` (${r.edition})` : ''}. {r.address ? `${r.address}: ` : ''}{r.publisher}.{r.isbn ? ` ISBN ${r.isbn}.` : ''}
+            </>
+          ) : r.type === 'inproceedings' ? (
+            <>
+              {r.title}. In: <em>{r.booktitle}</em>{r.volume ? `, ${r.volume}` : ''}{r.pages ? `, p. ${r.pages}` : ''}.
+            </>
+          ) : (
+            <>
+              {r.title}. <em>{r.journal}</em>{r.volume ? `, ${r.volume}` : ''}{r.number ? `(${r.number})` : ''}{r.pages ? `, ${r.pages}` : ''}.
+            </>
+          )}
+          {r.doi && (
+            <>
+              {' '}
+              <a href={`https://doi.org/${r.doi}`} rel="noopener">https://doi.org/{r.doi}</a>
+            </>
+          )}
+          {!r.doi && r.url && (
+            <>
+              {' '}
+              <a href={r.url} rel="noopener">{r.url}</a>
+            </>
+          )}
+        </li>
+      ))}
+    </ol>
+
+    <nav class="pager" aria-label="Navegação entre capítulos">
+      <a class="btn" href={href(`/capitulos/${last.id}/`)} rel="prev">← {last.data.title}</a>
+      <a class="btn btn-primary" href={href('/jornada/')}>Voltar à jornada</a>
+    </nav>
+  </article>
+
+  <style>
+    .chapter-head {
+      padding: 3rem 0 1.5rem;
+    }
+    .chapter-head h1 {
+      margin: 0.5rem 0 1.25rem;
+    }
+    .ref-list {
+      padding-left: 1.25rem;
+      display: grid;
+      gap: 1rem;
+    }
+    .ref-item {
+      padding-left: 0.5rem;
+      font-size: 0.98em;
+      line-height: 1.55;
+    }
+    .ref-authors {
+      font-weight: 600;
+    }
+    .ref-item a {
+      word-break: break-all;
+    }
+    .pager {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 3rem;
+    }
+  </style>
+</Base>

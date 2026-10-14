@@ -1,0 +1,125 @@
+[
+  {
+    "key": "Baastrup1967",
+    "type": "article",
+    "authors": [
+      "Baastrup",
+      "Schou"
+    ],
+    "authorsFull": "Baastrup, P. C. and Schou, M.",
+    "year": "1967",
+    "title": "Lithium as a prophylactic agents. Its effect against recurrent depressions and manic-depressive psychosis",
+    "journal": "Arch Gen Psychiatry",
+    "volume": "16",
+    "number": "2",
+    "pages": "162-72",
+    "doi": "10.1001/archpsyc.1967.01730200030005",
+    "label": "Baastrup & Schou, 1967"
+  },
+  {
+    "key": "Baethge2003",
+    "type": "article",
+    "authors": [
+      "Baethge",
+      "Smolka",
+      "Gruschka",
+      "Berghöfer",
+      "Schlattmann",
+      "Bauer",
+      "Altshuler",
+      "Grof",
+      "Müller-Oerlinghausen"
+    ],
+    "authorsFull": "Baethge, C. and Smolka, M. N. and Gruschka, P. and Berghöfer, A. and Schlattmann, P. and Bauer, M. and Altshuler, L. and Grof, P. and Müller-Oerlinghausen, B.",
+    "year": "2003",
+    "title": "Does prophylaxis-delay in bipolar disorder influence outcome? Results from a long-term study of 147 patients",
+    "journal": "Acta Psychiatrica Scandinavica",
+    "volume": "107",
+    "number": "4",
+    "pages": "260-267",
+    "doi": "10.1034/j.1600-0447.2003.02057.x",
+    "url": "https://onlinelibrary.wiley.com/doi/abs/10.1034/j.1600-0447.2003.02057.x",
+    "label": "Baethge et al., 2003"
+  },
+  {
+    "key": "Cade1949",
+    "type": "article",
+    "authors": [
+      "Cade"
+    ],
+    "authorsFull": "Cade, J. F. J.",
+    "year": "1949",
+    "title": "Lithium salts in the treatment of psychotic excitement",
+    "journal": "The Medical journal of Australia",
+    "volume": "2",
+    "number": "10",
+    "pages": "349-352",
+    "doi": "10.1080/j.1440-1614.1999.06241.x",
+    "url": "https://www.ncbi.nlm.nih.gov/pubmed/18142718",
+    "label": "Cade, 1949"
+  },
+  {
+    "key": "Despinoy1951",
+    "type": "inproceedings",
+    "authors": [
+      "Despinoy",
+      "Romeuf"
+    ],
+    "authorsFull": "Despinoy, M and Romeuf, J De",
+    "year": "1951",
+    "title": "Emploi des sels de lithium en thérapeutique psychiatrique",
+    "booktitle": "Congrès des neurologists et aliénistes de langue française",
+    "volume": "49",
+    "pages": "509-515",
+    "label": "Despinoy & Romeuf, 1951"
+  },
+  {
+    "key": "Jamison2017",
+    "type": "book",
+    "authors": [
+      "Jamison"
+    ],
+    "authorsFull": "Jamison, Kay Redfield",
+    "year": "2017",
+    "title": "Robert Lowell: setting the river on fire, a study of genius, mania, and character",
+    "publisher": "Vintage Books",
+    "address": "New York",
+    "edition": "First Edition",
+    "isbn": "978-0-307-74461-6",
+    "label": "Jamison, 2017"
+  },
+  {
+    "key": "Noack1951",
+    "type": "article",
+    "authors": [
+      "Noack",
+      "Trautner"
+    ],
+    "authorsFull": "Noack, C. H. and Trautner, E. M.",
+    "year": "1951",
+    "title": "The lithium treatment of maniacal psychosis",
+    "journal": "Med J Aust",
+    "volume": "2",
+    "number": "7",
+    "pages": "219-22",
+    "doi": "10.5694/j.1326-5377.1951.tb68249.x",
+    "label": "Noack & Trautner, 1951"
+  },
+  {
+    "key": "Shorter2009",
+    "type": "article",
+    "authors": [
+      "Shorter"
+    ],
+    "authorsFull": "Shorter, Edward",
+    "year": "2009",
+    "title": "The history of lithium therapy",
+    "journal": "Bipolar disorders",
+    "volume": "11 Suppl 2",
+    "number": "Suppl 2",
+    "pages": "4-9",
+    "doi": "10.1111/j.1399-5618.2009.00706.x",
+    "url": "https://www.ncbi.nlm.nih.gov/pubmed/19538681",
+    "label": "Shorter, 2009"
+  }
+]

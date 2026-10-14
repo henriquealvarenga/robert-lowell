@@ -1,0 +1,511 @@
+---
+/**
+ * Gráfico dinâmico dos dias de internação por ano (D3), com tooltip, zoom/pan,
+ * controle "antes e depois do lítio" e tabela alternativa acessível.
+ */
+import hospital from '../data/hospital.json';
+
+interface Props {
+  caption?: string;
+  id?: string;
+}
+const { caption = 'Gráfico dos dias de internação de Robert Lowell por ano, com destaque para o período de uso do lítio.', id = 'grafico-internacoes' } = Astro.props;
+const anos = hospital.anos;
+const total = anos.reduce((s, a) => s + a.dias, 0);
+const pre = anos.filter((a) => a.ano < hospital.litio.inicio);
+const pos = anos.filter((a) => a.ano >= hospital.litio.inicio);
+const sum = (xs: { dias: number }[]) => xs.reduce((s, a) => s + a.dias, 0);
+const maxDias = Math.max(...anos.map((a) => a.dias));
+const descricao = `Gráfico de barras com os dias de internação de Robert Lowell por ano, de 1949 a 1977. Antes do lítio (1949 a 1966) foram ${sum(pre)} dias em ${pre.length} anos com internação; com o lítio, a partir de 1967, foram ${sum(pos)} dias em ${pos.length} anos. O maior valor é ${maxDias} dias, em ${anos.find((a) => a.dias === maxDias)?.ano}. Em 1975 houve intoxicação por lítio.`;
+---
+
+<figure class="hchart card" id={id} data-hospital-chart aria-labelledby={`${id}-legenda`}>
+  <div class="hchart-head">
+    <div>
+      <p class="eyebrow">Internações · 1949–1977</p>
+      <h3 class="hchart-title" id={`${id}-titulo`}>Dias internado por ano</h3>
+    </div>
+    <div class="hchart-zoom" role="group" aria-label="Zoom do gráfico">
+      <button type="button" class="icon-btn" data-zoom="in" aria-label="Aproximar">+</button>
+      <button type="button" class="icon-btn" data-zoom="out" aria-label="Afastar">−</button>
+      <button type="button" class="icon-btn" data-zoom="reset" aria-label="Restaurar zoom">↺</button>
+    </div>
+  </div>
+
+  <div class="hchart-controls" role="radiogroup" aria-label="Período em destaque">
+    <button type="button" class="seg" data-period="all" role="radio" aria-checked="true">Tudo</button>
+    <button type="button" class="seg seg-red" data-period="pre" role="radio" aria-checked="false">Antes do lítio</button>
+    <button type="button" class="seg seg-blue" data-period="pos" role="radio" aria-checked="false">Com o lítio</button>
+  </div>
+
+  <div class="hchart-canvas" data-canvas>
+    <svg role="img" aria-labelledby={`${id}-titulo`} aria-describedby={`${id}-desc`}></svg>
+    <p class="sr-only" id={`${id}-desc`}>{descricao}</p>
+    <div class="hchart-tip" role="status" aria-live="polite" hidden></div>
+  </div>
+
+  <ul class="hchart-legend ui" aria-hidden="true">
+    <li><i class="sw sw-red"></i> Antes do lítio</li>
+    <li><i class="sw sw-blue"></i> Usando lítio (1967–1975)</li>
+    <li><i class="sw sw-tox"></i> Intoxicação por lítio (1975)</li>
+    <li><i class="sw sw-irregular"></i> Sem uso regular (a partir de 1975)</li>
+  </ul>
+
+  <dl class="hchart-stats ui" data-stats>
+    <div><dt>Período</dt><dd data-stat="label">1949–1977</dd></div>
+    <div><dt>Dias internado</dt><dd data-stat="dias">{total}</dd></div>
+    <div><dt>Anos com internação</dt><dd data-stat="anos">{anos.length}</dd></div>
+    <div><dt>Média por ano do período</dt><dd data-stat="media">{Math.round(total / (1977 - 1949 + 1))}</dd></div>
+  </dl>
+
+  <figcaption id={`${id}-legenda`}>
+    {caption} <span class="fonte">Fonte: adaptado da tabela de hospitalizações de Jamison (2017), pp. 112–113.</span>
+  </figcaption>
+
+  <details class="hchart-table">
+    <summary>Ver os dados em tabela</summary>
+    <table>
+      <caption class="sr-only">Dias de internação de Robert Lowell por ano</caption>
+      <thead><tr><th scope="col">Ano</th><th scope="col" class="num">Dias internado</th><th scope="col">Período</th></tr></thead>
+      <tbody>
+        {anos.map((a) => (
+          <tr>
+            <th scope="row">{a.ano}</th>
+            <td class="num">{a.dias}</td>
+            <td>{a.ano < hospital.litio.inicio ? 'Antes do lítio' : a.ano === hospital.intoxicacao ? 'Lítio · intoxicação' : a.ano <= hospital.litio.fim ? 'Usando lítio' : 'Sem uso regular de lítio'}</td>
+          </tr>
+        ))}
+      </tbody>
+      <tfoot><tr><th scope="row">Total</th><td class="num">{total}</td><td></td></tr></tfoot>
+    </table>
+  </details>
+</figure>
+
+<script>
+  import { select, pointer } from 'd3-selection';
+  import { scaleBand, scaleLinear } from 'd3-scale';
+  import { axisBottom, axisLeft } from 'd3-axis';
+  import { zoom, zoomIdentity, type ZoomTransform } from 'd3-zoom';
+  import { max } from 'd3-array';
+  import 'd3-transition';
+  import hospital from '../data/hospital.json';
+  import { unlock } from '../lib/progress';
+
+  type Period = 'all' | 'pre' | 'pos';
+  type Row = { ano: number; dias: number };
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const DUR = reduce ? 0 : 500;
+
+  function init(root: HTMLElement) {
+    const canvas = root.querySelector<HTMLElement>('[data-canvas]')!;
+    const svgEl = canvas.querySelector('svg')!;
+    const svg = select(svgEl);
+    const tip = root.querySelector<HTMLElement>('.hchart-tip')!;
+    const Y0 = 1948, Y1 = 1977;
+    const years = Array.from({ length: Y1 - Y0 + 1 }, (_, i) => Y0 + i);
+    const byYear = new Map(hospital.anos.map((a) => [a.ano, a.dias] as const));
+    const data: Row[] = years.map((ano) => ({ ano, dias: byYear.get(ano) ?? 0 }));
+    const { inicio, fim } = hospital.litio;
+
+    const kind = (ano: number) => (ano < inicio ? 'pre' : ano === hospital.intoxicacao ? 'tox' : ano <= fim ? 'li' : 'irregular');
+    const inPeriod = (p: Period, ano: number) => p === 'all' || (p === 'pre' ? ano < inicio : ano >= inicio);
+
+    const m = { top: 28, right: 12, bottom: 44, left: 44 };
+    let W = 0, H = 0;
+    let transform: ZoomTransform = zoomIdentity;
+    let period: Period = 'all';
+    let current: number | null = null;
+
+    const g = svg.append('g');
+    const defs = svg.append('defs');
+    const clipId = `${root.id}-clip`;
+    defs.append('clipPath').attr('id', clipId).append('rect');
+    const band = g.append('rect').attr('class', 'li-band');
+    const bandLabel = g.append('text').attr('class', 'li-label').text('Usando lítio');
+    const plot = g.append('g').attr('clip-path', `url(#${clipId})`);
+    const bars = plot.append('g').attr('class', 'bars');
+    const meanLine = plot.append('line').attr('class', 'mean-line').attr('opacity', 0);
+    const meanLabel = plot.append('text').attr('class', 'mean-label').attr('opacity', 0);
+    const toxMarker = plot.append('g').attr('class', 'tox');
+    toxMarker.append('line');
+    toxMarker.append('text').text('intoxicação');
+    const xAxisG = g.append('g').attr('class', 'axis x');
+    const yAxisG = g.append('g').attr('class', 'axis y');
+    const yLabel = g.append('text').attr('class', 'axis-label').text('dias internado');
+
+    const x0 = scaleBand<number>().domain(years).padding(0.22);
+    const y = scaleLinear().domain([0, Math.max(365, max(data, (d) => d.dias) ?? 0)]).nice();
+
+    function xScale() {
+      const r = x0.range();
+      return scaleBand<number>().domain(years).padding(0.22).range([transform.applyX(r[0]), transform.applyX(r[1])]);
+    }
+
+    function layout() {
+      const rect = canvas.getBoundingClientRect();
+      W = Math.max(280, rect.width);
+      H = Math.min(420, Math.max(260, W * 0.5));
+      svg.attr('viewBox', `0 0 ${W} ${H}`).attr('width', W).attr('height', H);
+      g.attr('transform', `translate(${m.left},${m.top})`);
+      const iw = W - m.left - m.right, ih = H - m.top - m.bottom;
+      x0.range([0, iw]);
+      y.range([ih, 0]);
+      defs.select('clipPath rect').attr('width', iw).attr('height', ih + m.bottom);
+      yAxisG.call(axisLeft(y).ticks(W < 480 ? 4 : 6).tickSize(-iw).tickPadding(8) as never);
+      yAxisG.selectAll('.domain').remove();
+      yLabel.attr('x', -m.left + 4).attr('y', -10);
+      bars
+        .selectAll<SVGRectElement, Row>('rect')
+        .data(data, (d) => String(d.ano))
+        .join((enter) =>
+          enter
+            .append('rect')
+            .attr('class', (d) => `bar bar-${kind(d.ano)}`)
+            .attr('tabindex', (d) => (d.dias > 0 ? 0 : -1))
+            .attr('role', (d) => (d.dias > 0 ? 'img' : null))
+            .attr('aria-label', (d) => (d.dias > 0 ? `${d.ano}: ${d.dias} dias internado` : null))
+            .attr('y', ih)
+            .attr('height', 0),
+        );
+      draw(true);
+    }
+
+    function draw(animate = false) {
+      const x = xScale();
+      const ih = H - m.top - m.bottom;
+      const sel = bars.selectAll<SVGRectElement, Row>('rect');
+      const apply = (s: any) =>
+        s
+          .attr('x', (d: Row) => x(d.ano) ?? 0)
+          .attr('width', x.bandwidth())
+          .attr('y', (d: Row) => y(d.dias))
+          .attr('height', (d: Row) => ih - y(d.dias))
+          .attr('opacity', (d: Row) => (inPeriod(period, d.ano) ? 1 : 0.18));
+      apply(animate && DUR ? sel.transition().duration(DUR) : sel);
+      const bx0 = (x(inicio) ?? 0) - x.step() * x0.padding() * 0.5;
+      const bx1 = (x(fim) ?? 0) + x.bandwidth() + x.step() * x0.padding() * 0.5;
+      band.attr('x', bx0).attr('y', 0).attr('width', Math.max(0, bx1 - bx0)).attr('height', ih);
+      bandLabel.attr('x', bx0 + 6).attr('y', 14);
+      const tx = (x(hospital.intoxicacao) ?? 0) + x.bandwidth() / 2;
+      const ty = y(byYear.get(hospital.intoxicacao) ?? 0);
+      toxMarker.select('line').attr('x1', tx).attr('x2', tx).attr('y1', ty - 26).attr('y2', ty - 4);
+      toxMarker.select('text').attr('x', tx).attr('y', ty - 30).attr('text-anchor', 'middle');
+      const every = x.bandwidth() < 18 ? (x.bandwidth() < 9 ? 5 : 2) : 1;
+      xAxisG
+        .attr('transform', `translate(0,${ih})`)
+        .call(axisBottom(x).tickValues(years.filter((yr) => (yr - Y0) % every === 0 || yr === Y1)).tickSize(0).tickPadding(10) as never);
+      xAxisG.selectAll('text').attr('transform', W < 560 ? 'rotate(-45)' : null).style('text-anchor', W < 560 ? 'end' : 'middle');
+      const stats = periodStats(period);
+      if (period !== 'all') {
+        const px0 = x(period === 'pre' ? Y0 + 1 : inicio) ?? 0;
+        const px1 = (x(period === 'pre' ? inicio - 1 : Y1) ?? 0) + x.bandwidth();
+        const my = y(stats.media);
+        const mt: any = animate && DUR ? meanLine.transition().duration(DUR) : meanLine;
+        mt.attr('x1', px0).attr('x2', px1).attr('y1', my).attr('y2', my).attr('opacity', 1);
+        meanLabel.attr('x', px1).attr('y', my - 6).attr('text-anchor', 'end').text(`média ${stats.media} dias/ano`).attr('opacity', 1);
+      } else {
+        meanLine.attr('opacity', 0);
+        meanLabel.attr('opacity', 0);
+      }
+      if (current !== null) positionTip(current);
+    }
+
+    function periodStats(p: Period) {
+      const rows = hospital.anos.filter((a) => inPeriod(p, a.ano));
+      const span = p === 'all' ? Y1 - (Y0 + 1) + 1 : p === 'pre' ? inicio - (Y0 + 1) : Y1 - inicio + 1;
+      const dias = rows.reduce((s, a) => s + a.dias, 0);
+      return { label: p === 'all' ? '1949–1977' : p === 'pre' ? `1949–${inicio - 1}` : `${inicio}–1977`, dias, anos: rows.length, media: Math.round(dias / span) };
+    }
+
+    function countUp(el: HTMLElement, to: number) {
+      const from = Number(el.textContent?.replace(/\D/g, '')) || 0;
+      if (!DUR || from === to) {
+        el.textContent = String(to);
+        return;
+      }
+      const start = performance.now();
+      const step = (now: number) => {
+        const k = Math.min(1, (now - start) / DUR);
+        const e = 1 - Math.pow(1 - k, 3);
+        el.textContent = String(Math.round(from + (to - from) * e));
+        if (k < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    }
+
+    function setPeriod(p: Period) {
+      period = p;
+      root.querySelectorAll<HTMLButtonElement>('[data-period]').forEach((b) => b.setAttribute('aria-checked', String(b.dataset.period === p)));
+      const s = periodStats(p);
+      const stats = root.querySelector<HTMLElement>('[data-stats]')!;
+      stats.querySelector<HTMLElement>('[data-stat=label]')!.textContent = s.label;
+      countUp(stats.querySelector<HTMLElement>('[data-stat=dias]')!, s.dias);
+      countUp(stats.querySelector<HTMLElement>('[data-stat=anos]')!, s.anos);
+      countUp(stats.querySelector<HTMLElement>('[data-stat=media]')!, s.media);
+      stats.dataset.period = p;
+      draw(true);
+      if (p === 'pos') unlock('grafico');
+    }
+
+    root.querySelectorAll<HTMLButtonElement>('[data-period]').forEach((b) => b.addEventListener('click', () => setPeriod(b.dataset.period as Period)));
+
+    function positionTip(ano: number) {
+      const d = data.find((r) => r.ano === ano)!;
+      const x = xScale();
+      const bx = m.left + (x(ano) ?? 0) + x.bandwidth() / 2;
+      const by = m.top + y(d.dias);
+      const k = kind(ano);
+      const label = k === 'pre' ? 'antes do lítio' : k === 'tox' ? 'intoxicação por lítio' : k === 'li' ? 'usando lítio' : 'sem uso regular de lítio';
+      tip.innerHTML = `<strong>${ano}</strong> · ${d.dias} ${d.dias === 1 ? 'dia' : 'dias'} internado<br><span>${label}</span>`;
+      tip.hidden = false;
+      const pxX = (bx / W) * canvas.clientWidth;
+      const pxY = (by / H) * canvas.clientHeight;
+      tip.style.left = `${Math.max(60, Math.min(canvas.clientWidth - 60, pxX))}px`;
+      tip.style.top = `${Math.max(0, pxY - 10)}px`;
+      bars.selectAll<SVGRectElement, Row>('rect').classed('is-active', (r) => r.ano === ano);
+    }
+    function hideTip() {
+      current = null;
+      tip.hidden = true;
+      bars.selectAll('rect').classed('is-active', false);
+    }
+    const nearestYear = (event: Event) => {
+      const [px] = pointer(event, g.node() as SVGGElement);
+      const x = xScale();
+      let best = years[0], bd = Infinity;
+      for (const yr of years) {
+        const cx = (x(yr) ?? 0) + x.bandwidth() / 2;
+        const dd = Math.abs(cx - px);
+        if (dd < bd) { bd = dd; best = yr; }
+      }
+      return best;
+    };
+    svg.on('pointermove', (e: PointerEvent) => { current = nearestYear(e); positionTip(current); });
+    svg.on('pointerleave', hideTip);
+    bars.selectAll<SVGRectElement, Row>('rect').on('focus', (_e, d) => { current = d.ano; positionTip(current); }).on('blur', hideTip);
+    canvas.addEventListener('keydown', (e) => {
+      if (!['ArrowLeft', 'ArrowRight'].includes(e.key)) return;
+      const focusable = hospital.anos.map((a) => a.ano);
+      const cur = current ?? focusable[0];
+      let idx = Math.max(0, focusable.indexOf(cur));
+      idx = e.key === 'ArrowRight' ? Math.min(focusable.length - 1, idx + 1) : Math.max(0, idx - 1);
+      bars.selectAll<SVGRectElement, Row>('rect').filter((d) => d.ano === focusable[idx]).node()?.focus();
+      e.preventDefault();
+    });
+
+    const z = zoom<SVGSVGElement, unknown>()
+      .scaleExtent([1, 4])
+      .filter((e: Event) => {
+        if (e.type === 'wheel') return (e as WheelEvent).ctrlKey || (e as WheelEvent).metaKey;
+        return !(e as MouseEvent).button;
+      })
+      .on('zoom', (e) => {
+        transform = e.transform;
+        draw(false);
+      });
+    function applyExtents() {
+      const iw = W - m.left - m.right, ih = H - m.top - m.bottom;
+      z.translateExtent([[0, 0], [iw, ih]]).extent([[0, 0], [iw, ih]]);
+    }
+    svg.call(z as never);
+    const zoomBy = (k: number) => (svg.transition().duration(DUR) as any).call(z.scaleBy, k);
+    root.querySelector('[data-zoom=in]')?.addEventListener('click', () => zoomBy(1.5));
+    root.querySelector('[data-zoom=out]')?.addEventListener('click', () => zoomBy(1 / 1.5));
+    root.querySelector('[data-zoom=reset]')?.addEventListener('click', () => (svg.transition().duration(DUR) as any).call(z.transform, zoomIdentity));
+
+    layout();
+    applyExtents();
+    let first = true;
+    new ResizeObserver(() => {
+      if (first) { first = false; return; }
+      layout();
+      applyExtents();
+      (svg as any).call(z.transform, zoomIdentity);
+    }).observe(canvas);
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-hospital-chart]').forEach(init);
+</script>
+
+<style>
+  .hchart {
+    margin: 2rem 0;
+    padding: 1.25rem;
+  }
+  .hchart-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+  }
+  .hchart-title {
+    margin: 0.1rem 0 0;
+  }
+  .hchart-zoom {
+    display: flex;
+    gap: 0.35rem;
+  }
+  .hchart-zoom .icon-btn {
+    font-family: var(--font-ui);
+    font-size: 1rem;
+    width: 2rem;
+    height: 2rem;
+  }
+  .hchart-controls {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    padding: 0.25rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--bg-sunk);
+    margin-bottom: 0.75rem;
+  }
+  .seg {
+    border: 0;
+    background: transparent;
+    border-radius: 999px;
+    padding: 0.45rem 0.9rem;
+    font-family: var(--font-ui);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--ink-2);
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+  }
+  .seg[aria-checked='true'] {
+    background: var(--ink);
+    color: var(--bg);
+  }
+  .seg-red[aria-checked='true'] {
+    background: var(--red);
+    color: #fff;
+  }
+  .seg-blue[aria-checked='true'] {
+    background: var(--blue);
+    color: #fff;
+  }
+  .hchart-canvas {
+    position: relative;
+    touch-action: pan-y;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  .hchart-canvas svg {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+    cursor: crosshair;
+    font-family: var(--font-ui);
+  }
+  .hchart-tip {
+    position: absolute;
+    transform: translate(-50%, -100%);
+    background: var(--ink);
+    color: var(--bg);
+    padding: 0.4rem 0.65rem;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-ui);
+    font-size: 0.8rem;
+    line-height: 1.35;
+    pointer-events: none;
+    white-space: nowrap;
+    box-shadow: var(--shadow);
+    z-index: 2;
+  }
+  .hchart-tip span {
+    opacity: 0.75;
+  }
+  .hchart-legend {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.1rem;
+    padding: 0;
+    margin: 0.75rem 0 0;
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+  .hchart-legend li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .sw {
+    width: 0.9rem;
+    height: 0.9rem;
+    border-radius: 3px;
+    display: inline-block;
+  }
+  .sw-red { background: var(--red); }
+  .sw-blue { background: var(--blue); }
+  .sw-tox { background: var(--blue); outline: 2px solid var(--ink-2); outline-offset: 1px; }
+  .sw-irregular { border: 2px dashed var(--red); }
+  .hchart-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    margin: 1rem 0 0;
+    padding: 0.9rem 1rem;
+    border-radius: var(--radius-sm);
+    background: var(--bg-sunk);
+    transition: background 0.3s;
+  }
+  @media (min-width: 640px) {
+    .hchart-stats { grid-template-columns: repeat(4, 1fr); }
+  }
+  .hchart-stats[data-period='pre'] { background: var(--red-soft); }
+  .hchart-stats[data-period='pos'] { background: var(--blue-soft); }
+  .hchart-stats dt {
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .hchart-stats dd {
+    margin: 0.1rem 0 0;
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.1;
+  }
+  .hchart figcaption {
+    margin-top: 1rem;
+    font-family: var(--font-ui);
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  .fonte { display: block; margin-top: 0.2rem; }
+  .hchart-table {
+    margin-top: 0.75rem;
+    font-family: var(--font-ui);
+    font-size: 0.85rem;
+  }
+  .hchart-table summary {
+    cursor: pointer;
+    color: var(--blue-ink);
+  }
+  .hchart-table table { margin-top: 0.5rem; }
+</style>
+<style is:global>
+  .hchart .bar { transition: opacity 0.4s; }
+  .hchart .bar-pre { fill: var(--red); }
+  .hchart .bar-li { fill: var(--blue); }
+  .hchart .bar-tox { fill: var(--blue); stroke: var(--ink-2); stroke-width: 2; }
+  .hchart .bar-irregular { fill: var(--red); fill-opacity: 0.35; stroke: var(--red); stroke-dasharray: 3 2; }
+  .hchart .bar.is-active { stroke: var(--ink); stroke-width: 1.5; }
+  .hchart .bar:focus-visible { outline: none; stroke: var(--focus); stroke-width: 3; }
+  .hchart .li-band { fill: var(--blue); fill-opacity: 0.09; }
+  .hchart .li-label { fill: var(--blue-ink); font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+  .hchart .mean-line { stroke: var(--ink); stroke-width: 1.5; stroke-dasharray: 5 4; }
+  .hchart .mean-label { fill: var(--ink); font-size: 11px; font-weight: 600; }
+  .hchart .tox line { stroke: var(--ink-2); stroke-width: 1.2; }
+  .hchart .tox text { fill: var(--ink-2); font-size: 10.5px; font-style: italic; }
+  .hchart .axis text { fill: var(--muted); font-size: 11px; }
+  .hchart .axis line { stroke: var(--line); }
+  .hchart .axis .domain { stroke: var(--line-strong); }
+  .hchart .axis-label { fill: var(--muted); font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; }
+</style>
