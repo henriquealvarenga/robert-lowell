@@ -1,0 +1,156 @@
+---
+import { TITLE, SUBTITLE } from '../config';
+---
+
+<section class="hero" aria-labelledby="hero-titulo">
+  <div class="wrap hero-grid">
+    <div class="hero-text">
+      <p class="eyebrow">Um estudo de caso em psicopatologia</p>
+      <h1 id="hero-titulo">{TITLE}</h1>
+      <p class="lead">{SUBTITLE}.</p>
+      <p class="hero-sub ui">Mesmo texto do livro “A Bipolaridade de Robert Lowell”, agora como experiência interativa: linha do tempo, gráfico das internações, árvore familiar, quiz e caso clínico.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#linha-do-tempo" data-start>Começar a jornada</a>
+        <a class="btn" href="#capitulos">Ir para a leitura</a>
+      </div>
+    </div>
+
+    <figure class="mood" aria-labelledby="mood-desc">
+      <svg class="mood-svg" viewBox="0 0 600 260" preserveAspectRatio="none" role="img" aria-describedby="mood-desc" data-mood-wave>
+        <defs>
+          <linearGradient id="mood-grad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="var(--red)" />
+            <stop offset="0.5" stop-color="var(--line-strong)" />
+            <stop offset="1" stop-color="var(--slate)" />
+          </linearGradient>
+        </defs>
+        <line class="mood-base" x1="0" y1="130" x2="600" y2="130" />
+        <path class="mood-area" d="" />
+        <path class="mood-line" d="" />
+      </svg>
+      <span class="mood-label mood-label-top ui">mania</span>
+      <span class="mood-label mood-label-mid ui">eutimia</span>
+      <span class="mood-label mood-label-bottom ui">depressão</span>
+      <figcaption id="mood-desc" class="sr-only">Animação sutil de uma onda de humor oscilando entre depressão e mania, em torno de uma linha de equilíbrio.</figcaption>
+    </figure>
+  </div>
+
+  <script>
+    const svg = document.querySelector<SVGSVGElement>('[data-mood-wave]');
+    if (svg) {
+      const line = svg.querySelector<SVGPathElement>('.mood-line')!;
+      const area = svg.querySelector<SVGPathElement>('.mood-area')!;
+      const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const W = 600, MID = 130;
+      const N = 120;
+      // soma de ondas com amplitudes diferentes: picos (mania) mais agudos que os vales
+      const mood = (x: number, t: number) => {
+        const a = Math.sin(x * 0.011 + t * 0.6) * 0.7 + Math.sin(x * 0.027 - t * 0.35) * 0.35 + Math.sin(x * 0.005 + t * 0.2) * 0.5;
+        const k = a > 0 ? Math.pow(a, 1.35) : -Math.pow(-a, 0.9) * 0.8;
+        return MID - k * 78;
+      };
+      const build = (t: number) => {
+        let d = '';
+        for (let i = 0; i <= N; i++) {
+          const x = (i / N) * W;
+          const y = mood(x, t);
+          d += i === 0 ? `M${x.toFixed(1)},${y.toFixed(1)}` : ` L${x.toFixed(1)},${y.toFixed(1)}`;
+        }
+        line.setAttribute('d', d);
+        area.setAttribute('d', `${d} L${W},${MID} L0,${MID} Z`);
+      };
+      build(0);
+      if (!reduce) {
+        let start: number | null = null;
+        let visible = true;
+        const io = new IntersectionObserver((e) => (visible = e[0].isIntersecting));
+        io.observe(svg);
+        const tick = (now: number) => {
+          if (start === null) start = now;
+          if (visible) build((now - start) / 1000);
+          requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      }
+    }
+  </script>
+
+  <style>
+    .hero {
+      padding: clamp(2.5rem, 7vh, 5rem) 0 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-grid {
+      display: grid;
+      gap: 2rem;
+      align-items: center;
+    }
+    @media (min-width: 900px) {
+      .hero-grid {
+        grid-template-columns: 1.1fr 1fr;
+        gap: 3rem;
+      }
+    }
+    .hero-text h1 {
+      margin: 0.5rem 0 1rem;
+    }
+    .hero-sub {
+      color: var(--muted);
+      font-size: 0.95rem;
+      max-width: 40rem;
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+    }
+    .mood {
+      position: relative;
+      margin: 0;
+      aspect-ratio: 600 / 260;
+      width: 100%;
+    }
+    .mood-svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .mood-base {
+      stroke: var(--line-strong);
+      stroke-dasharray: 4 6;
+      stroke-width: 1;
+    }
+    .mood-line {
+      fill: none;
+      stroke: url(#mood-grad);
+      stroke-width: 2.5;
+      stroke-linejoin: round;
+    }
+    .mood-area {
+      fill: url(#mood-grad);
+      opacity: 0.14;
+    }
+    .mood-label {
+      position: absolute;
+      left: 0;
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .mood-label-top {
+      top: 0;
+      color: var(--red);
+    }
+    .mood-label-mid {
+      top: 50%;
+      transform: translateY(-120%);
+    }
+    .mood-label-bottom {
+      bottom: 0;
+      color: var(--slate);
+    }
+  </style>
+</section>

@@ -1,0 +1,147 @@
+---
+/** Barra de progresso da jornada e conquistas de aprendizado (localStorage). */
+import { ACHIEVEMENTS } from '../lib/progress';
+---
+
+<section class="ach card" aria-labelledby="ach-titulo" data-achievements>
+  <div class="ach-head">
+    <div>
+      <p class="eyebrow">Sua jornada</p>
+      <h2 id="ach-titulo">Progresso e conquistas</h2>
+    </div>
+    <p class="ach-pct ui" data-ach-pct aria-live="polite">0%</p>
+  </div>
+  <div class="ach-bar" role="progressbar" aria-labelledby="ach-titulo" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-ach-bar>
+    <span></span>
+  </div>
+  <p class="ach-note ui">As conquistas marcam o que você leu e explorou. Ficam salvas só neste navegador, sem cadastro.</p>
+  <ul class="ach-list">
+    {ACHIEVEMENTS.map((a) => (
+      <li class="ach-item" data-ach={a.id}>
+        <span class="ach-icon" aria-hidden="true">{a.icon}</span>
+        <span class="ach-text">
+          <strong>{a.title}</strong>
+          <span class="ui">{a.description}</span>
+        </span>
+        <span class="ach-state sr-only">bloqueada</span>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<script>
+  import { snapshot } from '../lib/progress';
+  const root = document.querySelector<HTMLElement>('[data-achievements]');
+  if (root) {
+    const bar = root.querySelector<HTMLElement>('[data-ach-bar]')!;
+    const pct = root.querySelector<HTMLElement>('[data-ach-pct]')!;
+    const update = () => {
+      const s = snapshot();
+      bar.setAttribute('aria-valuenow', String(s.percent));
+      bar.querySelector('span')!.style.width = `${s.percent}%`;
+      pct.textContent = `${s.done} de ${s.total} · ${s.percent}%`;
+      root.querySelectorAll<HTMLElement>('[data-ach]').forEach((li) => {
+        const on = s.ids.includes(li.dataset.ach!);
+        li.classList.toggle('is-done', on);
+        li.querySelector('.ach-state')!.textContent = on ? 'conquistada' : 'bloqueada';
+      });
+    };
+    update();
+    window.addEventListener('jornada:progress', update);
+  }
+</script>
+
+<style>
+  .ach {
+    padding: 1.5rem;
+  }
+  .ach-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+  }
+  .ach-head h2 {
+    margin-top: 0.25rem;
+  }
+  .ach-pct {
+    font-weight: 600;
+    color: var(--gold);
+    margin: 0;
+    white-space: nowrap;
+  }
+  .ach-bar {
+    height: 0.6rem;
+    border-radius: 999px;
+    background: var(--bg-sunk);
+    overflow: hidden;
+  }
+  .ach-bar span {
+    display: block;
+    height: 100%;
+    width: 0;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--red), var(--gold), var(--blue));
+    transition: width 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .ach-note {
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin: 0.6rem 0 1rem;
+  }
+  .ach-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.5rem;
+  }
+  @media (min-width: 700px) {
+    .ach-list {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .ach-item {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    padding: 0.6rem 0.75rem;
+    border-radius: var(--radius-sm);
+    border: 1px dashed var(--line-strong);
+    opacity: 0.6;
+    transition: opacity 0.3s, border-color 0.3s, background 0.3s;
+  }
+  .ach-item.is-done {
+    opacity: 1;
+    border-style: solid;
+    border-color: var(--gold);
+    background: var(--gold-soft);
+  }
+  .ach-icon {
+    width: 2.1rem;
+    height: 2.1rem;
+    flex: none;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--bg-sunk);
+    font-family: var(--font-ui);
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--muted);
+  }
+  .ach-item.is-done .ach-icon {
+    background: var(--gold);
+    color: var(--ink);
+  }
+  .ach-text {
+    display: grid;
+    line-height: 1.3;
+    font-size: 0.95rem;
+  }
+  .ach-text .ui {
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+</style>

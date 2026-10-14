@@ -1,4 +1,221 @@
 ---
-import Base from "../layouts/Base.astro";
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import Timeline from '../components/Timeline.astro';
+import HospitalChart from '../components/HospitalChart.astro';
+import Achievements from '../components/Achievements.astro';
+import { href, TITLE } from '../config';
+
+const chapters = (await getCollection('chapters')).sort((a, b) => a.data.order - b.data.order);
+const totalMin = chapters.reduce((s, c) => s + c.data.minutes, 0);
 ---
-<Base path="/jornada/" title="A jornada"><p class="wrap">em construção</p></Base>
+
+<Base title="A jornada" description={`${TITLE}: experiência interativa sobre a história do transtorno bipolar de Robert Lowell, com linha do tempo das crises, gráfico das internações, árvore familiar, quiz clínico e caso clínico.`} path="/jornada/">
+  <Hero />
+
+  <Timeline />
+
+  <section class="wrap sect" id="internacoes" aria-labelledby="int-titulo">
+    <header class="sect-head reveal">
+      <p class="eyebrow">Gráfico dinâmico</p>
+      <h2 id="int-titulo">As internações, antes e depois do lítio</h2>
+      <p class="sect-sub ui">Passe o dedo ou o mouse sobre as barras. Use o controle para destacar o período anterior ao lítio ou o período com lítio e veja as médias mudarem.</p>
+    </header>
+    <div class="reveal">
+      <HospitalChart id="grafico-jornada" />
+    </div>
+  </section>
+
+  <section class="wrap sect" id="capitulos" aria-labelledby="cap-titulo">
+    <header class="sect-head reveal">
+      <p class="eyebrow">Leitura · {totalMin} min no total</p>
+      <h2 id="cap-titulo">Os capítulos</h2>
+      <p class="sect-sub ui">O texto integral, com citações clicáveis, notas e navegação entre capítulos.</p>
+    </header>
+    <ol class="chap-grid">
+      {chapters.map((c) => (
+        <li class="reveal">
+          <a class="chap card" href={href(`/capitulos/${c.id}/`)}>
+            {c.data.cover ? (
+              <Image src={c.data.cover} alt="" widths={[320, 640]} sizes="(min-width: 700px) 30vw, 90vw" class="chap-img" />
+            ) : (
+              <div class="chap-img chap-img-empty" aria-hidden="true"><span>{c.data.order + 1}</span></div>
+            )}
+            <span class="chap-body">
+              <span class="eyebrow">Capítulo {c.data.order + 1} · {c.data.minutes} min</span>
+              <span class="chap-title">{c.data.title}</span>
+            </span>
+          </a>
+        </li>
+      ))}
+      <li class="reveal">
+        <a class="chap card" href={href('/capitulos/referencias/')}>
+          <div class="chap-img chap-img-empty" aria-hidden="true"><span>{chapters.length + 1}</span></div>
+          <span class="chap-body">
+            <span class="eyebrow">Capítulo {chapters.length + 1}</span>
+            <span class="chap-title">Referências</span>
+          </span>
+        </a>
+      </li>
+    </ol>
+  </section>
+
+  <section class="wrap sect" id="aprender" aria-labelledby="apr-titulo">
+    <header class="sect-head reveal">
+      <p class="eyebrow">Aprendizado ativo</p>
+      <h2 id="apr-titulo">Exercite o olhar clínico</h2>
+    </header>
+    <div class="learn-grid">
+      <a class="learn card reveal" href={href('/quiz/')}>
+        <span class="learn-icon" aria-hidden="true">✓</span>
+        <span class="eyebrow">Quiz clínico</span>
+        <span class="learn-title">Reconheça os sinais nos trechos</span>
+        <span class="ui learn-desc">Dez trechos reais do texto. Identifique insônia, fuga de ideias, grandiosidade, ideação suicida e outros sinais, com a resposta citando o trecho.</span>
+      </a>
+      <a class="learn card reveal" href={href('/caso-clinico/')}>
+        <span class="learn-icon" aria-hidden="true">⚕</span>
+        <span class="eyebrow">Caso clínico</span>
+        <span class="learn-title">Raciocine o caso por etapas</span>
+        <span class="ui learn-desc">Hipótese, tratamento disponível em 1949, evolução, prognóstico e profilaxia. Depois, compare com o que a história realmente mostra.</span>
+      </a>
+      <a class="learn card reveal" href={href('/capitulos/historia-familiar/')}>
+        <span class="learn-icon" aria-hidden="true">⌂</span>
+        <span class="eyebrow">História familiar</span>
+        <span class="learn-title">Explore a árvore da família Lowell</span>
+        <span class="ui learn-desc">Cinco gerações, com os trechos do texto sobre cada pessoa e a descrição do humor de cada uma.</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="wrap sect" id="progresso">
+    <div class="reveal">
+      <Achievements />
+    </div>
+  </section>
+
+  <script>
+    import { unlock } from '../lib/progress';
+    unlock('inicio');
+  </script>
+
+  <style>
+    .sect {
+      padding: 3rem 0 1rem;
+    }
+    .sect-head {
+      max-width: 44rem;
+      margin-bottom: 1.5rem;
+    }
+    .sect-head h2 {
+      margin: 0.4rem 0 0.75rem;
+    }
+    .sect-sub {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+    .chap-grid {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 1rem;
+    }
+    @media (min-width: 560px) {
+      .chap-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (min-width: 900px) {
+      .chap-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    .chap {
+      display: grid;
+      grid-template-columns: 5rem 1fr;
+      gap: 1rem;
+      align-items: center;
+      padding: 0.75rem;
+      text-decoration: none;
+      color: var(--ink);
+      transition: transform 0.15s, box-shadow 0.15s;
+      height: 100%;
+    }
+    .chap:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+      color: var(--ink);
+    }
+    .chap :global(.chap-img) {
+      width: 5rem;
+      height: 5rem;
+      object-fit: cover;
+      border-radius: var(--radius-sm);
+      filter: saturate(0.85);
+    }
+    .chap-img-empty {
+      display: grid;
+      place-items: center;
+      background: var(--bg-sunk);
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      color: var(--muted);
+    }
+    .chap-body {
+      display: grid;
+      gap: 0.2rem;
+    }
+    .chap-title {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      line-height: 1.2;
+    }
+    .learn-grid {
+      display: grid;
+      gap: 1rem;
+    }
+    @media (min-width: 760px) {
+      .learn-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    .learn {
+      display: grid;
+      gap: 0.35rem;
+      align-content: start;
+      padding: 1.5rem;
+      text-decoration: none;
+      color: var(--ink);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .learn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+      color: var(--ink);
+    }
+    .learn-icon {
+      width: 2.5rem;
+      height: 2.5rem;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--red-soft);
+      color: var(--red-ink);
+      font-family: var(--font-ui);
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .learn-title {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      line-height: 1.2;
+    }
+    .learn-desc {
+      color: var(--muted);
+      font-size: 0.88rem;
+      margin-top: 0.3rem;
+    }
+  </style>
+</Base>

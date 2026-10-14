@@ -262,7 +262,7 @@ interface Figure {
 function convertImages(md: string, relPrefix: string) {
   const figures: Figure[] = [];
   let chartCaption: string | undefined;
-  md = md.replace(/^!\[([^\]]*)\]\(([^)]+)\)(\{[^}]*\})?\s*$/gm, (_all, caption: string, src: string) => {
+  md = md.replace(/^!\[([^\]]*)\]\(([^)]+)\)(\{[^}]*\})?[ \t]*$/gm, (_all, caption: string, src: string) => {
     const file = decodeURIComponent(src.replace(/^images\//, ''));
     if (file === CHART_IMAGE) {
       chartCaption = caption;
@@ -508,6 +508,32 @@ async function main() {
     sizes.push(`${file} → ${slug}.webp (${info.width}×${info.height}, ${(info.size / 1024).toFixed(0)} KB)`);
   }
   report.push('', '## Imagens', '', ...sizes.map((s) => `- ${s}`));
+
+  // Trechos usados nos dados interativos (marcos, quiz, caso, família) devem
+  // existir, palavra por palavra, no texto original.
+  const originals = new Map(CHAPTERS.map((c) => [c.file, readFileSync(join(SRC, c.file), 'utf8')]));
+  const normText = (t: string) => t.replace(/\[@[^\]]+\]/g, ' ').replace(/\[\^[^\]]+\]/g, ' ').replace(/\s+/g, ' ');
+  const inOriginal = (file: string, trecho: string) => normText(originals.get(file) ?? '').includes(normText(trecho).trim());
+  const checks: { arquivo: string; item: string; ok: boolean }[] = [];
+  const marcos = JSON.parse(readFileSync(join(OUT.data, 'marcos.json'), 'utf8')) as { id: string; fonte: string; trecho: string }[];
+  for (const m of marcos) checks.push({ arquivo: 'marcos.json', item: m.id, ok: inOriginal(m.fonte, m.trecho) });
+  const quiz = JSON.parse(readFileSync(join(OUT.data, 'quiz.json'), 'utf8')) as { perguntas: { id: string; fonte: string; trechos: string[]; opcoes: { evidencia?: string; correta: boolean }[] }[] };
+  for (const q of quiz.perguntas) {
+    checks.push({ arquivo: 'quiz.json', item: q.id, ok: q.trechos.every((t) => inOriginal(q.fonte, t)) });
+    for (const o of q.opcoes) if (o.correta) checks.push({ arquivo: 'quiz.json', item: `${q.id} · evidência`, ok: !!o.evidencia && q.trechos.some((t) => normText(t).includes(normText(o.evidencia!))) });
+  }
+  const caso = JSON.parse(readFileSync(join(OUT.data, 'caso.json'), 'utf8')) as { etapas: { id: string; fonte: string; cenarioFonte?: string; cenario: string[]; revelacao: string[] }[]; fechamento: { fonte: string; trechos: string[] } };
+  for (const e of caso.etapas) {
+    checks.push({ arquivo: 'caso.json', item: `${e.id} · cenário`, ok: e.cenario.every((t) => inOriginal(e.cenarioFonte ?? e.fonte, t)) });
+    checks.push({ arquivo: 'caso.json', item: `${e.id} · revelação`, ok: e.revelacao.every((t) => inOriginal(e.fonte, t)) });
+  }
+  checks.push({ arquivo: 'caso.json', item: 'fechamento', ok: caso.fechamento.trechos.every((t) => inOriginal(caso.fechamento.fonte, t)) });
+  const familia = JSON.parse(readFileSync(join(OUT.data, 'familia.json'), 'utf8')) as { fonte: string; pessoas: Record<string, { trecho: string; fonteAlt?: string }> };
+  for (const [id, p] of Object.entries(familia.pessoas)) checks.push({ arquivo: 'familia.json', item: id, ok: inOriginal(p.fonteAlt ?? familia.fonte, p.trecho) });
+  const bad = checks.filter((c) => !c.ok);
+  if (bad.length) allOk = false;
+  report.push('', '## Trechos dos dados interativos', '', `${checks.length} trechos conferidos contra o texto original; ${bad.length} ausentes.`);
+  for (const c of bad) report.push(`- ❌ ${c.arquivo}: ${c.item}`);
 
   report.push('', '## Observações', '', '- O capítulo de história familiar diz “19 de março de 1945”; pelo contexto (novembro de 1845, três anos de internação, morte em 1850) parece ser 1845. O texto foi mantido como no original.');
   report.push('', allOk ? '**Resultado: todos os capítulos idênticos ao original.**' : '**Resultado: há diferenças — ver abaixo.**');

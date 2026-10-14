@@ -1,0 +1,108 @@
+[
+  {
+    "id": "1917-nascimento",
+    "ano": 1917,
+    "data": "1917",
+    "tipo": "marco",
+    "titulo": "Nascimento",
+    "fonte": "1-biografia.qmd",
+    "trecho": "O poeta Robert Traill Spence Lowell IV, nasceu em 1917, viveu por 60 anos e morreu em 1977."
+  },
+  {
+    "id": "1948-saratoga",
+    "ano": 1948,
+    "mes": 10,
+    "data": "out. 1948",
+    "tipo": "marco",
+    "titulo": "Colônia de escritores em Saratoga Springs",
+    "fonte": "3-crises.qmd",
+    "trecho": "Em outubro de 1948 Lowell se mudou para uma colônia de escritores em Saratoga Springs, para escrever seu poema \"*The Mills of Kavanaughs*\". Seu primeiro surto de mania começou lentamente no final de desse ano."
+  },
+  {
+    "id": "1949-cade",
+    "ano": 1949,
+    "data": "1949",
+    "tipo": "litio",
+    "titulo": "John Cade publica o artigo seminal sobre o lítio",
+    "fonte": "4-estabilidade.qmd",
+    "trecho": "Sua primeira internação tinha sido há 18 anos atrás, em 1949, no mesmo ano em que John Cade publicou seu artigo seminal “*Lithium Salts for Psychotic Excitment*” no Medical Journal of Austrália"
+  },
+  {
+    "id": "1949-casamento",
+    "ano": 1949,
+    "mes": 7,
+    "data": "jul. 1949",
+    "tipo": "marco",
+    "titulo": "Casamento com Elizabeth Hardwick",
+    "fonte": "3-crises.qmd",
+    "trecho": "Entretanto, apesar dessa depressão, duas semanas depois ele e Elizabeth Hardwick se casaram. Esses primeiros meses de casamento foram marcados pela fase depressiva de Lowell, com sentimentos de abandono, autoacusação e desesperança"
+  },
+  {
+    "id": "1954-clorpromazina",
+    "ano": 1954,
+    "mes": 6,
+    "data": "jun. 1954",
+    "tipo": "marco",
+    "titulo": "Clorpromazina pela primeira vez",
+    "fonte": "3-crises.qmd",
+    "trecho": "Três semanas depois de ter sido internado, foi medicado com clorpromazina pela primeira vez e em 24 horas seu estado melhorou de forma dramática"
+  },
+  {
+    "id": "1957-life-studies",
+    "ano": 1957,
+    "mes": 9,
+    "data": "set.–out. 1957",
+    "tipo": "marco",
+    "titulo": "Escreve poemas de “Life Studies”",
+    "fonte": "3-crises.qmd",
+    "trecho": "Durante os meses de Setembro a Outubro de 1957 Lowell foi extremamente produtivo em sua escrita,  tendo escrito vários dos poemas de \"Life Studies\""
+  },
+  {
+    "id": "1967-litio",
+    "ano": 1967,
+    "data": "≈ 1967",
+    "tipo": "litio",
+    "titulo": "Começa a usar o lítio",
+    "fonte": "4-estabilidade.qmd",
+    "trecho": "Lowell começou usar o lítio por volta de 1967"
+  },
+  {
+    "id": "1970-fda",
+    "ano": 1970,
+    "data": "1970",
+    "tipo": "litio",
+    "titulo": "Breve internação; o FDA aprova o lítio",
+    "fonte": "5-ultimos_anos.qmd",
+    "trecho": "Desde que começou usar o lítio, Lowell foi internado passou apenas por uma breve internação em 1970."
+  },
+  {
+    "id": "1975-intoxicacao",
+    "ano": 1975,
+    "mes": 5,
+    "data": "mai. 1975",
+    "tipo": "intoxicacao",
+    "titulo": "Intoxicação por lítio",
+    "fonte": "5-ultimos_anos.qmd",
+    "trecho": "Em maio de 1975 Lowell teve de ser internado devido a uma intoxicação por lítio. Ele tinha aumentado sua dose de 5 para 8 comprimidos por dia. Seu nível sérico de lítio subiu para 1.5 mEq/L. Lowell foi internado num quadro de delirium e sua dose de lítio foi reduzida abruptamente."
+  },
+  {
+    "id": "1976-ataques",
+    "ano": 1976,
+    "mes": 2,
+    "data": "fev. 1976",
+    "tipo": "marco",
+    "titulo": "“Sobrecarregado com a nova frequência de ataques”",
+    "fonte": "5-ultimos_anos.qmd",
+    "trecho": "Em fevereiro de 1976, um ano e meio antes de morrer, Lowell escreveu estar “sobrecarregado com a nova frequência de ataques”, e sentia-se incapaz de funcionar “com dois ataques maníacos em um ano”"
+  },
+  {
+    "id": "1977-morte",
+    "ano": 1977,
+    "mes": 9,
+    "data": "12 set. 1977",
+    "tipo": "morte",
+    "titulo": "Morte, em Nova York, aos 60 anos",
+    "fonte": "5-ultimos_anos.qmd",
+    "trecho": "Lowell faleceu em 12 de setembro de 1977, em Nova Iorque, aos 60 anos de idade."
+  }
+]

@@ -1,6 +1,6 @@
 # Relatório de conferência da conversão
 
-Gerado em 2026-10-14T21:51:06.427Z por `scripts/convert.ts`.
+Gerado em 2026-10-14T22:15:13.687Z por `scripts/convert.ts`.
 
 Para cada capítulo, o texto original (`.qmd`) e o texto gerado (`.md`) são normalizados
 (imagens, notas e citações viram marcadores; espaços são colapsados) e comparados palavra a palavra.
@@ -37,6 +37,10 @@ Internações: 18 anos no CSV, total de 1094 dias.
 - opera.jpg → opera.webp (1600×914, 212 KB)
 - Lithium.png → litio.webp (1024×1024, 226 KB)
 - LithiumLevels.png → intoxicacao-litio.webp (1024×1024, 152 KB)
+
+## Trechos dos dados interativos
+
+79 trechos conferidos contra o texto original; 0 ausentes.
 
 ## Observações
 
