@@ -61,6 +61,17 @@ const desc = `${entry.data.title} — capítulo ${number + 1} de ${total} de “
       </aside>
 
       <div class="chapter-body prose">
+        {entry.id === 'sobre' && (
+          <>
+            <aside class="sobre-versao card" aria-labelledby="sobre-versao-t">
+              <p class="eyebrow" id="sobre-versao-t">Sobre esta versão</p>
+              <p>
+                Esta experiência interativa foi criada em 15 de outubro de 2026 a partir do resumo publicado em 2024. O conteúdo é baseado no livro <em>Robert Lowell: Setting the River on Fire</em> (Vintage, 2017), de Kay Redfield Jamison. O site foi construído com apoio da IA Claude Code. As ilustrações são geradas por inteligência artificial (DALL·E) e não são retratos reais.
+              </p>
+            </aside>
+            <p class="eyebrow sobre-original">Texto original (2024)</p>
+          </>
+        )}
         <Content />
         {entry.data.chartCaption && (
           <div data-chart-source>
@@ -262,6 +273,17 @@ const desc = `${entry.data.title} — capítulo ${number + 1} de ${total} de “
       padding: 0.1em 0.12em 0 0;
       color: var(--red);
       font-weight: 500;
+    }
+    .sobre-versao {
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 2rem;
+      border-left: 4px solid var(--red);
+    }
+    .sobre-versao p:last-child {
+      margin: 0.5rem 0 0;
+    }
+    .sobre-original {
+      margin-bottom: 1rem;
     }
     .chapter-foot {
       margin-top: 3rem;
