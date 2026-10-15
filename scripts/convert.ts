@@ -535,7 +535,6 @@ async function main() {
   report.push('', '## Trechos dos dados interativos', '', `${checks.length} trechos conferidos contra o texto original; ${bad.length} ausentes.`);
   for (const c of bad) report.push(`- ❌ ${c.arquivo}: ${c.item}`);
 
-  report.push('', '## Observações', '', '- O capítulo de história familiar diz “19 de março de 1945”; pelo contexto (novembro de 1845, três anos de internação, morte em 1850) parece ser 1845. O texto foi mantido como no original.');
   report.push('', allOk ? '**Resultado: todos os capítulos idênticos ao original.**' : '**Resultado: há diferenças — ver abaixo.**');
   if (diffs.length) report.push('', ...diffs);
   writeFileSync(OUT.report, report.join('\n') + '\n');
