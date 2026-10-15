@@ -250,5 +250,29 @@ const humorLabel: Record<string, string> = {
       color: var(--muted);
       margin: 0;
     }
+    @media (max-width: 640px) {
+      .ftree-scroll {
+        overflow: visible;
+      }
+      .ftree-canvas {
+        min-width: 0;
+        gap: 1.5rem;
+      }
+      .gen-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.5rem;
+        justify-items: stretch;
+      }
+      .gen-row:has(> :only-child) {
+        grid-template-columns: minmax(0, 16rem);
+        justify-content: center;
+      }
+      .person {
+        max-width: none;
+        min-width: 0;
+        width: 100%;
+      }
+    }
   </style>
 </section>
