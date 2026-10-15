@@ -25,6 +25,7 @@ const SRC = resolve(ROOT, '..', 'Robert_Lowell_Book_Project');
 
 const OUT = {
   chapters: join(ROOT, 'src/content/chapters'),
+  parts: join(ROOT, 'src/content/parts'),
   crises: join(ROOT, 'src/content/crises'),
   data: join(ROOT, 'src/data'),
   images: join(ROOT, 'src/assets/images'),
@@ -344,7 +345,7 @@ async function main() {
     if (dir.endsWith('.md')) continue;
     mkdirSync(dir, { recursive: true });
   }
-  for (const dir of [OUT.chapters, OUT.crises]) {
+  for (const dir of [OUT.chapters, OUT.crises, OUT.parts]) {
     for (const f of readdirSync(dir)) if (f.endsWith('.md')) rmSync(join(dir, f));
   }
 
@@ -404,6 +405,18 @@ async function main() {
       .join('\n');
     const out = frontmatter + body + '\n';
     writeFileSync(join(OUT.chapters, `${spec.slug}.md`), out);
+    // Capítulo com gráfico: partes antes/depois do slot, para montar o gráfico
+    // no servidor sem deslocamento de layout. O texto é o mesmo do capítulo.
+    if (img.chartCaption) {
+      const slotRe = /<div class="chart-slot"[^>]*><\/div>\n?/;
+      const [antes, depois] = body.split(slotRe);
+      if (depois === undefined) throw new Error(`Slot do gráfico não encontrado em ${spec.slug}`);
+      writeFileSync(join(OUT.parts, `${spec.slug}-1.md`), `---\nchapter: ${yamlStr(spec.slug)}\norder: 1\n---\n\n${antes.trim()}\n`);
+      writeFileSync(join(OUT.parts, `${spec.slug}-2.md`), `---\nchapter: ${yamlStr(spec.slug)}\norder: 2\n---\n\n${depois.trim()}\n`);
+      const rejoined = normalizeGenerated(antes + depois);
+      const whole = normalizeGenerated(body.replace(slotRe, ''));
+      if (rejoined !== whole) throw new Error(`Partes do capítulo ${spec.slug} não batem com o capítulo`);
+    }
     readingOrder.push(spec.slug);
 
     // conferência

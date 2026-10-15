@@ -17,6 +17,16 @@ export async function getStaticPaths() {
 
 const { entry, prev, next, all } = Astro.props;
 const { Content, headings } = await render(entry);
+// Capítulo com gráfico: renderizado em duas partes ao redor do gráfico (sem mover nada no navegador)
+const parts = entry.data.chartCaption
+  ? await Promise.all(
+      (await getCollection('parts'))
+        .filter((p) => p.data.chapter === entry.id)
+        .sort((a, b) => a.data.order - b.data.order)
+        .map(async (p) => (await render(p)).Content),
+    )
+  : [];
+const [Part1, Part2] = parts;
 const h2s = headings.filter((h) => h.depth === 2);
 const number = entry.data.order;
 const total = all.length;
@@ -72,11 +82,14 @@ const desc = `${entry.data.title} — capítulo ${number + 1} de ${total} de “
             <p class="eyebrow sobre-original">Texto original (2024)</p>
           </>
         )}
-        <Content />
-        {entry.data.chartCaption && (
-          <div data-chart-source>
+        {parts.length === 2 ? (
+          <>
+            <Part1 />
             <HospitalChart caption={entry.data.chartCaption} id="grafico-internacoes" />
-          </div>
+            <Part2 />
+          </>
+        ) : (
+          <Content />
         )}
         {entry.id === 'historia-familiar' && <FamilyTree />}
       </div>
@@ -113,13 +126,6 @@ const desc = `${entry.data.title} — capítulo ${number + 1} de ${total} de “
   <script>
     import { unlockOnReadEnd } from '../../lib/progress';
     const article = document.querySelector<HTMLElement>('.chapter')!;
-    // gráfico interativo no lugar da imagem estática do livro
-    const slot = article.querySelector('.chart-slot');
-    const source = article.querySelector('[data-chart-source]');
-    if (slot && source) {
-      slot.replaceWith(...Array.from(source.childNodes));
-      source.remove();
-    }
     // conquista ao terminar a leitura
     const id = article.dataset.achievement;
     if (id) unlockOnReadEnd(article.querySelector('.chapter-body')!, id);

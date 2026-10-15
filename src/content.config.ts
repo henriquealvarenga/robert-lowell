@@ -34,4 +34,9 @@ const crises = defineCollection({
     }),
 });
 
-export const collections = { chapters, crises };
+const parts = defineCollection({
+  loader: glob({ pattern: '*.md', base: './src/content/parts' }),
+  schema: z.object({ chapter: z.string(), order: z.number() }),
+});
+
+export const collections = { chapters, crises, parts };
