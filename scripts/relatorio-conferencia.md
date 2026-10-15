@@ -1,6 +1,6 @@
 # Relatório de conferência da conversão
 
-Gerado em 2026-10-15T14:00:08.239Z por `scripts/convert.ts`.
+Gerado em 2026-10-15T16:07:10.804Z por `scripts/convert.ts`.
 
 Para cada capítulo, o texto original (`.qmd`) e o texto gerado (`.md`) são normalizados
 (imagens, notas e citações viram marcadores; espaços são colapsados) e comparados palavra a palavra.
@@ -8,19 +8,19 @@ Para cada capítulo, o texto original (`.qmd`) e o texto gerado (`.md`) são nor
 
 | Capítulo | Palavras (original) | Palavras (gerado) | Citações → chips | Notas | Figuras | Resultado |
 |---|---:|---:|---:|---:|---:|---|
-| index.qmd → introducao.md | 466 | 466 | 1 → 1 chips | 0 | 1 | ✅ idêntico |
+| index.qmd → introducao.md | 465 | 465 | 1 → 1 chips | 0 | 1 | ✅ idêntico |
 | 1-biografia.qmd → biografia.md | 229 | 229 | 2 → 2 chips | 0 | 1 | ✅ idêntico |
-| 2-bipolaridade.qmd → bipolaridade.md | 641 | 641 | 13 → 13 chips | 1 | 1 | ✅ idêntico |
-| 3-crises.qmd → crises.md | 2317 | 2317 | 23 → 23 chips | 1 | 8 | ✅ idêntico |
+| 2-bipolaridade.qmd → bipolaridade.md | 643 | 643 | 13 → 13 chips | 1 | 1 | ✅ idêntico |
+| 3-crises.qmd → crises.md | 2328 | 2328 | 23 → 23 chips | 1 | 8 | ✅ idêntico |
 | (crises/*.md) | | | | | | ✅ intro + 11 crises = capítulo |
-| 4-estabilidade.qmd → estabilidade.md | 724 | 724 | 15 → 16 chips | 0 | 1 | ✅ idêntico |
+| 4-estabilidade.qmd → estabilidade.md | 726 | 726 | 15 → 16 chips | 0 | 1 | ✅ idêntico |
 | 5-ultimos_anos.qmd → ultimos-anos.md | 157 | 157 | 2 → 2 chips | 0 | 1 | ✅ idêntico |
 | 6-historia_familiar.qmd → historia-familiar.md | 466 | 466 | 5 → 5 chips | 1 | 0 | ✅ idêntico |
 | 7-conclusao.qmd → conclusao.md | 120 | 120 | 0 → 0 chips | 0 | 0 | ✅ idêntico |
-| 9-about.qmd → sobre.md | 107 | 107 | 0 → 0 chips | 0 | 0 | ✅ idêntico |
+| 9-about.qmd → sobre.md | 106 | 106 | 0 → 0 chips | 0 | 0 | ✅ idêntico |
 
 Referências: 7 entradas no .bib, 7 citadas no texto.
-Internações: 18 anos no CSV, total de 1094 dias.
+Internações: 17 anos no CSV, total de 1086 dias.
 
 ## Imagens
 

@@ -6,7 +6,7 @@
     "tipo": "marco",
     "titulo": "Nascimento",
     "fonte": "1-biografia.qmd",
-    "trecho": "O poeta Robert Traill Spence Lowell IV, nasceu em 1917, viveu por 60 anos e morreu em 1977."
+    "trecho": "O poeta Robert Traill Spence Lowell IV nasceu em 1917, viveu por 60 anos e morreu em 1977."
   },
   {
     "id": "1948-saratoga",
@@ -60,7 +60,7 @@
     "tipo": "marco",
     "titulo": "Escreve poemas de “Life Studies”",
     "fonte": "3-crises.qmd",
-    "trecho": "Durante os meses de Setembro a Outubro de 1957 Lowell foi extremamente produtivo em sua escrita,  tendo escrito vários dos poemas de \"Life Studies\""
+    "trecho": "Durante os meses de setembro a outubro de 1957 Lowell foi extremamente produtivo em sua escrita,  tendo escrito vários dos poemas de \"Life Studies\""
   },
   {
     "id": "1967-litio",
@@ -69,7 +69,7 @@
     "tipo": "litio",
     "titulo": "Começa a usar o lítio",
     "fonte": "4-estabilidade.qmd",
-    "trecho": "Lowell começou usar o lítio por volta de 1967"
+    "trecho": "Lowell começou a usar o lítio por volta de 1967"
   },
   {
     "id": "1970-fda",
@@ -78,7 +78,7 @@
     "tipo": "litio",
     "titulo": "Breve internação; o FDA aprova o lítio",
     "fonte": "5-ultimos_anos.qmd",
-    "trecho": "Desde que começou usar o lítio, Lowell foi internado passou apenas por uma breve internação em 1970."
+    "trecho": "Desde que começou a usar o lítio, Lowell passou apenas por uma breve internação em 1970."
   },
   {
     "id": "1975-intoxicacao",
@@ -88,7 +88,7 @@
     "tipo": "intoxicacao",
     "titulo": "Intoxicação por lítio",
     "fonte": "5-ultimos_anos.qmd",
-    "trecho": "Em maio de 1975 Lowell teve de ser internado devido a uma intoxicação por lítio. Ele tinha aumentado sua dose de 5 para 8 comprimidos por dia. Seu nível sérico de lítio subiu para 1.5 mEq/L. Lowell foi internado num quadro de delirium e sua dose de lítio foi reduzida abruptamente."
+    "trecho": "Em maio de 1975 Lowell teve de ser internado devido a uma intoxicação por lítio. Ele tinha aumentado sua dose de 5 para 8 comprimidos por dia. Seu nível sérico de lítio subiu para 1,5 mEq/L. Lowell foi internado num quadro de delirium e sua dose de lítio foi reduzida abruptamente."
   },
   {
     "id": "1976-ataques",
@@ -108,6 +108,6 @@
     "tipo": "morte",
     "titulo": "Morte, em Nova York, aos 60 anos",
     "fonte": "5-ultimos_anos.qmd",
-    "trecho": "Lowell faleceu em 12 de setembro de 1977, em Nova Iorque, aos 60 anos de idade."
+    "trecho": "Lowell faleceu em 12 de setembro de 1977, em Nova York, aos 60 anos de idade."
   }
 ]

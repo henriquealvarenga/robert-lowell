@@ -95,7 +95,7 @@ const CRISES: CrisisMeta[] = [
   { slug: '1962-08-argentina', ano: 1962, mes: 8, local: 'Argentina', tipo: 'mania' },
   { slug: '1963-12-hartford', ano: 1963, mes: 12, local: 'Hartford, CT', tipo: 'mania' },
   { slug: '1965-01-hartford', ano: 1965, mes: 1, local: 'Hartford, CT', tipo: 'mania' },
-  { slug: '1966-12-nova-york', ano: 1966, mes: 12, local: 'Nova York, NY', tipo: 'mania' },
+  { slug: '1966-12-boston', ano: 1966, mes: 12, local: 'Boston, Massachusetts', tipo: 'mania' },
 ];
 
 // ---------------------------------------------------------------------------
