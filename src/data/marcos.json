@@ -25,7 +25,12 @@
     "tipo": "litio",
     "titulo": "John Cade publica o artigo seminal sobre o lítio",
     "fonte": "4-estabilidade.qmd",
-    "trecho": "Sua primeira internação tinha sido há 18 anos atrás, em 1949, no mesmo ano em que John Cade publicou seu artigo seminal “*Lithium Salts in the Treatment of Psychotic Excitement*” no Medical Journal of Australia"
+    "trecho": "Sua primeira internação tinha sido há 18 anos atrás, em 1949, no mesmo ano em que John Cade publicou seu artigo seminal “*Lithium Salts in the Treatment of Psychotic Excitement*” no Medical Journal of Australia",
+    "link": {
+      "href": "https://doi.org/10.5694/j.1326-5377.1949.tb36912.x",
+      "label": "Artigo original de Cade (1949) ↗"
+    },
+    "ref": "Cade1949"
   },
   {
     "id": "1949-casamento",

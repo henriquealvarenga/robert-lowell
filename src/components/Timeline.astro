@@ -17,11 +17,11 @@ const anchorFor = (title: string) => chapterHeadings.find((h) => h.text.trim() =
 
 const MESES = ['', 'jan.', 'fev.', 'mar.', 'abr.', 'mai.', 'jun.', 'jul.', 'ago.', 'set.', 'out.', 'nov.', 'dez.'];
 type Item =
-  | { kind: 'marco'; ano: number; mes: number; id: string; data: string; tipo: string; titulo: string; trecho: string }
+  | { kind: 'marco'; ano: number; mes: number; id: string; data: string; tipo: string; titulo: string; trecho: string; link?: { href: string; label: string }; ref?: string }
   | { kind: 'crise'; ano: number; mes: number; id: string; data: string; tipo: string; titulo: string; local: string; slug: string; seguidaDe?: string; order: number };
 
 const items: Item[] = [
-  ...marcos.map((m) => ({ kind: 'marco' as const, ano: m.ano, mes: m.mes ?? 0, id: m.id, data: m.data, tipo: m.tipo, titulo: m.titulo, trecho: m.trecho })),
+  ...marcos.map((m: any) => ({ kind: 'marco' as const, ano: m.ano, mes: m.mes ?? 0, id: m.id, data: m.data, tipo: m.tipo, titulo: m.titulo, trecho: m.trecho, link: m.link, ref: m.ref })),
   ...crises.map((c) => ({
     kind: 'crise' as const,
     ano: c.data.ano,
@@ -71,6 +71,12 @@ const decades = [1917, 1949, 1957, 1967, 1977];
             <>
               <h3 class="tl-title">{it.titulo}</h3>
               <p class="tl-trecho">“{it.trecho.replace(/\*/g, '')}”</p>
+              {(it.link || it.ref) && (
+                <p class="tl-links ui">
+                  {it.link && <a href={it.link.href} target="_blank" rel="noopener">{it.link.label}</a>}
+                  {it.ref && <a href={href(`/capitulos/referencias/#ref-${it.ref}`)}>Ver nas referências</a>}
+                </p>
+              )}
             </>
           )}
         </div>
@@ -303,6 +309,13 @@ const decades = [1917, 1949, 1957, 1967, 1977];
     font-size: 0.95em;
     color: var(--ink-2);
     font-style: italic;
+  }
+  .tl-links {
+    margin: 0.2rem 0 0;
+    font-size: 0.82rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1rem;
   }
   .tl-card .btn {
     justify-self: start;
