@@ -80,13 +80,15 @@ interface CrisisMeta {
   local: string;
   tipo: 'mania' | 'depressao';
   seguidaDe?: 'depressao';
+  /** observação clínica, nas palavras do texto, mostrada como etiqueta secundária */
+  nota?: string;
 }
 const CRISES: CrisisMeta[] = [
   { slug: '1949-04-saratoga-springs', ano: 1949, mes: 4, local: 'Saratoga Springs, NY', tipo: 'mania', seguidaDe: 'depressao' },
   { slug: '1949-09-nova-york', ano: 1949, mes: 9, local: 'Nova York, NY', tipo: 'depressao' },
   { slug: '1952-08-salzburg', ano: 1952, mes: 8, local: 'Salzburg, Áustria', tipo: 'mania' },
-  { slug: '1954-04-cincinnati', ano: 1954, mes: 4, local: 'Cincinnati, Ohio', tipo: 'mania' },
-  { slug: '1957-12-boston', ano: 1957, mes: 12, local: 'Boston, Massachusetts', tipo: 'mania' },
+  { slug: '1954-04-cincinnati', ano: 1954, mes: 4, local: 'Cincinnati, Ohio', tipo: 'mania', nota: 'início com humor deprimido' },
+  { slug: '1957-12-boston', ano: 1957, mes: 12, local: 'Boston, Massachusetts', tipo: 'mania', nota: 'pensamentos suicidas durante a mania' },
   { slug: '1959-04-mclean', ano: 1959, mes: 4, local: 'Boston, Massachusetts', tipo: 'mania' },
   { slug: '1961-03-nova-york', ano: 1961, mes: 3, local: 'Nova York, NY', tipo: 'mania' },
   { slug: '1962-08-argentina', ano: 1962, mes: 8, local: 'Argentina', tipo: 'mania' },
@@ -454,6 +456,7 @@ async function main() {
           `local: ${yamlStr(meta.local)}`,
           `tipo: ${meta.tipo}`,
           meta.seguidaDe ? `seguidaDe: ${meta.seguidaDe}` : null,
+          meta.nota ? `nota: ${yamlStr(meta.nota)}` : null,
           image ? `image: ${yamlStr(image)}` : null,
           '---',
           '',

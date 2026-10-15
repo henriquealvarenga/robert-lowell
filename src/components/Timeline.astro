@@ -18,7 +18,7 @@ const anchorFor = (title: string) => chapterHeadings.find((h) => h.text.trim() =
 const MESES = ['', 'jan.', 'fev.', 'mar.', 'abr.', 'mai.', 'jun.', 'jul.', 'ago.', 'set.', 'out.', 'nov.', 'dez.'];
 type Item =
   | { kind: 'marco'; ano: number; mes: number; id: string; data: string; tipo: string; titulo: string; trecho: string; link?: { href: string; label: string }; ref?: string }
-  | { kind: 'crise'; ano: number; mes: number; id: string; data: string; tipo: string; titulo: string; local: string; slug: string; seguidaDe?: string; order: number };
+  | { kind: 'crise'; ano: number; mes: number; id: string; data: string; tipo: string; titulo: string; local: string; slug: string; seguidaDe?: string; nota?: string; order: number };
 
 const items: Item[] = [
   ...marcos.map((m: any) => ({ kind: 'marco' as const, ano: m.ano, mes: m.mes ?? 0, id: m.id, data: m.data, tipo: m.tipo, titulo: m.titulo, trecho: m.trecho, link: m.link, ref: m.ref })),
@@ -33,6 +33,7 @@ const items: Item[] = [
     local: c.data.local,
     slug: c.data.slug,
     seguidaDe: c.data.seguidaDe,
+    nota: c.data.nota,
     order: c.data.order,
   })),
 ].sort((a, b) => a.ano - b.ano || a.mes - b.mes || (a.kind === 'crise' ? 1 : -1));
@@ -59,6 +60,7 @@ const decades = [1917, 1949, 1957, 1967, 1977];
           <div class="tl-meta">
             <span class={`tag ${tagClass[it.tipo]}`}>{tagLabel[it.tipo]}</span>
             {it.kind === 'crise' && it.seguidaDe && <span class="tag tag-depressao">seguida de depressão</span>}
+            {it.kind === 'crise' && it.nota && <span class="tag tag-neutro">{it.nota}</span>}
             <time class="tl-date ui" datetime={`${it.ano}${it.mes ? `-${String(it.mes).padStart(2, '0')}` : ''}`}>{it.data}</time>
           </div>
           {it.kind === 'crise' ? (
@@ -91,6 +93,7 @@ const decades = [1917, 1949, 1957, 1967, 1977];
           <div class="tl-meta">
             <span class={`tag ${tagClass[entry.data.tipo]}`}>{tagLabel[entry.data.tipo]}</span>
             {entry.data.seguidaDe && <span class="tag tag-depressao">seguida de depressão</span>}
+            {entry.data.nota && <span class="tag tag-neutro">{entry.data.nota}</span>}
             <span class="ui crisis-n">Crise {entry.data.order} de {crises.length}</span>
           </div>
           <h2 id={`dialog-${entry.data.slug}-t`}>{entry.data.title}</h2>

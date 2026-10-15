@@ -1,6 +1,6 @@
 # Relatório de conferência da conversão
 
-Gerado em 2026-10-15T10:23:08.943Z por `scripts/convert.ts`.
+Gerado em 2026-10-15T10:47:21.663Z por `scripts/convert.ts`.
 
 Para cada capítulo, o texto original (`.qmd`) e o texto gerado (`.md`) são normalizados
 (imagens, notas e citações viram marcadores; espaços são colapsados) e comparados palavra a palavra.

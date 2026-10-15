@@ -6,6 +6,7 @@ ano: 1954
 mes: 4
 local: "Cincinnati, Ohio"
 tipo: mania
+nota: "início com humor deprimido"
 image: "../../assets/images/cincinnati.webp"
 ---
 <figure class="ilustracao">

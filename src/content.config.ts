@@ -29,6 +29,7 @@ const crises = defineCollection({
       local: z.string(),
       tipo: z.enum(['mania', 'depressao', 'intro']),
       seguidaDe: z.enum(['depressao']).optional(),
+      nota: z.string().optional(),
       image: image().optional(),
     }),
 });
