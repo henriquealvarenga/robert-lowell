@@ -6,7 +6,7 @@ npm-debug.log*
 scripts/shots/
 
 # pasta temporária de referências para ilustrações
-images/
+/images/
 
 # prompts de trabalho (fora do git)
 docs/
