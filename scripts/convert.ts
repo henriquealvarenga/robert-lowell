@@ -71,6 +71,31 @@ const IMAGES: Record<string, string> = {
 };
 const CHART_IMAGE = 'internacoes.png';
 
+// Ilustrações novas (Google Gemini, out/2026), em `ilustracoes/<slug>.jpg`.
+// Quando existe, substitui a imagem antiga do DALL·E e a legenda (que era o
+// prompt em inglês) por uma descrição em português. O texto do capítulo não muda.
+const NEW_IMAGES_DIR = join(ROOT, 'ilustracoes');
+const NEW_CAPTIONS: Record<string, string> = {
+  capa: 'Escritor à mesa, junto à janela, com um caderno aberto em que uma onda sobe e desce pela página.',
+  'robert-lowell': 'O poeta lendo numa poltrona, num escritório cheio de livros.',
+  bipolar: 'O poeta de pé junto a uma janela alta: metade do cômodo em luz quente e papéis espalhados, a outra metade em sombra azulada e imóvel.',
+  hotel: 'Rua vazia à noite; numa janela iluminada de hotel, uma figura de braços erguidos grita para a rua.',
+  depressao: 'Quarto em penumbra, cortinas quase fechadas; o poeta deitado na cama, vestido, de costas para o quarto.',
+  barricada: 'Corredor de hotel; porta entreaberta com uma cadeira e um baú encostados por dentro; duas pessoas preocupadas no corredor.',
+  cincinnati: 'Sala de aula universitária; o professor gesticula à tribuna, folhas voam da mesa, alunos trocam olhares inquietos.',
+  festa: 'Festa lotada numa sala de estar, à noite; o anfitrião em pé sobre uma cadeira, de copo na mão, falando por cima de todos.',
+  mclean: 'Manhã de primavera; o poeta, de costas, com uma mala pequena, sobe sozinho o caminho de cascalho até um hospital de tijolos.',
+  argentina: 'Praça com uma estátua equestre de bronze; o poeta sobe ao pedestal apontando para a frente, enquanto pombos voam e curiosos observam.',
+  opera: 'Interior de uma ópera; o poeta à beira do fosso da orquestra, braços erguidos como se regesse; músicos olham para cima, imóveis.',
+  litio: 'O poeta, já na casa dos cinquenta, escreve com calma a uma mesa arrumada; ao lado da xícara, um pequeno frasco de comprimidos.',
+  'intoxicacao-litio': 'Quarto de hospital; o poeta sonolento na cama, de olhos semicerrados, enquanto uma enfermeira confere a prancheta.',
+  'hartford-1963': 'Rua de inverno na Nova Inglaterra, coberta de neve; a entrada iluminada de um hospital e pegadas até a porta.',
+  'hartford-1965': 'Janela de um quarto de hospital vista de dentro, vidro embaçado pelo frio, uma árvore nua e neve caindo; um casaco dobrado na cadeira.',
+};
+// Ilustrações extras para crises que não tinham imagem no texto original.
+const EXTRA_IMAGES: Record<string, string> = { '1963-12-hartford': 'hartford-1963', '1965-01-hartford': 'hartford-1965' };
+const hasNewImage = (slug: string) => existsSync(join(NEW_IMAGES_DIR, `${slug}.jpg`));
+
 // Metadados das 11 crises (seções H2 do capítulo 3), na ordem do texto.
 // `tipo` só é marcado quando o texto original o permite; `seguidaDe` registra
 // a fase que o texto descreve logo após a crise.
@@ -274,13 +299,15 @@ function convertImages(md: string, relPrefix: string) {
     const slug = IMAGES[file];
     if (!slug) throw new Error(`Imagem não mapeada: ${file}`);
     figures.push({ file, slug, caption });
-    const alt = escapeHtml(caption.replace(/\*/g, ''));
+    const nova = hasNewImage(slug);
+    const shown = nova ? NEW_CAPTIONS[slug] ?? caption : caption;
+    const alt = escapeHtml(shown.replace(/\*/g, ''));
     return [
       `<figure class="ilustracao">`,
       ``,
       `![${alt}](${relPrefix}/assets/images/${slug}.webp)`,
       ``,
-      `<figcaption>${inlineMd(caption)} <span class="ai-badge">Ilustração gerada por IA (DALL·E)</span></figcaption>`,
+      `<figcaption>${inlineMd(shown)} <span class="ai-badge">Ilustração gerada por IA (${nova ? 'Google Gemini' : 'DALL·E'})</span></figcaption>`,
       ``,
       `</figure>`,
     ].join('\n');
@@ -471,6 +498,7 @@ async function main() {
           meta.seguidaDe ? `seguidaDe: ${meta.seguidaDe}` : null,
           meta.nota ? `nota: ${yamlStr(meta.nota)}` : null,
           image ? `image: ${yamlStr(image)}` : null,
+          EXTRA_IMAGES[meta.slug] && hasNewImage(EXTRA_IMAGES[meta.slug]) ? `extraImage: ${yamlStr(`../../assets/images/${EXTRA_IMAGES[meta.slug]}.webp`)}` : null,
           '---',
           '',
         ]
@@ -516,14 +544,24 @@ async function main() {
 
   // Imagens
   const sizes: string[] = [];
-  for (const [file, slug] of Object.entries(IMAGES)) {
-    const src = join(SRC, 'images', file);
-    if (!existsSync(src)) throw new Error(`Imagem ausente: ${src}`);
+  const jobs: [string, string][] = [
+    ...Object.entries(IMAGES).map(([file, slug]) => [file, slug] as [string, string]),
+    ...Object.values(EXTRA_IMAGES).map((slug) => ['', slug] as [string, string]),
+  ];
+  for (const [file, slug] of jobs) {
+    const nova = hasNewImage(slug);
+    const src = nova ? join(NEW_IMAGES_DIR, `${slug}.jpg`) : join(SRC, 'images', file);
+    if (!existsSync(src)) {
+      if (!file) continue; // extra ainda não gerada
+      throw new Error(`Imagem ausente: ${src}`);
+    }
     const dest = join(OUT.images, `${slug}.webp`);
     const info = await sharp(src).resize({ width: 1600, withoutEnlargement: true }).webp({ quality: 82 }).toFile(dest);
-    sizes.push(`${file} → ${slug}.webp (${info.width}×${info.height}, ${(info.size / 1024).toFixed(0)} KB)`);
+    sizes.push(`${nova ? `ilustracoes/${slug}.jpg (Gemini)` : `${file} (DALL·E)`} → ${slug}.webp (${info.width}×${info.height}, ${(info.size / 1024).toFixed(0)} KB)`);
   }
   report.push('', '## Imagens', '', ...sizes.map((s) => `- ${s}`));
+  const replaced = Object.keys(NEW_CAPTIONS).filter((slug) => hasNewImage(slug) && Object.values(IMAGES).includes(slug));
+  report.push('', '## Legendas substituídas', '', 'Nas figuras com ilustração nova, a legenda original (o prompt em inglês do DALL·E) é trocada por uma descrição em português da imagem nova. O texto dos capítulos não muda.', '', ...replaced.map((slug) => `- ${slug}: “${NEW_CAPTIONS[slug]}”`));
 
   // Trechos usados nos dados interativos (marcos, quiz, caso, família) devem
   // existir, palavra por palavra, no texto original.

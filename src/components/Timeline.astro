@@ -100,6 +100,12 @@ const decades = [1917, 1949, 1957, 1967, 1977];
           <button type="button" class="icon-btn crisis-close" data-close aria-label="Fechar">✕</button>
         </header>
         <div class="crisis-body prose">
+          {entry.data.extraImage && (
+            <figure class="ilustracao">
+              <Image src={entry.data.extraImage} alt="" widths={[640, 960, 1280]} sizes="(min-width: 760px) 44rem, 100vw" />
+              <figcaption><span class="ai-badge">Ilustração gerada por IA (Google Gemini)</span></figcaption>
+            </figure>
+          )}
           <Content />
         </div>
         <footer class="crisis-foot">

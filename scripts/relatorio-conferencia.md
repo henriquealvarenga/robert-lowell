@@ -1,6 +1,6 @@
 # Relatório de conferência da conversão
 
-Gerado em 2026-10-15T16:07:10.804Z por `scripts/convert.ts`.
+Gerado em 2026-10-15T22:34:57.394Z por `scripts/convert.ts`.
 
 Para cada capítulo, o texto original (`.qmd`) e o texto gerado (`.md`) são normalizados
 (imagens, notas e citações viram marcadores; espaços são colapsados) e comparados palavra a palavra.
@@ -24,19 +24,39 @@ Internações: 17 anos no CSV, total de 1086 dias.
 
 ## Imagens
 
-- cover.png → capa.webp (1024×1024, 351 KB)
-- robert lowell.png → robert-lowell.webp (1024×1024, 315 KB)
-- bipolar.png → bipolar.webp (1024×1024, 256 KB)
-- hotel.png → hotel.webp (1024×1024, 298 KB)
-- depression.png → depressao.webp (1024×1024, 153 KB)
-- barricade.png → barricada.webp (1600×914, 287 KB)
-- young_lover.jpg → cincinnati.webp (1600×914, 218 KB)
-- party.jpg → festa.webp (1600×914, 283 KB)
-- mclean_hospital.jpg → mclean.webp (1600×914, 267 KB)
-- argentina.jpg → argentina.webp (1600×914, 273 KB)
-- opera.jpg → opera.webp (1600×914, 212 KB)
-- Lithium.png → litio.webp (1024×1024, 226 KB)
-- LithiumLevels.png → intoxicacao-litio.webp (1024×1024, 152 KB)
+- ilustracoes/capa.jpg (Gemini) → capa.webp (1376×768, 209 KB)
+- ilustracoes/robert-lowell.jpg (Gemini) → robert-lowell.webp (1376×768, 199 KB)
+- ilustracoes/bipolar.jpg (Gemini) → bipolar.webp (1600×893, 229 KB)
+- ilustracoes/hotel.jpg (Gemini) → hotel.webp (1600×893, 200 KB)
+- ilustracoes/depressao.jpg (Gemini) → depressao.webp (1600×893, 174 KB)
+- ilustracoes/barricada.jpg (Gemini) → barricada.webp (1600×893, 163 KB)
+- ilustracoes/cincinnati.jpg (Gemini) → cincinnati.webp (1600×893, 279 KB)
+- ilustracoes/festa.jpg (Gemini) → festa.webp (1600×893, 332 KB)
+- ilustracoes/mclean.jpg (Gemini) → mclean.webp (1600×893, 284 KB)
+- ilustracoes/argentina.jpg (Gemini) → argentina.webp (1600×893, 249 KB)
+- ilustracoes/opera.jpg (Gemini) → opera.webp (1600×893, 347 KB)
+- ilustracoes/litio.jpg (Gemini) → litio.webp (1600×893, 215 KB)
+- ilustracoes/intoxicacao-litio.jpg (Gemini) → intoxicacao-litio.webp (1376×768, 162 KB)
+- ilustracoes/hartford-1963.jpg (Gemini) → hartford-1963.webp (1600×893, 240 KB)
+- ilustracoes/hartford-1965.jpg (Gemini) → hartford-1965.webp (1600×893, 165 KB)
+
+## Legendas substituídas
+
+Nas figuras com ilustração nova, a legenda original (o prompt em inglês do DALL·E) é trocada por uma descrição em português da imagem nova. O texto dos capítulos não muda.
+
+- capa: “Escritor à mesa, junto à janela, com um caderno aberto em que uma onda sobe e desce pela página.”
+- robert-lowell: “O poeta lendo numa poltrona, num escritório cheio de livros.”
+- bipolar: “O poeta de pé junto a uma janela alta: metade do cômodo em luz quente e papéis espalhados, a outra metade em sombra azulada e imóvel.”
+- hotel: “Rua vazia à noite; numa janela iluminada de hotel, uma figura de braços erguidos grita para a rua.”
+- depressao: “Quarto em penumbra, cortinas quase fechadas; o poeta deitado na cama, vestido, de costas para o quarto.”
+- barricada: “Corredor de hotel; porta entreaberta com uma cadeira e um baú encostados por dentro; duas pessoas preocupadas no corredor.”
+- cincinnati: “Sala de aula universitária; o professor gesticula à tribuna, folhas voam da mesa, alunos trocam olhares inquietos.”
+- festa: “Festa lotada numa sala de estar, à noite; o anfitrião em pé sobre uma cadeira, de copo na mão, falando por cima de todos.”
+- mclean: “Manhã de primavera; o poeta, de costas, com uma mala pequena, sobe sozinho o caminho de cascalho até um hospital de tijolos.”
+- argentina: “Praça com uma estátua equestre de bronze; o poeta sobe ao pedestal apontando para a frente, enquanto pombos voam e curiosos observam.”
+- opera: “Interior de uma ópera; o poeta à beira do fosso da orquestra, braços erguidos como se regesse; músicos olham para cima, imóveis.”
+- litio: “O poeta, já na casa dos cinquenta, escreve com calma a uma mesa arrumada; ao lado da xícara, um pequeno frasco de comprimidos.”
+- intoxicacao-litio: “Quarto de hospital; o poeta sonolento na cama, de olhos semicerrados, enquanto uma enfermeira confere a prancheta.”
 
 ## Trechos dos dados interativos
 

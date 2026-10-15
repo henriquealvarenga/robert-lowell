@@ -10,9 +10,9 @@ image: "../../assets/images/argentina.webp"
 ---
 <figure class="ilustracao">
 
-![Image created by DALL·E - A scene depicting Robert Lowell, shirtless and wearing glasses, standing on top of equestrian statues as if pretending to ride them.](../../assets/images/argentina.webp)
+![Praça com uma estátua equestre de bronze; o poeta sobe ao pedestal apontando para a frente, enquanto pombos voam e curiosos observam.](../../assets/images/argentina.webp)
 
-<figcaption>Image created by DALL·E - A scene depicting Robert Lowell, shirtless and wearing glasses, standing on top of equestrian statues as if pretending to ride them. <span class="ai-badge">Ilustração gerada por IA (DALL·E)</span></figcaption>
+<figcaption>Praça com uma estátua equestre de bronze; o poeta sobe ao pedestal apontando para a frente, enquanto pombos voam e curiosos observam. <span class="ai-badge">Ilustração gerada por IA (Google Gemini)</span></figcaption>
 
 </figure>
 

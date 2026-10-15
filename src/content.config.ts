@@ -31,6 +31,7 @@ const crises = defineCollection({
       seguidaDe: z.enum(['depressao']).optional(),
       nota: z.string().optional(),
       image: image().optional(),
+      extraImage: image().optional(),
     }),
 });
 

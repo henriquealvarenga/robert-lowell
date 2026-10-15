@@ -11,9 +11,9 @@ image: "../../assets/images/cincinnati.webp"
 ---
 <figure class="ilustracao">
 
-![Image Created by DALL·E - Robert Lowell and his young student affair](../../assets/images/cincinnati.webp)
+![Sala de aula universitária; o professor gesticula à tribuna, folhas voam da mesa, alunos trocam olhares inquietos.](../../assets/images/cincinnati.webp)
 
-<figcaption>Image Created by DALL·E - Robert Lowell and his young student affair <span class="ai-badge">Ilustração gerada por IA (DALL·E)</span></figcaption>
+<figcaption>Sala de aula universitária; o professor gesticula à tribuna, folhas voam da mesa, alunos trocam olhares inquietos. <span class="ai-badge">Ilustração gerada por IA (Google Gemini)</span></figcaption>
 
 </figure>
 

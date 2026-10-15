@@ -11,9 +11,9 @@ image: "../../assets/images/hotel.webp"
 ---
 <figure class="ilustracao">
 
-![Image created by DALL·E A realistic sketch of the poet Robert Lowell shouting from the window of his hotel room.](../../assets/images/hotel.webp)
+![Rua vazia à noite; numa janela iluminada de hotel, uma figura de braços erguidos grita para a rua.](../../assets/images/hotel.webp)
 
-<figcaption>Image created by DALL·E A realistic sketch of the poet Robert Lowell shouting from the window of his hotel room. <span class="ai-badge">Ilustração gerada por IA (DALL·E)</span></figcaption>
+<figcaption>Rua vazia à noite; numa janela iluminada de hotel, uma figura de braços erguidos grita para a rua. <span class="ai-badge">Ilustração gerada por IA (Google Gemini)</span></figcaption>
 
 </figure>
 

@@ -10,9 +10,9 @@ source: "1-biografia.qmd"
 ---
 <figure class="ilustracao">
 
-![Image created by DALL·E - A realistic sketch of poet Robert Lowell is sitting in a chair with a book in his hand, wearing glasses.](../../assets/images/robert-lowell.webp)
+![O poeta lendo numa poltrona, num escritório cheio de livros.](../../assets/images/robert-lowell.webp)
 
-<figcaption>Image created by DALL·E - A realistic sketch of poet Robert Lowell is sitting in a chair with a book in his hand, wearing glasses. <span class="ai-badge">Ilustração gerada por IA (DALL·E)</span></figcaption>
+<figcaption>O poeta lendo numa poltrona, num escritório cheio de livros. <span class="ai-badge">Ilustração gerada por IA (Google Gemini)</span></figcaption>
 
 </figure>
 

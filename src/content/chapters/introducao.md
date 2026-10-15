@@ -9,9 +9,9 @@ source: "index.qmd"
 ---
 <figure class="ilustracao">
 
-![Image created by DALL·E 2024 - An illustration depicting the study of mood disorders in artists and celebrities.](../../assets/images/capa.webp)
+![Escritor à mesa, junto à janela, com um caderno aberto em que uma onda sobe e desce pela página.](../../assets/images/capa.webp)
 
-<figcaption>Image created by DALL·E 2024 - An illustration depicting the study of mood disorders in artists and celebrities. <span class="ai-badge">Ilustração gerada por IA (DALL·E)</span></figcaption>
+<figcaption>Escritor à mesa, junto à janela, com um caderno aberto em que uma onda sobe e desce pela página. <span class="ai-badge">Ilustração gerada por IA (Google Gemini)</span></figcaption>
 
 </figure>
 

@@ -7,9 +7,9 @@ order: 2
 
 <figure class="ilustracao">
 
-![Image created by DALL·E A realistic sketch of the poet Robert Lowell shouting from the window of his hotel room.](../../assets/images/hotel.webp)
+![Rua vazia à noite; numa janela iluminada de hotel, uma figura de braços erguidos grita para a rua.](../../assets/images/hotel.webp)
 
-<figcaption>Image created by DALL·E A realistic sketch of the poet Robert Lowell shouting from the window of his hotel room. <span class="ai-badge">Ilustração gerada por IA (DALL·E)</span></figcaption>
+<figcaption>Rua vazia à noite; numa janela iluminada de hotel, uma figura de braços erguidos grita para a rua. <span class="ai-badge">Ilustração gerada por IA (Google Gemini)</span></figcaption>
 
 </figure>
 
@@ -25,9 +25,9 @@ Ao sair de hospital estava ainda depressivo, se sentindo humilhado por tudo que 
 
 <figure class="ilustracao">
 
-![Image create by DALL·E - A realistic sketch of the poet Robert Lowell lying down in a bed, depicted in a very low mood.](../../assets/images/depressao.webp)
+![Quarto em penumbra, cortinas quase fechadas; o poeta deitado na cama, vestido, de costas para o quarto.](../../assets/images/depressao.webp)
 
-<figcaption>Image create by DALL·E - A realistic sketch of the poet Robert Lowell lying down in a bed, depicted in a very low mood. <span class="ai-badge">Ilustração gerada por IA (DALL·E)</span></figcaption>
+<figcaption>Quarto em penumbra, cortinas quase fechadas; o poeta deitado na cama, vestido, de costas para o quarto. <span class="ai-badge">Ilustração gerada por IA (Google Gemini)</span></figcaption>
 
 </figure>
 
@@ -37,9 +37,9 @@ No dia 13 de setembro de 1949, foi novamente internado numa clínica psiquiátri
 
 <figure class="ilustracao">
 
-![Image created by DALL·E - A sketch of a scene from the viewpoint of someone outside a hotel room door showing Robert Lowell inside his hotel room, shouting.](../../assets/images/barricada.webp)
+![Corredor de hotel; porta entreaberta com uma cadeira e um baú encostados por dentro; duas pessoas preocupadas no corredor.](../../assets/images/barricada.webp)
 
-<figcaption>Image created by DALL·E - A sketch of a scene from the viewpoint of someone outside a hotel room door showing Robert Lowell inside his hotel room, shouting. <span class="ai-badge">Ilustração gerada por IA (DALL·E)</span></figcaption>
+<figcaption>Corredor de hotel; porta entreaberta com uma cadeira e um baú encostados por dentro; duas pessoas preocupadas no corredor. <span class="ai-badge">Ilustração gerada por IA (Google Gemini)</span></figcaption>
 
 </figure>
 
@@ -49,9 +49,9 @@ No verão de 1952 Lowell e Hardwick viajaram para Salzburg, na Áustria, para um
 
 <figure class="ilustracao">
 
-![Image Created by DALL·E - Robert Lowell and his young student affair](../../assets/images/cincinnati.webp)
+![Sala de aula universitária; o professor gesticula à tribuna, folhas voam da mesa, alunos trocam olhares inquietos.](../../assets/images/cincinnati.webp)
 
-<figcaption>Image Created by DALL·E - Robert Lowell and his young student affair <span class="ai-badge">Ilustração gerada por IA (DALL·E)</span></figcaption>
+<figcaption>Sala de aula universitária; o professor gesticula à tribuna, folhas voam da mesa, alunos trocam olhares inquietos. <span class="ai-badge">Ilustração gerada por IA (Google Gemini)</span></figcaption>
 
 </figure>
 
@@ -65,9 +65,9 @@ A carta que Lowell escreveu para uma amiga sobre essa crise é uma descrição v
 
 <figure class="ilustracao">
 
-![Image created by DALL·E - A realistic sketch in grayscale of a chaotic party at Robert Lowell's house. Robert Lowell is prominently featured, visibly intoxicated and shouting angrily](../../assets/images/festa.webp)
+![Festa lotada numa sala de estar, à noite; o anfitrião em pé sobre uma cadeira, de copo na mão, falando por cima de todos.](../../assets/images/festa.webp)
 
-<figcaption>Image created by DALL·E - A realistic sketch in grayscale of a chaotic party at Robert Lowell's house. Robert Lowell is prominently featured, visibly intoxicated and shouting angrily <span class="ai-badge">Ilustração gerada por IA (DALL·E)</span></figcaption>
+<figcaption>Festa lotada numa sala de estar, à noite; o anfitrião em pé sobre uma cadeira, de copo na mão, falando por cima de todos. <span class="ai-badge">Ilustração gerada por IA (Google Gemini)</span></figcaption>
 
 </figure>
 
@@ -77,9 +77,9 @@ O ano de 1957 foi marcante na vida de Lowell. Ao longo desse ano sua energia e e
 
 <figure class="ilustracao">
 
-![Image created by DALL·E - A grayscale sketch depicting Robert Lowell in late April 1959, seen from behind as he voluntarily admits himself to McLean Hospital.](../../assets/images/mclean.webp)
+![Manhã de primavera; o poeta, de costas, com uma mala pequena, sobe sozinho o caminho de cascalho até um hospital de tijolos.](../../assets/images/mclean.webp)
 
-<figcaption>Image created by DALL·E - A grayscale sketch depicting Robert Lowell in late April 1959, seen from behind as he voluntarily admits himself to McLean Hospital. <span class="ai-badge">Ilustração gerada por IA (DALL·E)</span></figcaption>
+<figcaption>Manhã de primavera; o poeta, de costas, com uma mala pequena, sobe sozinho o caminho de cascalho até um hospital de tijolos. <span class="ai-badge">Ilustração gerada por IA (Google Gemini)</span></figcaption>
 
 </figure>
 
@@ -93,9 +93,9 @@ No início de 1961, pouco depois de se mudar para Nova York, Lowell começou num
 
 <figure class="ilustracao">
 
-![Image created by DALL·E - A scene depicting Robert Lowell, shirtless and wearing glasses, standing on top of equestrian statues as if pretending to ride them.](../../assets/images/argentina.webp)
+![Praça com uma estátua equestre de bronze; o poeta sobe ao pedestal apontando para a frente, enquanto pombos voam e curiosos observam.](../../assets/images/argentina.webp)
 
-<figcaption>Image created by DALL·E - A scene depicting Robert Lowell, shirtless and wearing glasses, standing on top of equestrian statues as if pretending to ride them. <span class="ai-badge">Ilustração gerada por IA (DALL·E)</span></figcaption>
+<figcaption>Praça com uma estátua equestre de bronze; o poeta sobe ao pedestal apontando para a frente, enquanto pombos voam e curiosos observam. <span class="ai-badge">Ilustração gerada por IA (Google Gemini)</span></figcaption>
 
 </figure>
 
@@ -113,9 +113,9 @@ No final de 1964 Lowell estava novamente num quadro de mania, tendo sido interna
 
 <figure class="ilustracao">
 
-![Imagem created by DALL·E - Robert Lowell pretending to conduct an orchestra at the Metropolitan Opera Hall in New York.](../../assets/images/opera.webp)
+![Interior de uma ópera; o poeta à beira do fosso da orquestra, braços erguidos como se regesse; músicos olham para cima, imóveis.](../../assets/images/opera.webp)
 
-<figcaption>Imagem created by DALL·E - Robert Lowell pretending to conduct an orchestra at the Metropolitan Opera Hall in New York. <span class="ai-badge">Ilustração gerada por IA (DALL·E)</span></figcaption>
+<figcaption>Interior de uma ópera; o poeta à beira do fosso da orquestra, braços erguidos como se regesse; músicos olham para cima, imóveis. <span class="ai-badge">Ilustração gerada por IA (Google Gemini)</span></figcaption>
 
 </figure>
 

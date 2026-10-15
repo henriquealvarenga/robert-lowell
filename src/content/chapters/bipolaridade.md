@@ -18,9 +18,9 @@ O sofrimento e as dificuldades causadas pelo transtorno bipolar, pelas constante
 
 <figure class="ilustracao">
 
-![image created by DALL·E - A realistic sketch of the poet Robert Lowell](../../assets/images/bipolar.webp)
+![O poeta de pé junto a uma janela alta: metade do cômodo em luz quente e papéis espalhados, a outra metade em sombra azulada e imóvel.](../../assets/images/bipolar.webp)
 
-<figcaption>image created by DALL·E - A realistic sketch of the poet Robert Lowell <span class="ai-badge">Ilustração gerada por IA (DALL·E)</span></figcaption>
+<figcaption>O poeta de pé junto a uma janela alta: metade do cômodo em luz quente e papéis espalhados, a outra metade em sombra azulada e imóvel. <span class="ai-badge">Ilustração gerada por IA (Google Gemini)</span></figcaption>
 
 </figure>
 

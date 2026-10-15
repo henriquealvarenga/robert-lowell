@@ -16,7 +16,7 @@ const html = `<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><sty
 *{margin:0;box-sizing:border-box}
 body{width:1200px;height:630px;background:#f5f1e9;color:#1e1b18;display:flex;overflow:hidden}
 .pic{width:470px;height:630px;flex:none;position:relative;overflow:hidden;background:#ece6da}
-.pic img{width:100%;height:100%;object-fit:cover;object-position:center top;filter:saturate(.8)}
+.pic img{width:100%;height:100%;object-fit:cover;object-position:72% top;filter:saturate(.8)}
 .pic::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(245,241,233,0) 70%,#f5f1e9 100%)}
 .txt{flex:1;padding:64px 64px 56px 48px;display:flex;flex-direction:column;justify-content:center;gap:18px}
 .eyebrow{font-family:I;font-size:17px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#6d665d}

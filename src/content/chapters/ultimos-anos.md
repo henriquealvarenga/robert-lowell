@@ -10,9 +10,9 @@ source: "5-ultimos_anos.qmd"
 ---
 <figure class="ilustracao">
 
-![Created by DALL·E  - Robert Lowell, looking drowsy due to lithium intoxication, lies in a hospital bed.](../../assets/images/intoxicacao-litio.webp)
+![Quarto de hospital; o poeta sonolento na cama, de olhos semicerrados, enquanto uma enfermeira confere a prancheta.](../../assets/images/intoxicacao-litio.webp)
 
-<figcaption>Created by DALL·E  - Robert Lowell, looking drowsy due to lithium intoxication, lies in a hospital bed. <span class="ai-badge">Ilustração gerada por IA (DALL·E)</span></figcaption>
+<figcaption>Quarto de hospital; o poeta sonolento na cama, de olhos semicerrados, enquanto uma enfermeira confere a prancheta. <span class="ai-badge">Ilustração gerada por IA (Google Gemini)</span></figcaption>
 
 </figure>
 

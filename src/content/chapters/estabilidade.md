@@ -12,9 +12,9 @@ source: "4-estabilidade.qmd"
 
 <figure class="ilustracao">
 
-![created by DALL·E - A realistic sketch of Robert Lowell in his fifties, sitting at his desk writing his poems.](../../assets/images/litio.webp)
+![O poeta, já na casa dos cinquenta, escreve com calma a uma mesa arrumada; ao lado da xícara, um pequeno frasco de comprimidos.](../../assets/images/litio.webp)
 
-<figcaption>created by DALL·E - A realistic sketch of Robert Lowell in his fifties, sitting at his desk writing his poems. <span class="ai-badge">Ilustração gerada por IA (DALL·E)</span></figcaption>
+<figcaption>O poeta, já na casa dos cinquenta, escreve com calma a uma mesa arrumada; ao lado da xícara, um pequeno frasco de comprimidos. <span class="ai-badge">Ilustração gerada por IA (Google Gemini)</span></figcaption>
 
 </figure>
 

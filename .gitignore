@@ -7,3 +7,6 @@ scripts/shots/
 
 # pasta temporária de referências para ilustrações
 images/
+
+# prompts de trabalho (fora do git)
+docs/
