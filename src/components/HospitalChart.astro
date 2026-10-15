@@ -16,7 +16,7 @@ const pre = anos.filter((a) => a.ano < hospital.litio.inicio);
 const pos = anos.filter((a) => a.ano >= hospital.litio.inicio);
 const sum = (xs: { dias: number }[]) => xs.reduce((s, a) => s + a.dias, 0);
 const maxDias = Math.max(...anos.map((a) => a.dias));
-const descricao = `Gráfico de barras com os dias de internação de Robert Lowell por ano, de 1949 a 1977. Antes do lítio (1949 a 1966) foram ${sum(pre)} dias em ${pre.length} anos com internação; com o lítio, a partir de 1967, foram ${sum(pos)} dias em ${pos.length} anos. O maior valor é ${maxDias} dias, em ${anos.find((a) => a.dias === maxDias)?.ano}. Em 1975 houve intoxicação por lítio.`;
+const descricao = `Gráfico de barras com os dias de internação de Robert Lowell por ano, de 1949 a 1977. Antes do lítio (1949 a 1966) foram ${sum(pre)} dias em ${pre.length} anos com internação; com o lítio, a partir de 1967, foram ${sum(pos)} dias em ${pos.length} anos. O maior valor é ${maxDias} dias, em ${anos.find((a) => a.dias === maxDias)?.ano}. Em 1975, ano da intoxicação por lítio, foram ${anos.find((a) => a.ano === hospital.intoxicacao)?.dias} dias.`;
 ---
 
 <figure class="hchart card" id={id} data-hospital-chart aria-labelledby={`${id}-legenda`}>
@@ -47,8 +47,8 @@ const descricao = `Gráfico de barras com os dias de internação de Robert Lowe
   <ul class="hchart-legend ui" aria-hidden="true">
     <li><i class="sw sw-red"></i> Antes do lítio</li>
     <li><i class="sw sw-blue"></i> Usando lítio (1967–1975)</li>
-    <li><i class="sw sw-tox"></i> Intoxicação por lítio (1975)</li>
-    <li><i class="sw sw-irregular"></i> Sem uso regular (a partir de 1975)</li>
+    <li><i class="sw sw-tox"></i> Ano da intoxicação por lítio (1975)</li>
+    <li><i class="sw sw-irregular"></i> Após deixar o uso regular do lítio (≈ 1975)</li>
   </ul>
 
   <dl class="hchart-stats ui" data-stats>
@@ -72,7 +72,7 @@ const descricao = `Gráfico de barras com os dias de internação de Robert Lowe
           <tr>
             <th scope="row">{a.ano}</th>
             <td class="num">{a.dias}</td>
-            <td>{a.ano < hospital.litio.inicio ? 'Antes do lítio' : a.ano === hospital.intoxicacao ? 'Lítio · intoxicação' : a.ano <= hospital.litio.fim ? 'Usando lítio' : 'Sem uso regular de lítio'}</td>
+            <td>{a.ano < hospital.litio.inicio ? 'Antes do lítio' : a.ano === hospital.intoxicacao ? 'Usando lítio · ano da intoxicação' : a.ano <= hospital.litio.fim ? 'Usando lítio' : 'Após deixar o uso regular do lítio'}</td>
           </tr>
         ))}
       </tbody>
@@ -128,7 +128,7 @@ const descricao = `Gráfico de barras com os dias de internação de Robert Lowe
     const meanLabel = plot.append('text').attr('class', 'mean-label').attr('opacity', 0);
     const toxMarker = plot.append('g').attr('class', 'tox');
     toxMarker.append('line');
-    toxMarker.append('text').text('intoxicação');
+    toxMarker.append('text').text('ano da intoxicação');
     const xAxisG = g.append('g').attr('class', 'axis x');
     const yAxisG = g.append('g').attr('class', 'axis y');
     const yLabel = g.append('text').attr('class', 'axis-label').text('dias internado');
@@ -256,7 +256,7 @@ const descricao = `Gráfico de barras com os dias de internação de Robert Lowe
       const bx = m.left + (x(ano) ?? 0) + x.bandwidth() / 2;
       const by = m.top + y(d.dias);
       const k = kind(ano);
-      const label = k === 'pre' ? 'antes do lítio' : k === 'tox' ? 'intoxicação por lítio' : k === 'li' ? 'usando lítio' : 'sem uso regular de lítio';
+      const label = k === 'pre' ? 'antes do lítio' : k === 'tox' ? 'usando lítio · ano da intoxicação' : k === 'li' ? 'usando lítio' : 'após deixar o uso regular do lítio';
       tip.innerHTML = `<strong>${ano}</strong> · ${d.dias} ${d.dias === 1 ? 'dia' : 'dias'} internado<br><span>${label}</span>`;
       tip.hidden = false;
       const pxX = (bx / W) * canvas.clientWidth;
