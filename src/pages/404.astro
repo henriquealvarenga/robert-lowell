@@ -1,0 +1,32 @@
+---
+import Base from '../layouts/Base.astro';
+import { href } from '../config';
+---
+
+<Base title="Página não encontrada" description="A página pedida não existe neste site." path="/404/" noindex>
+  <section class="nf wrap-narrow">
+    <p class="eyebrow">Erro 404</p>
+    <h1>Página não encontrada</h1>
+    <p class="lead">O endereço não existe ou mudou de lugar.</p>
+    <div class="nf-actions">
+      <a class="btn btn-primary" href={href('/')}>Página inicial</a>
+      <a class="btn" href={href('/jornada/')}>A jornada</a>
+      <a class="btn" href={href('/capitulos/introducao/')}>Capítulos</a>
+    </div>
+  </section>
+
+  <style>
+    .nf {
+      padding: clamp(3rem, 12vh, 7rem) 0 4rem;
+    }
+    .nf h1 {
+      margin: 0.5rem 0 1rem;
+    }
+    .nf-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+    }
+  </style>
+</Base>
