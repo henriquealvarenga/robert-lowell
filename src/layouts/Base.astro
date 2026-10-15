@@ -1,8 +1,6 @@
 ---
 import '../styles/global.css';
 import { SITE_URL, OLD_SITE_URL, TITLE, DESCRIPTION, AUTHOR, href, BASE } from '../config';
-import ogImage from '../assets/images/capa.webp';
-import { getImage } from 'astro:assets';
 import frauncesWoff from '@fontsource-variable/fraunces/files/fraunces-latin-wght-normal.woff2?url';
 import serifWoff from '@fontsource-variable/source-serif-4/files/source-serif-4-latin-wght-normal.woff2?url';
 
@@ -17,8 +15,7 @@ interface Props {
 const { title, description = DESCRIPTION, path, type = 'website', noindex = false } = Astro.props;
 const fullTitle = title ? `${title} · ${TITLE}` : `${TITLE} — ${DESCRIPTION.split(':')[0]}`;
 const canonical = new URL(path.replace(/^\//, ''), SITE_URL).href;
-const og = await getImage({ src: ogImage, width: 1200, height: 630, format: 'jpg', fit: 'cover' });
-const ogUrl = new URL(og.src.replace(/^\//, ''), 'https://henriquealvarenga.com/').href;
+const ogUrl = new URL('og.png', SITE_URL).href;
 const current = Astro.url.pathname;
 const navItems = [
   { label: 'Jornada', to: href('/jornada/') },
