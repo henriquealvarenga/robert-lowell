@@ -166,12 +166,16 @@ const decades = [1917, 1949, 1957, 1967, 1977];
         lastTrigger?.focus();
       });
     });
-    if (location.hash.startsWith('#crise-')) {
+    // abre a crise indicada no hash (ao carregar e ao seguir um link na mesma página)
+    const openFromHash = () => {
+      if (!location.hash.startsWith('#crise-')) return;
       const slug = location.hash.slice('#crise-'.length);
       const btn = root.querySelector<HTMLButtonElement>(`[data-open-crisis="${slug}"]`);
       btn?.scrollIntoView({ block: 'center' });
       setTimeout(() => open(slug, btn ?? undefined), 300);
-    }
+    };
+    openFromHash();
+    window.addEventListener('hashchange', openFromHash);
 
     // animação de rolagem
     if (!reduce) {

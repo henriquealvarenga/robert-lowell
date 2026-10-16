@@ -4,25 +4,27 @@
  */
 export interface Achievement {
   id: string;
+  /** Página (e âncora) onde a conquista é obtida. */
+  href: string;
   title: string;
   description: string;
   icon: string; // caractere/emoji simples
 }
 
 export const ACHIEVEMENTS: Achievement[] = [
-  { id: 'inicio', title: 'Começou a jornada', description: 'Abriu a experiência interativa.', icon: '◐' },
-  { id: 'biografia', title: 'Conheceu o poeta', description: 'Leu a biografia de Robert Lowell.', icon: '✒' },
-  { id: 'bipolaridade', title: 'Entendeu a bipolaridade', description: 'Leu o capítulo sobre a doença.', icon: '◑' },
-  { id: 'primeira-internacao', title: 'Leu a primeira internação', description: 'Abriu a crise de abril de 1949, em Saratoga Springs.', icon: '①' },
-  { id: 'crises', title: 'Percorreu as crises', description: 'Leu o capítulo completo das crises.', icon: '≋' },
-  { id: 'todas-crises', title: 'Visitou as 11 crises', description: 'Abriu todas as crises na linha do tempo.', icon: '⑪' },
-  { id: 'grafico', title: 'Explorou o gráfico', description: 'Comparou as internações antes e depois do lítio.', icon: '▥' },
-  { id: 'litio', title: 'Descobriu o lítio', description: 'Leu o capítulo sobre a estabilidade.', icon: 'Li' },
-  { id: 'ultimos-anos', title: 'Acompanhou os últimos anos', description: 'Leu o capítulo sobre a intoxicação e os últimos anos.', icon: '◒' },
-  { id: 'familia', title: 'Conheceu a família Lowell', description: 'Explorou a árvore da história familiar.', icon: '⌂' },
-  { id: 'conclusao', title: 'Chegou à conclusão', description: 'Leu a conclusão do caso.', icon: '◉' },
-  { id: 'quiz', title: 'Reconheceu os sinais', description: 'Concluiu o quiz clínico.', icon: '✓' },
-  { id: 'caso', title: 'Raciocinou o caso', description: 'Concluiu o caso clínico e comparou com a história.', icon: '⚕' },
+  { id: 'inicio', href: '/jornada/', title: 'Começou a jornada', description: 'Abriu a experiência interativa.', icon: '◐' },
+  { id: 'biografia', href: '/capitulos/biografia/', title: 'Conheceu o poeta', description: 'Leu a biografia de Robert Lowell.', icon: '✒' },
+  { id: 'bipolaridade', href: '/capitulos/bipolaridade/', title: 'Entendeu a bipolaridade', description: 'Leu o capítulo sobre a doença.', icon: '◑' },
+  { id: 'primeira-internacao', href: '/jornada/#crise-1949-04-saratoga-springs', title: 'Leu a primeira internação', description: 'Abriu a crise de abril de 1949, em Saratoga Springs.', icon: '①' },
+  { id: 'crises', href: '/capitulos/crises/', title: 'Percorreu as crises', description: 'Leu o capítulo completo das crises.', icon: '≋' },
+  { id: 'todas-crises', href: '/jornada/#linha-do-tempo', title: 'Visitou as 11 crises', description: 'Abriu todas as crises na linha do tempo.', icon: '⑪' },
+  { id: 'grafico', href: '/jornada/#internacoes', title: 'Explorou o gráfico', description: 'Comparou as internações antes e depois do lítio.', icon: '▥' },
+  { id: 'litio', href: '/capitulos/estabilidade/', title: 'Descobriu o lítio', description: 'Leu o capítulo sobre a estabilidade.', icon: 'Li' },
+  { id: 'ultimos-anos', href: '/capitulos/ultimos-anos/', title: 'Acompanhou os últimos anos', description: 'Leu o capítulo sobre a intoxicação e os últimos anos.', icon: '◒' },
+  { id: 'familia', href: '/capitulos/historia-familiar/#familia', title: 'Conheceu a família Lowell', description: 'Explorou a árvore da história familiar.', icon: '⌂' },
+  { id: 'conclusao', href: '/capitulos/conclusao/', title: 'Chegou à conclusão', description: 'Leu a conclusão do caso.', icon: '◉' },
+  { id: 'quiz', href: '/quiz/', title: 'Reconheceu os sinais', description: 'Concluiu o quiz clínico.', icon: '✓' },
+  { id: 'caso', href: '/caso-clinico/', title: 'Raciocinou o caso', description: 'Concluiu o caso clínico e comparou com a história.', icon: '⚕' },
 ];
 
 const KEY = 'jornada-lowell:v1';
