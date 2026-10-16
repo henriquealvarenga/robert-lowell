@@ -7,6 +7,7 @@ import Timeline from '../components/Timeline.astro';
 import HospitalChart from '../components/HospitalChart.astro';
 import Achievements from '../components/Achievements.astro';
 import { href, TITLE } from '../config';
+import capaReferencias from '../assets/images/capa-referencias.webp';
 
 const chapters = (await getCollection('chapters')).sort((a, b) => a.data.order - b.data.order);
 const totalMin = chapters.reduce((s, c) => s + c.data.minutes, 0);
@@ -52,7 +53,7 @@ const totalMin = chapters.reduce((s, c) => s + c.data.minutes, 0);
       ))}
       <li class="reveal">
         <a class="chap card" href={href('/capitulos/referencias/')}>
-          <div class="chap-img chap-img-empty" aria-hidden="true"><span>{chapters.length + 1}</span></div>
+          <Image src={capaReferencias} alt="" widths={[320, 640]} sizes="(min-width: 700px) 30vw, 90vw" class="chap-img" />
           <span class="chap-body">
             <span class="eyebrow">Capítulo {chapters.length + 1}</span>
             <span class="chap-title">Referências</span>

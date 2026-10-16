@@ -104,3 +104,26 @@ Realistic pen-and-ink illustration with graphite shading and translucent waterco
 ### 16. [hartford-1965] Janeiro de 1965, Hartford
 
 Realistic pen-and-ink illustration with graphite shading and translucent watercolor washes, in the manner of a mid-century illustrated book: fine confident dark-brown linework, crosshatching and parallel hatching for volume and shadow, realistic anatomy and proportions, strong chiaroscuro, untouched white paper left for highlights, slight vignette fading into blank paper at the edges. Muted natural palette: warm sepia and umber, soft greys, faded olive and dusty blue, with a deep dark red (#8B0000) used sparingly as the only strong accent. Overcast winter light, calm and respectful tone, 1960s New England, wide 16:9 composition with generous negative space. No text, no letters, no signature, no watermark. Scene: a hospital room window seen from inside, frost on the glass, a bare tree and falling snow outside, a folded coat on the chair by the window; no person in the scene.
+
+---
+
+## Capas de capítulo (cards da jornada e topo do capítulo)
+
+Cenas sem o personagem, no mesmo estilo. Salvar como `capa-historia-familiar.jpg`,
+`capa-conclusao.jpg`, `capa-sobre.jpg` e `capa-referencias.jpg`.
+
+### 17. [capa-historia-familiar] História Familiar
+
+Realistic pen-and-ink illustration with graphite shading and translucent watercolor washes, in the manner of a mid-century illustrated book: fine confident dark-brown linework, crosshatching and parallel hatching for volume and shadow, realistic proportions, strong chiaroscuro, untouched white paper left for highlights, slight vignette fading into blank paper at the edges. Muted natural palette: warm sepia and umber, soft greys, faded olive and dusty blue, with a deep dark red (#8B0000) used sparingly as the only strong accent. Diffuse lighting, calm and respectful tone, 19th-century New England interior, wide 16:9 composition with generous negative space. No text, no letters, no signature, no watermark. Scene: a long hallway of an old Boston house with a row of framed oil portraits of several generations of one family on the wall, men and women in 19th-century dress, receding into shadow; a small side table with a candlestick; no living person in the scene.
+
+### 18. [capa-conclusao] Conclusão
+
+Realistic pen-and-ink illustration with graphite shading and translucent watercolor washes, in the manner of a mid-century illustrated book: fine confident dark-brown linework, crosshatching and parallel hatching for volume and shadow, realistic proportions, strong chiaroscuro, untouched white paper left for highlights, slight vignette fading into blank paper at the edges. Muted natural palette: warm sepia and umber, soft greys, faded olive and dusty blue, with a deep dark red (#8B0000) used sparingly as the only strong accent. Dusk, diffuse light, calm and respectful tone, wide 16:9 composition with generous negative space. No text, no letters, no signature, no watermark. Scene: a quiet river at dusk seen from the bank, the last warm light of the sun reflected as a thin red line across the water, a wooden bench facing the river, a folded coat and a closed book left on the bench; no person in the scene.
+
+### 19. [capa-sobre] Sobre
+
+Realistic pen-and-ink illustration with graphite shading and translucent watercolor washes, in the manner of a mid-century illustrated book: fine confident dark-brown linework, crosshatching and parallel hatching for volume and shadow, realistic proportions, strong chiaroscuro, untouched white paper left for highlights, slight vignette fading into blank paper at the edges. Muted natural palette: warm sepia and umber, soft greys, faded olive and dusty blue, with a deep dark red (#8B0000) used sparingly as the only strong accent. Diffuse daylight, calm and respectful tone, present-day Brazilian medical school lecture room, wide 16:9 composition with generous negative space. No text, no letters, no signature, no watermark. Scene: a small lecture room seen from the back rows; empty chairs in the foreground, a lectern with an open book and a cup of coffee, a large window with soft light, a blank projection screen; no person in the scene.
+
+### 20. [capa-referencias] Referências
+
+Realistic pen-and-ink illustration with graphite shading and translucent watercolor washes, in the manner of a mid-century illustrated book: fine confident dark-brown linework, crosshatching and parallel hatching for volume and shadow, realistic proportions, strong chiaroscuro, untouched white paper left for highlights, slight vignette fading into blank paper at the edges. Muted natural palette: warm sepia and umber, soft greys, faded olive and dusty blue, with a deep dark red (#8B0000) used sparingly as the only strong accent. Diffuse lamplight, calm and respectful tone, wide 16:9 composition with generous negative space. No text, no letters, no signature, no watermark. Scene: a close view of a library desk: a stack of bound medical journals, one thick hardcover book lying open, a pair of reading glasses resting on the page, index cards and a pencil, a green-shaded desk lamp; the book pages and spines are blank, with no readable text; no person in the scene.

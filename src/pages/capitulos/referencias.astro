@@ -3,6 +3,8 @@ import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import ChapterNav from '../../components/ChapterNav.astro';
 import refs from '../../data/references.json';
+import { Image } from 'astro:assets';
+import capa from '../../assets/images/capa-referencias.webp';
 import { href } from '../../config';
 
 const all = (await getCollection('chapters')).sort((a, b) => a.data.order - b.data.order);
@@ -31,6 +33,11 @@ function fmtAuthors(full: string) {
       <h1>Referências</h1>
       <ChapterNav all={all} compact />
     </header>
+
+    <figure class="ilustracao">
+      <Image src={capa} alt="" widths={[640, 960, 1280]} sizes="(min-width: 760px) 46rem, 100vw" loading="eager" />
+      <figcaption><span class="ai-badge">Ilustração gerada por IA (Google Gemini)</span></figcaption>
+    </figure>
 
     <ol class="ref-list">
       {refs.map((r) => (

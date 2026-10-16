@@ -71,6 +71,12 @@ const desc = `${entry.data.title} — capítulo ${number + 1} de ${total} de “
       </aside>
 
       <div class="chapter-body prose">
+        {entry.data.coverOnly && entry.data.cover && (
+          <figure class="ilustracao capa-capitulo">
+            <Image src={entry.data.cover} alt="" widths={[640, 960, 1280]} sizes="(min-width: 1024px) 68ch, 100vw" loading="eager" />
+            <figcaption><span class="ai-badge">Ilustração gerada por IA (Google Gemini)</span></figcaption>
+          </figure>
+        )}
         {entry.id === 'sobre' && (
           <>
             <aside class="sobre-versao card" aria-labelledby="sobre-versao-t">
@@ -279,6 +285,9 @@ const desc = `${entry.data.title} — capítulo ${number + 1} de ${total} de “
       padding: 0.1em 0.12em 0 0;
       color: var(--red);
       font-weight: 500;
+    }
+    .capa-capitulo {
+      margin-top: 0;
     }
     .sobre-versao {
       padding: 1.25rem 1.5rem;

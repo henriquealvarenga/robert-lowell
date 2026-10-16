@@ -11,6 +11,7 @@ const chapters = defineCollection({
       words: z.number(),
       minutes: z.number(),
       cover: image().optional(),
+      coverOnly: z.boolean().optional(),
       achievement: z.string().optional(),
       chartCaption: z.string().optional(),
       source: z.string(),

@@ -4,6 +4,8 @@ nav: "História Familiar"
 order: 6
 words: 496
 minutes: 2
+cover: "../../assets/images/capa-historia-familiar.webp"
+coverOnly: true
 achievement: "familia"
 source: "6-historia_familiar.qmd"
 ---

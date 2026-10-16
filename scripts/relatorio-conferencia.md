@@ -1,6 +1,6 @@
 # Relatório de conferência da conversão
 
-Gerado em 2026-10-15T22:34:57.394Z por `scripts/convert.ts`.
+Gerado em 2026-10-16T00:08:10.452Z por `scripts/convert.ts`.
 
 Para cada capítulo, o texto original (`.qmd`) e o texto gerado (`.md`) são normalizados
 (imagens, notas e citações viram marcadores; espaços são colapsados) e comparados palavra a palavra.
@@ -37,8 +37,13 @@ Internações: 17 anos no CSV, total de 1086 dias.
 - ilustracoes/opera.jpg (Gemini) → opera.webp (1600×893, 347 KB)
 - ilustracoes/litio.jpg (Gemini) → litio.webp (1600×893, 215 KB)
 - ilustracoes/intoxicacao-litio.jpg (Gemini) → intoxicacao-litio.webp (1376×768, 162 KB)
+- ilustracoes/nova-york-1961.jpg (Gemini) → nova-york-1961.webp (1600×893, 131 KB)
 - ilustracoes/hartford-1963.jpg (Gemini) → hartford-1963.webp (1600×893, 240 KB)
 - ilustracoes/hartford-1965.jpg (Gemini) → hartford-1965.webp (1600×893, 165 KB)
+- ilustracoes/capa-historia-familiar.jpg (Gemini) → capa-historia-familiar.webp (1600×893, 212 KB)
+- ilustracoes/capa-conclusao.jpg (Gemini) → capa-conclusao.webp (1600×893, 243 KB)
+- ilustracoes/capa-sobre.jpg (Gemini) → capa-sobre.webp (1600×893, 256 KB)
+- ilustracoes/capa-referencias.jpg (Gemini) → capa-referencias.webp (1600×893, 259 KB)
 
 ## Legendas substituídas
 

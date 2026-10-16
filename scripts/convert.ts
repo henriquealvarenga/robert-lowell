@@ -93,7 +93,9 @@ const NEW_CAPTIONS: Record<string, string> = {
   'hartford-1965': 'Janela de um quarto de hospital vista de dentro, vidro embaçado pelo frio, uma árvore nua e neve caindo; um casaco dobrado na cadeira.',
 };
 // Ilustrações extras para crises que não tinham imagem no texto original.
-const EXTRA_IMAGES: Record<string, string> = { '1963-12-hartford': 'hartford-1963', '1965-01-hartford': 'hartford-1965' };
+const EXTRA_IMAGES: Record<string, string> = { '1961-03-nova-york': 'nova-york-1961', '1963-12-hartford': 'hartford-1963', '1965-01-hartford': 'hartford-1965' };
+// Capas de capítulo para capítulos sem figura no texto (cards e topo do capítulo).
+const CHAPTER_COVERS = ['historia-familiar', 'conclusao', 'sobre', 'referencias'];
 const hasNewImage = (slug: string) => existsSync(join(NEW_IMAGES_DIR, `${slug}.jpg`));
 
 // Metadados das 11 crises (seções H2 do capítulo 3), na ordem do texto.
@@ -412,7 +414,8 @@ async function main() {
     const minutes = Math.max(1, Math.round(words / 200));
     const citeCount = (qmd.match(/\[@[^\]]+\]/g) ?? []).length;
     const chipCount = (body.match(/<a class="cite"/g) ?? []).length;
-    const cover = img.figures[0]?.slug;
+    const coverOnly = img.figures.length === 0 && hasNewImage(`capa-${spec.slug}`);
+    const cover = img.figures[0]?.slug ?? (coverOnly ? `capa-${spec.slug}` : undefined);
 
     const frontmatter = [
       '---',
@@ -422,6 +425,7 @@ async function main() {
       `words: ${words}`,
       `minutes: ${minutes}`,
       cover ? `cover: ${yamlStr(`../../assets/images/${cover}.webp`)}` : null,
+      coverOnly ? 'coverOnly: true' : null,
       spec.achievement ? `achievement: ${yamlStr(spec.achievement)}` : null,
       img.chartCaption ? `chartCaption: ${yamlStr(img.chartCaption)}` : null,
       `source: ${yamlStr(spec.file)}`,
@@ -547,6 +551,7 @@ async function main() {
   const jobs: [string, string][] = [
     ...Object.entries(IMAGES).map(([file, slug]) => [file, slug] as [string, string]),
     ...Object.values(EXTRA_IMAGES).map((slug) => ['', slug] as [string, string]),
+    ...CHAPTER_COVERS.map((slug) => ['', `capa-${slug}`] as [string, string]),
   ];
   for (const [file, slug] of jobs) {
     const nova = hasNewImage(slug);

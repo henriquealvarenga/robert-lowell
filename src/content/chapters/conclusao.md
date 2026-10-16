@@ -4,6 +4,8 @@ nav: "Conclusão"
 order: 7
 words: 119
 minutes: 1
+cover: "../../assets/images/capa-conclusao.webp"
+coverOnly: true
 achievement: "conclusao"
 source: "7-conclusao.qmd"
 ---
