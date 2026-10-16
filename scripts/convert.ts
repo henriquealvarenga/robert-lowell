@@ -104,6 +104,7 @@ const hasNewImage = (slug: string) => existsSync(join(NEW_IMAGES_DIR, `${slug}.j
 const OMISSOES: Record<string, string[]> = {
   sobre: [
     'Esse é um resumo da história da bipolaridade do poeta norte-americano Robert Lowell, baseado no livro de Kay Redfield Jamison, "*Setting the River on Fire*", destinado a estudantes de psiquiatria e de psicologia, como texto auxiliar nas aulas sobre transtornos do humor.',
+    'São João del Rei, julho de 2024',
     'Esse site foi criado em Markdown, com o Quarto e o VS Code, e a publicação online foi feita através do GitHub Pages. As imagens do site são meramente ilustrativas, tendo sido geradas pelo DALL·E, um sistema de inteligência artificial criado pela OpenAI.',
   ],
 };

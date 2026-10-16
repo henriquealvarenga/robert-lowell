@@ -17,6 +17,12 @@ export const AUTHOR = {
   rqe: 'RQE 8381',
   url: 'https://henriquealvarenga.com',
   orcid: 'https://orcid.org/0000-0001-9799-5240',
+  links: [
+    { label: 'Lattes', href: 'https://lattes.cnpq.br/6147640440978297' },
+    { label: 'ORCID', href: 'https://orcid.org/0000-0001-9799-5240' },
+    { label: 'LinkedIn', href: 'https://www.linkedin.com/in/henriquealvarengasilva' },
+    { label: 'Instagram', href: 'https://www.instagram.com/henriquealvarengadasilva' },
+  ],
 };
 
 /** Caminho absoluto (com base) para uma rota do site. */

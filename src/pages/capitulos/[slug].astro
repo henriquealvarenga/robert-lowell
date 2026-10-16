@@ -5,7 +5,8 @@ import Base from '../../layouts/Base.astro';
 import HospitalChart from '../../components/HospitalChart.astro';
 import FamilyTree from '../../components/FamilyTree.astro';
 import ChapterNav from '../../components/ChapterNav.astro';
-import { href } from '../../config';
+import { href, AUTHOR } from '../../config';
+import retrato from '../../assets/retrato.jpg';
 
 export async function getStaticPaths() {
   const chapters = (await getCollection('chapters')).sort((a, b) => a.data.order - b.data.order);
@@ -84,6 +85,7 @@ const desc = `${entry.data.title} — capítulo ${number + 1} de ${total} de “
               <p>
                 Esta experiência interativa foi criada em 15 de outubro de 2026 a partir do resumo publicado em 2024. O conteúdo é baseado no livro <em>Robert Lowell: Setting the River on Fire</em> (Vintage, 2017), de Kay Redfield Jamison. Esta versão foi construída em Astro e TypeScript, com D3 e GSAP e apoio da IA Claude Code, e publicada pelo GitHub Pages. O texto dos capítulos é convertido automaticamente do resumo original, sem alterações. As ilustrações são geradas por inteligência artificial (Google Gemini) e não são retratos reais. O rosto do personagem foi desenhado a partir de uma fotografia de Robert Lowell por Elsa Dorfman (<a href="https://commons.wikimedia.org/" rel="noopener">Wikimedia Commons</a>, CC BY-SA 3.0), usada apenas como referência de semelhança.
               </p>
+              <p class="sobre-data">São João del Rei, 15 de outubro de 2026</p>
             </aside>
           </>
         )}
@@ -93,6 +95,20 @@ const desc = `${entry.data.title} — capítulo ${number + 1} de ${total} de “
             <HospitalChart caption={entry.data.chartCaption} id="grafico-internacoes" />
             <Part2 />
           </>
+        ) : entry.id === 'sobre' ? (
+          <div class="autor-bloco">
+            <div class="autor-foto">
+              <Image src={retrato} alt={`Retrato de ${AUTHOR.display}`} widths={[320, 640, 900]} sizes="10rem" />
+            </div>
+            <div class="autor-texto">
+              <Content />
+              <ul class="author-links ui">
+                {AUTHOR.links.map((l) => (
+                  <li><a href={l.href} rel="me noopener">{l.label} ↗</a></li>
+                ))}
+              </ul>
+            </div>
+          </div>
         ) : (
           <Content />
         )}
@@ -275,6 +291,60 @@ const desc = `${entry.data.title} — capítulo ${number + 1} de ${total} de “
     }
     .chapter-body :global(> p:first-of-type) {
       font-variation-settings: 'opsz' 20;
+    }
+    .autor-bloco {
+      display: grid;
+      gap: 1.25rem;
+      align-items: center;
+      margin-top: 2rem;
+    }
+    @media (min-width: 560px) {
+      .autor-bloco {
+        grid-template-columns: 10rem 1fr;
+        gap: 2rem;
+      }
+    }
+    .autor-foto :global(img) {
+      width: 10rem;
+      height: auto;
+      border-radius: 50%;
+      box-shadow: var(--shadow);
+    }
+    .autor-texto :global(p) {
+      margin-bottom: 0.75rem;
+    }
+    .author-links {
+      list-style: none;
+      padding: 0;
+      margin: 1rem 0 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 0.75rem;
+    }
+    .author-links a {
+      display: inline-block;
+      padding: 0.35rem 0.8rem;
+      border: 1px solid var(--line-strong);
+      border-radius: 999px;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--ink-2);
+    }
+    .author-links a:hover {
+      border-color: var(--red);
+      color: var(--red);
+    }
+    .sobre-data {
+      margin: 0.75rem 0 0;
+      font-style: italic;
+      color: var(--ink-2);
+    }
+    .chapter[data-chapter='sobre'] .chapter-body :global(> p:first-of-type::first-letter) {
+      font: inherit;
+      float: none;
+      padding: 0;
+      color: inherit;
     }
     .chapter-body :global(> p:first-of-type::first-letter) {
       font-family: var(--font-display);

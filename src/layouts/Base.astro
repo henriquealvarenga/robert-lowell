@@ -39,7 +39,7 @@ const jsonLd = {
         { '@type': 'PropertyValue', propertyID: 'RQE', value: '8381' },
         { '@type': 'PropertyValue', propertyID: 'ORCID', value: '0000-0001-9799-5240' },
       ],
-      sameAs: [AUTHOR.orcid],
+      sameAs: AUTHOR.links.map((l) => l.href),
     },
     {
       '@type': type === 'article' ? 'Article' : 'WebSite',
@@ -134,6 +134,11 @@ const jsonLd = {
           <h2>Autor</h2>
           <p><strong>{AUTHOR.display}</strong><br />{AUTHOR.role} · {AUTHOR.crm} · {AUTHOR.rqe}</p>
           <p><a href={AUTHOR.url}>henriquealvarenga.com</a></p>
+          <ul class="author-links">
+            {AUTHOR.links.map((l) => (
+              <li><a href={l.href} rel="me noopener">{l.label}</a></li>
+            ))}
+          </ul>
           <p>
             Este site é um resumo didático, para estudantes de psiquiatria e psicologia, do livro <em>Robert Lowell: Setting the River on Fire</em> (Vintage, 2017), de Kay Redfield Jamison.
           </p>
@@ -206,6 +211,12 @@ const jsonLd = {
       }
     </script>
     <style is:global>
+      .author-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.35rem 1rem;
+        margin: 0 0 0.75rem !important;
+      }
       .link-btn {
         background: none;
         border: 0;

@@ -8,8 +8,6 @@ cover: "../../assets/images/capa-sobre.webp"
 coverOnly: true
 source: "9-about.qmd"
 ---
-São João del Rei, julho de 2024
-
 **Henrique Alvarenga da Silva**\
 Médico Psiquiatra\
 CRM-MG 31.778\
