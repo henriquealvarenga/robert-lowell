@@ -54,7 +54,7 @@ const decades = [1917, 1949, 1957, 1967, 1977];
   <ol class="tl-list">
     <li class="tl-spine" aria-hidden="true"><span data-spine></span></li>
     {items.map((it, i) => (
-      <li class:list={['tl-item', `tl-${it.kind}`, `tl-tipo-${it.tipo}`]} data-ano={it.ano} data-tl-item>
+      <li class:list={['tl-item', `tl-${it.kind}`, `tl-tipo-${it.tipo}`]} id={it.kind === 'crise' ? `crise-${it.slug}` : undefined} data-ano={it.ano} data-tl-item>
         <span class="tl-dot" aria-hidden="true"></span>
         <div class="tl-card card">
           <div class="tl-meta">
