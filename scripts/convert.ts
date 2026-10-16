@@ -103,6 +103,7 @@ const hasNewImage = (slug: string) => existsSync(join(NEW_IMAGES_DIR, `${slug}.j
 // novo e são listados no relatório. O texto-fonte não muda.
 const OMISSOES: Record<string, string[]> = {
   sobre: [
+    'Esse é um resumo da história da bipolaridade do poeta norte-americano Robert Lowell, baseado no livro de Kay Redfield Jamison, "*Setting the River on Fire*", destinado a estudantes de psiquiatria e de psicologia, como texto auxiliar nas aulas sobre transtornos do humor.',
     'Esse site foi criado em Markdown, com o Quarto e o VS Code, e a publicação online foi feita através do GitHub Pages. As imagens do site são meramente ilustrativas, tendo sido geradas pelo DALL·E, um sistema de inteligência artificial criado pela OpenAI.',
   ],
 };
@@ -480,7 +481,7 @@ async function main() {
     const ok = d.length === 0 && notesOk && captionsOk;
     if (!ok) allOk = false;
     report.push(
-      `| ${spec.file} → ${spec.slug}.md | ${a.length} | ${b.length} | ${citeCount} → ${chipCount} chips | ${fn.notes.length} | ${img.figures.length} | ${ok ? (omitidos.length ? '✅ idêntico (1 parágrafo omitido, ver abaixo)' : '✅ idêntico') : '❌ DIFERENÇA'} |`,
+      `| ${spec.file} → ${spec.slug}.md | ${a.length} | ${b.length} | ${citeCount} → ${chipCount} chips | ${fn.notes.length} | ${img.figures.length} | ${ok ? (omitidos.length ? `✅ idêntico (${omitidos.length} parágrafo(s) omitido(s), ver abaixo)` : '✅ idêntico') : '❌ DIFERENÇA'} |`,
     );
     if (d.length) diffs.push(`## ${spec.file}\n\n\`\`\`diff\n${d.join('\n')}\n\`\`\``);
     if (!notesOk) diffs.push(`## ${spec.file} — notas\n\nOriginal: ${JSON.stringify(origNotes)}\nGerado: ${JSON.stringify(genNotes)}`);
