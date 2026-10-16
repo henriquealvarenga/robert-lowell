@@ -1,8 +1,10 @@
 ---
 import Base from '../layouts/Base.astro';
 import caso from '../data/caso.json';
+import refs from '../data/references.json';
 import { href } from '../config';
 const n = caso.etapas.length;
+const refLabel = Object.fromEntries(refs.map((r) => [r.key, r.label]));
 const clean = (t: string) => t.replace(/\*/g, '');
 ---
 
@@ -49,6 +51,17 @@ const clean = (t: string) => t.replace(/\*/g, '');
             {'nota' in e && (e.nota as string[]).map((t) => (
               <p class="revelacao-nota">{t}</p>
             ))}
+            {'refs' in e && (
+              <p class="revelacao-fontes ui">
+                Fontes:{' '}
+                {(e.refs as string[]).map((k, j) => (
+                  <>
+                    {j > 0 && '; '}
+                    <a href={href(`/capitulos/referencias/#ref-${k}`)}>{refLabel[k] ?? k}</a>
+                  </>
+                ))}
+              </p>
+            )}
             <div class="e-actions">
               <button type="button" class="btn" data-next>{i < n - 1 ? 'Próxima etapa →' : 'Ver o fechamento →'}</button>
             </div>
@@ -59,7 +72,16 @@ const clean = (t: string) => t.replace(/\*/g, '');
         <p class="eyebrow">Fechamento</p>
         <h2>Seu raciocínio e a história</h2>
         <p class="caso-result" data-caso-result></p>
-        <ul class="caso-compare ui" data-caso-compare></ul>
+        <table class="caso-compare ui">
+          <thead>
+            <tr>
+              <th scope="col">Etapa</th>
+              <th scope="col">Sua escolha</th>
+              <th scope="col" class="col-res"><span class="col-res-label">Resultado</span></th>
+            </tr>
+          </thead>
+          <tbody data-caso-compare></tbody>
+        </table>
         {caso.fechamento.trechos.map((t) => (
           <blockquote>{clean(t)}</blockquote>
         ))}
@@ -127,8 +149,13 @@ const clean = (t: string) => t.replace(/\*/g, '');
     function finish() {
       const k = answers.filter((a) => a?.coincide).length;
       root.querySelector<HTMLElement>('[data-caso-result]')!.textContent = `Em ${k} de ${etapas.length} etapas, seu raciocínio coincidiu com o curso real do caso.`;
+      const ok = '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      const no = '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>';
       root.querySelector<HTMLElement>('[data-caso-compare]')!.innerHTML = answers
-        .map((a, i) => `<li class="${a?.coincide ? 'is-ok' : 'is-diff'}"><span>${titles[i]}</span><span>${a?.coincide ? 'coincide' : 'diverge'} · você escolheu: ${a?.escolha ?? '—'}</span></li>`)
+        .map((a, i) => {
+          const c = a?.coincide;
+          return `<tr class="${c ? 'is-ok' : 'is-diff'}"><th scope="row">${titles[i]}</th><td>${a?.escolha ?? '—'}</td><td class="col-res"><span class="res-mark" role="img" aria-label="${c ? 'Coincide com a história' : 'Diverge da história'}">${c ? ok : no}</span></td></tr>`;
+        })
         .join('');
       unlock('caso');
       show(etapas.length);
@@ -286,30 +313,97 @@ const clean = (t: string) => t.replace(/\*/g, '');
     .caso-end h2 {
       margin: 0.3rem 0 0.75rem;
     }
+    .revelacao-fontes {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin: 0 0 0.75rem;
+    }
     .caso-compare {
-      list-style: none;
-      padding: 0;
+      --ok: #2e7d4f;
+      --diff: #b3261e;
+      width: 100%;
+      border-collapse: collapse;
       margin: 0 0 1.25rem;
-      display: grid;
-      gap: 0.35rem;
       font-size: 0.85rem;
     }
-    .caso-compare li {
-      display: grid;
-      gap: 0.1rem;
-      padding: 0.5rem 0.75rem;
-      border-radius: var(--radius-sm);
-      border-left: 4px solid var(--gold);
-      background: var(--bg-sunk);
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme='light']) .caso-compare {
+        --ok: #6fcf97;
+        --diff: #ef7b76;
+        --mark-ink: #0f1a14;
+      }
     }
-    .caso-compare li.is-ok {
-      border-left-color: #2e7d4f;
+    :root[data-theme='dark'] .caso-compare {
+      --ok: #6fcf97;
+      --diff: #ef7b76;
+      --mark-ink: #0f1a14;
     }
-    .caso-compare li span:first-child {
+    .caso-compare :global(th),
+    .caso-compare :global(td) {
+      text-align: left;
+      vertical-align: middle;
+      padding: 0.55rem 0.6rem;
+      border-bottom: 1px solid var(--line);
+    }
+    .caso-compare thead th {
+      font-size: 0.72rem;
       font-weight: 600;
-    }
-    .caso-compare li span:last-child {
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
       color: var(--muted);
+    }
+    .caso-compare :global(tbody th) {
+      font-size: inherit;
+      font-weight: 600;
+      letter-spacing: 0;
+      text-transform: none;
+      color: var(--ink);
+    }
+    .caso-compare :global(tbody td) {
+      color: var(--ink-2);
+    }
+    .caso-compare :global(.col-res) {
+      width: 3rem;
+      text-align: center;
+    }
+    @media (max-width: 540px) {
+      .caso-compare :global(th),
+      .caso-compare :global(td) {
+        padding: 0.5rem 0.35rem;
+      }
+      .caso-compare :global(.col-res) {
+        width: 2.2rem;
+      }
+      .col-res-label {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+      }
+    }
+    .caso-compare :global(.res-mark) {
+      display: inline-grid;
+      place-items: center;
+      width: 1.6rem;
+      height: 1.6rem;
+      border-radius: 50%;
+      color: var(--mark-ink, #fff);
+      vertical-align: middle;
+    }
+    .caso-compare :global(.res-mark svg) {
+      width: 1rem;
+      height: 1rem;
+    }
+    .caso-compare :global(tr.is-ok .res-mark) {
+      background: var(--ok);
+    }
+    .caso-compare :global(tr.is-diff .res-mark) {
+      background: var(--diff);
+    }
+    .caso-compare :global(tr.is-diff td:not(.col-res)) {
+      color: var(--diff);
     }
   </style>
 </Base>
