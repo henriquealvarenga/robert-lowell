@@ -98,6 +98,15 @@ const EXTRA_IMAGES: Record<string, string> = { '1961-03-nova-york': 'nova-york-1
 const CHAPTER_COVERS = ['historia-familiar', 'conclusao', 'sobre', 'referencias'];
 const hasNewImage = (slug: string) => existsSync(join(NEW_IMAGES_DIR, `${slug}.jpg`));
 
+// Omissões autorizadas pelo autor (15/10/2026): parágrafos do original que
+// descrevem só o site antigo e não valem para esta versão. Ficam fora do site
+// novo e são listados no relatório. O texto-fonte não muda.
+const OMISSOES: Record<string, string[]> = {
+  sobre: [
+    'Esse site foi criado em Markdown, com o Quarto e o VS Code, e a publicação online foi feita através do GitHub Pages. As imagens do site são meramente ilustrativas, tendo sido geradas pelo DALL·E, um sistema de inteligência artificial criado pela OpenAI.',
+  ],
+};
+
 // Metadados das 11 crises (seções H2 do capítulo 3), na ordem do texto.
 // `tipo` só é marcado quando o texto original o permite; `seguidaDe` registra
 // a fase que o texto descreve logo após a crise.
@@ -403,6 +412,11 @@ async function main() {
     if (!titleMatch) throw new Error(`Sem título: ${spec.file}`);
     const title = titleMatch[1].trim();
     let body = qmd.replace(titleMatch[0], '').trim();
+    const omitidos = OMISSOES[spec.slug] ?? [];
+    for (const par of omitidos) {
+      if (!body.includes(par)) throw new Error(`Parágrafo a omitir não encontrado em ${spec.file}`);
+      body = body.replace(par, '').replace(/\n{3,}/g, '\n\n').trim();
+    }
 
     const img = convertImages(body, '../..');
     body = img.md;
@@ -451,7 +465,9 @@ async function main() {
     readingOrder.push(spec.slug);
 
     // conferência
-    const a = normalizeOriginal(qmd.replace(titleMatch[0], `# ${title}`)).split(' ');
+    let qmdCmp = qmd.replace(titleMatch[0], `# ${title}`);
+    for (const par of omitidos) qmdCmp = qmdCmp.replace(par, '');
+    const a = normalizeOriginal(qmdCmp).split(' ');
     const b = normalizeGenerated(out.replace(/^---[\s\S]*?---\n/, `# ${title}\n`)).split(' ');
     const d = wordDiff(a, b);
     // notas e legendas
@@ -464,7 +480,7 @@ async function main() {
     const ok = d.length === 0 && notesOk && captionsOk;
     if (!ok) allOk = false;
     report.push(
-      `| ${spec.file} → ${spec.slug}.md | ${a.length} | ${b.length} | ${citeCount} → ${chipCount} chips | ${fn.notes.length} | ${img.figures.length} | ${ok ? '✅ idêntico' : '❌ DIFERENÇA'} |`,
+      `| ${spec.file} → ${spec.slug}.md | ${a.length} | ${b.length} | ${citeCount} → ${chipCount} chips | ${fn.notes.length} | ${img.figures.length} | ${ok ? (omitidos.length ? '✅ idêntico (1 parágrafo omitido, ver abaixo)' : '✅ idêntico') : '❌ DIFERENÇA'} |`,
     );
     if (d.length) diffs.push(`## ${spec.file}\n\n\`\`\`diff\n${d.join('\n')}\n\`\`\``);
     if (!notesOk) diffs.push(`## ${spec.file} — notas\n\nOriginal: ${JSON.stringify(origNotes)}\nGerado: ${JSON.stringify(genNotes)}`);
@@ -594,6 +610,11 @@ async function main() {
   report.push('', '## Trechos dos dados interativos', '', `${checks.length} trechos conferidos contra o texto original; ${bad.length} ausentes.`);
   for (const c of bad) report.push(`- ❌ ${c.arquivo}: ${c.item}`);
 
+  const omEntries = Object.entries(OMISSOES);
+  if (omEntries.length) {
+    report.push('', '## Omissões autorizadas', '', 'Parágrafos do original que descrevem apenas o site antigo e, por decisão do autor, não aparecem nesta versão:', '');
+    for (const [slug, pars] of omEntries) for (const par of pars) report.push(`- ${slug}: “${par}”`);
+  }
   report.push('', allOk ? '**Resultado: todos os capítulos idênticos ao original.**' : '**Resultado: há diferenças — ver abaixo.**');
   if (diffs.length) report.push('', ...diffs);
   writeFileSync(OUT.report, report.join('\n') + '\n');

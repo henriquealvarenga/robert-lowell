@@ -1,6 +1,6 @@
 # Relatório de conferência da conversão
 
-Gerado em 2026-10-16T00:08:10.452Z por `scripts/convert.ts`.
+Gerado em 2026-10-16T00:19:56.514Z por `scripts/convert.ts`.
 
 Para cada capítulo, o texto original (`.qmd`) e o texto gerado (`.md`) são normalizados
 (imagens, notas e citações viram marcadores; espaços são colapsados) e comparados palavra a palavra.
@@ -17,7 +17,7 @@ Para cada capítulo, o texto original (`.qmd`) e o texto gerado (`.md`) são nor
 | 5-ultimos_anos.qmd → ultimos-anos.md | 157 | 157 | 2 → 2 chips | 0 | 1 | ✅ idêntico |
 | 6-historia_familiar.qmd → historia-familiar.md | 466 | 466 | 5 → 5 chips | 1 | 0 | ✅ idêntico |
 | 7-conclusao.qmd → conclusao.md | 120 | 120 | 0 → 0 chips | 0 | 0 | ✅ idêntico |
-| 9-about.qmd → sobre.md | 106 | 106 | 0 → 0 chips | 0 | 0 | ✅ idêntico |
+| 9-about.qmd → sobre.md | 62 | 62 | 0 → 0 chips | 0 | 0 | ✅ idêntico (1 parágrafo omitido, ver abaixo) |
 
 Referências: 7 entradas no .bib, 7 citadas no texto.
 Internações: 17 anos no CSV, total de 1086 dias.
@@ -66,5 +66,11 @@ Nas figuras com ilustração nova, a legenda original (o prompt em inglês do DA
 ## Trechos dos dados interativos
 
 79 trechos conferidos contra o texto original; 0 ausentes.
+
+## Omissões autorizadas
+
+Parágrafos do original que descrevem apenas o site antigo e, por decisão do autor, não aparecem nesta versão:
+
+- sobre: “Esse site foi criado em Markdown, com o Quarto e o VS Code, e a publicação online foi feita através do GitHub Pages. As imagens do site são meramente ilustrativas, tendo sido geradas pelo DALL·E, um sistema de inteligência artificial criado pela OpenAI.”
 
 **Resultado: todos os capítulos idênticos ao original.**
