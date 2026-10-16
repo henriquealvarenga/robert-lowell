@@ -1,6 +1,6 @@
 # Relatório de conferência da conversão
 
-Gerado em 2026-10-16T07:55:41.294Z por `scripts/convert.ts`.
+Gerado em 2026-10-16T13:35:02.383Z por `scripts/convert.ts`.
 
 Para cada capítulo, o texto original (`.qmd`) e o texto gerado (`.md`) são normalizados
 (imagens, notas e citações viram marcadores; espaços são colapsados) e comparados palavra a palavra.
@@ -19,7 +19,7 @@ Para cada capítulo, o texto original (`.qmd`) e o texto gerado (`.md`) são nor
 | 7-conclusao.qmd → conclusao.md | 120 | 120 | 0 → 0 chips | 0 | 0 | ✅ idêntico |
 | 9-about.qmd → sobre.md | 13 | 13 | 0 → 0 chips | 0 | 0 | ✅ idêntico (3 parágrafo(s) omitido(s), ver abaixo) |
 
-Referências: 7 entradas no .bib, 7 citadas no texto.
+Referências: 8 entradas no .bib, 7 citadas no texto (não citadas: Schioldann2009).
 Internações: 17 anos no CSV, total de 1086 dias.
 
 ## Imagens

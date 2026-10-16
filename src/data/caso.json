@@ -41,7 +41,8 @@
       "nota": [
         "Por que não o lítio? John Cade redescobriu seu efeito na mania em 1948, no Bundoora Repatriation Hospital, perto de Melbourne, mas publicou os resultados apenas em 3 de setembro de 1949, no Medical Journal of Australia. Nos Estados Unidos, o momento era o oposto: no início de 1949, o cloreto de lítio, vendido sem controle como substituto do sal de cozinha para cardíacos e hipertensos, causou intoxicações graves e algumas mortes. Em fevereiro e março daquele ano, a FDA recolheu esses produtos e proibiu o uso do lítio, proibição que só caiu em 1970, quando os EUA se tornaram o 50º país a aprová-lo.",
         "Por que não os outros? A clorpromazina só chegou à psiquiatria em 1952, e os primeiros antidepressivos, a iproniazida e a imipramina, em 1957."
-      ]
+      ],
+      "refs": ["Cade1949", "Schioldann2009", "Shorter2009"]
     },
     {
       "id": "evolucao",

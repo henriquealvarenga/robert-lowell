@@ -105,6 +105,20 @@
     "label": "Noack & Trautner, 1951"
   },
   {
+    "key": "Schioldann2009",
+    "type": "book",
+    "authors": [
+      "Schioldann"
+    ],
+    "authorsFull": "Schioldann, Johan",
+    "year": "2009",
+    "title": "History of the introduction of lithium into medicine and psychiatry: birth of modern psychopharmacology 1949",
+    "publisher": "Adelaide Academic Press",
+    "address": "Adelaide",
+    "isbn": "978-0-9805477-0-2",
+    "label": "Schioldann, 2009"
+  },
+  {
     "key": "Shorter2009",
     "type": "article",
     "authors": [
