@@ -1,5 +1,5 @@
 {
-  "intro": "Cada pergunta parte de um trecho real do texto. Identifique os sinais clínicos descritos e receba a resposta com o próprio trecho.",
+  "intro": "Identifique os sinais clínicos descritos e receba a resposta com o próprio trecho.",
   "perguntas": [
     {
       "id": "saratoga-mania",

@@ -46,6 +46,9 @@ const clean = (t: string) => t.replace(/\*/g, '');
             {e.revelacao.map((t) => (
               <blockquote>{clean(t)}</blockquote>
             ))}
+            {'nota' in e && (e.nota as string[]).map((t) => (
+              <p class="revelacao-nota">{t}</p>
+            ))}
             <div class="e-actions">
               <button type="button" class="btn" data-next>{i < n - 1 ? 'Próxima etapa →' : 'Ver o fechamento →'}</button>
             </div>
@@ -213,6 +216,11 @@ const clean = (t: string) => t.replace(/\*/g, '');
     }
     .revelacao blockquote {
       border-left-color: var(--red);
+    }
+    .revelacao-nota {
+      font-size: 0.92rem;
+      color: var(--ink-2);
+      margin: 0 0 0.75rem;
     }
     .e-fs {
       border: 0;
